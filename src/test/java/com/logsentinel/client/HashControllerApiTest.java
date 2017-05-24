@@ -39,13 +39,12 @@ public class HashControllerApiTest {
         String actorId = null;
         String authAction = null;
         String details = null;
-        String applicationId = null;
         String userId = null;
         String signedLoginChallenge = null;
         String userPublicKey = null;
         String actorDisplayName = null;
         String actorRole = null;
-        String response = api.getHashableContentForAuthAction(actorId, authAction, details, applicationId, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
+        String response = api.getHashableContentForAuthAction(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
 
         // TODO: test validations
     }
@@ -65,10 +64,9 @@ public class HashControllerApiTest {
         String entityType = null;
         String entityId = null;
         String details = null;
-        String applicationId = null;
         String actorDisplayName = null;
         String actorRole = null;
-        String response = api.getHashableContentForStandardAction(actorId, action, entityType, entityId, details, applicationId, actorDisplayName, actorRole);
+        String response = api.getHashableContentForStandardAction(actorId, action, entityType, entityId, details, actorDisplayName, actorRole);
 
         // TODO: test validations
     }
@@ -84,8 +82,7 @@ public class HashControllerApiTest {
     @Test
     public void getHashableContentSimpleTest() throws ApiException {
         String details = null;
-        String applicationId = null;
-        String response = api.getHashableContentSimple(details, applicationId);
+        String response = api.getHashableContentSimple(details);
 
         // TODO: test validations
     }
@@ -103,10 +100,9 @@ public class HashControllerApiTest {
         String actorId = null;
         String action = null;
         String details = null;
-        String applicationId = null;
         String actorDisplayName = null;
         String actorRole = null;
-        String response = api.getHashableContent(actorId, action, details, applicationId, actorDisplayName, actorRole);
+        String response = api.getHashableContent(actorId, action, details, actorDisplayName, actorRole);
 
         // TODO: test validations
     }

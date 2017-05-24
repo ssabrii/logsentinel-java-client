@@ -1,6 +1,5 @@
 package com.logsentinel;
 
-import com.logsentinel.auth.HttpBasicAuth;
 import com.logsentinel.client.AuditLogControllerApi;
 import com.logsentinel.client.HashControllerApi;
 
@@ -31,9 +30,9 @@ public class LogSentinelClientBuilder {
         if (basePath != null) {
             apiClient.setBasePath(basePath);
         }
-        HttpBasicAuth auth = (HttpBasicAuth) apiClient.getAuthentication("basicAuth");
-        auth.setUsername(organizationId);
-        auth.setPassword(secret);
+        apiClient.setUsername(organizationId);
+        apiClient.setPassword(secret);
+        apiClient.addDefaultHeader("Application-Id", applicationId);
         
         BodySerializer serializer = bodySerializer != null ? bodySerializer : new JsonBodySerializer(apiClient.getJSON());
         if (encryptionKey != null) {

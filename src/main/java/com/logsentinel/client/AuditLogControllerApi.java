@@ -57,7 +57,7 @@ public class AuditLogControllerApi {
     }
 
     /* Build call for logAuthAction */
-    private com.squareup.okhttp.Call logAuthActionCall(String actorId, String authAction, Object details, String applicationId, String userId, String authorization, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logAuthActionCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = preProcessBody(details);
         
         // create path and map variables
@@ -74,10 +74,6 @@ public class AuditLogControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRole", actorRole));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
         if (signedLoginChallenge != null)
         localVarHeaderParams.put("Signed-Login-Challenge", apiClient.parameterToString(signedLoginChallenge));
         if (userPublicKey != null)
@@ -113,7 +109,7 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call logAuthActionValidateBeforeCall(String actorId, String authAction, Object details, String applicationId, String userId, String authorization, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logAuthActionValidateBeforeCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorId == null) {
@@ -130,18 +126,8 @@ public class AuditLogControllerApi {
             throw new ApiException("Missing the required parameter 'details' when calling logAuthAction(Async)");
         }
         
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling logAuthAction(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = logAuthActionCall(actorId, authAction, details, applicationId, userId, authorization, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logAuthActionCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, progressListener, progressRequestListener);
         return call;
-
-        
-        
-        
         
     }
 
@@ -151,9 +137,7 @@ public class AuditLogControllerApi {
      * @param actorId actorId (required)
      * @param authAction authAction (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
      * @param userId userId (optional)
-     * @param authorization Authorization (optional)
      * @param signedLoginChallenge Signed-Login-Challenge (optional)
      * @param userPublicKey User-Public-Key (optional)
      * @param actorDisplayName actorDisplayName (optional)
@@ -161,8 +145,8 @@ public class AuditLogControllerApi {
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse logAuthAction(String actorId, String authAction, Object details, String applicationId, String userId, String authorization, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole) throws ApiException {
-        ApiResponse<LogResponse> resp = logAuthActionWithHttpInfo(actorId, authAction, details, applicationId, userId, authorization, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
+    public LogResponse logAuthAction(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole) throws ApiException {
+        ApiResponse<LogResponse> resp = logAuthActionWithHttpInfo(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
         return resp.getData();
     }
 
@@ -172,9 +156,8 @@ public class AuditLogControllerApi {
      * @param actorId actorId (required)
      * @param authAction authAction (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
+
      * @param userId userId (optional)
-     * @param authorization Authorization (optional)
      * @param signedLoginChallenge Signed-Login-Challenge (optional)
      * @param userPublicKey User-Public-Key (optional)
      * @param actorDisplayName actorDisplayName (optional)
@@ -182,8 +165,8 @@ public class AuditLogControllerApi {
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logAuthActionWithHttpInfo(String actorId, String authAction, Object details, String applicationId, String userId, String authorization, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole) throws ApiException {
-        com.squareup.okhttp.Call call = logAuthActionValidateBeforeCall(actorId, authAction, details, applicationId, userId, authorization, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, null, null);
+    public ApiResponse<LogResponse> logAuthActionWithHttpInfo(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole) throws ApiException {
+        com.squareup.okhttp.Call call = logAuthActionValidateBeforeCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -194,9 +177,8 @@ public class AuditLogControllerApi {
      * @param actorId actorId (required)
      * @param authAction authAction (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
+
      * @param userId userId (optional)
-     * @param authorization Authorization (optional)
      * @param signedLoginChallenge Signed-Login-Challenge (optional)
      * @param userPublicKey User-Public-Key (optional)
      * @param actorDisplayName actorDisplayName (optional)
@@ -205,7 +187,7 @@ public class AuditLogControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call logAuthActionAsync(String actorId, String authAction, Object details, String applicationId, String userId, String authorization, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ApiCallback<LogResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call logAuthActionAsync(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -226,13 +208,13 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = logAuthActionValidateBeforeCall(actorId, authAction, details, applicationId, userId, authorization, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logAuthActionValidateBeforeCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /* Build call for logSimple */
-    private com.squareup.okhttp.Call logSimpleCall(Object details, String applicationId, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logSimpleCall(Object details, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = details;
         
         // create path and map variables
@@ -241,10 +223,6 @@ public class AuditLogControllerApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -276,39 +254,27 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call logSimpleValidateBeforeCall(Object details, String applicationId, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logSimpleValidateBeforeCall(Object details, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'details' is set
         if (details == null) {
             throw new ApiException("Missing the required parameter 'details' when calling logSimple(Async)");
         }
         
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling logSimple(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = logSimpleCall(details, applicationId, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logSimpleCall(details, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      * 
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse logSimple(Object details, String applicationId, String authorization) throws ApiException {
-        ApiResponse<LogResponse> resp = logSimpleWithHttpInfo(details, applicationId, authorization);
+    public LogResponse logSimple(Object details) throws ApiException {
+        ApiResponse<LogResponse> resp = logSimpleWithHttpInfo(details);
         return resp.getData();
     }
 
@@ -316,13 +282,12 @@ public class AuditLogControllerApi {
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      * 
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logSimpleWithHttpInfo(Object details, String applicationId, String authorization) throws ApiException {
-        com.squareup.okhttp.Call call = logSimpleValidateBeforeCall(details, applicationId, authorization, null, null);
+    public ApiResponse<LogResponse> logSimpleWithHttpInfo(Object details) throws ApiException {
+        com.squareup.okhttp.Call call = logSimpleValidateBeforeCall(details, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -331,13 +296,12 @@ public class AuditLogControllerApi {
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted (asynchronously)
      * 
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call logSimpleAsync(Object details, String applicationId, String authorization, final ApiCallback<LogResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call logSimpleAsync(Object details, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -358,13 +322,13 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = logSimpleValidateBeforeCall(details, applicationId, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logSimpleValidateBeforeCall(details, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /* Build call for logStandardAction */
-    private com.squareup.okhttp.Call logStandardActionCall(String actorId, String action, String entityType, String entityId, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logStandardActionCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = details;
         
         // create path and map variables
@@ -381,10 +345,6 @@ public class AuditLogControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRole", actorRole));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -416,7 +376,7 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call logStandardActionValidateBeforeCall(String actorId, String action, String entityType, String entityId, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logStandardActionValidateBeforeCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorId == null) {
@@ -443,19 +403,8 @@ public class AuditLogControllerApi {
             throw new ApiException("Missing the required parameter 'details' when calling logStandardAction(Async)");
         }
         
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling logStandardAction(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = logStandardActionCall(actorId, action, entityType, entityId, details, applicationId, authorization, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logStandardActionCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
         return call;
-
-        
-        
-        
-        
     }
 
     /**
@@ -466,15 +415,14 @@ public class AuditLogControllerApi {
      * @param entityType entityType (required)
      * @param entityId entityId (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param actorDisplayName actorDisplayName (optional)
      * @param actorRole actorRole (optional)
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse logStandardAction(String actorId, String action, String entityType, String entityId, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole) throws ApiException {
-        ApiResponse<LogResponse> resp = logStandardActionWithHttpInfo(actorId, action, entityType, entityId, details, applicationId, authorization, actorDisplayName, actorRole);
+    public LogResponse logStandardAction(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole) throws ApiException {
+        ApiResponse<LogResponse> resp = logStandardActionWithHttpInfo(actorId, action, entityType, entityId, details, actorDisplayName, actorRole);
         return resp.getData();
     }
 
@@ -486,15 +434,14 @@ public class AuditLogControllerApi {
      * @param entityType entityType (required)
      * @param entityId entityId (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param actorDisplayName actorDisplayName (optional)
      * @param actorRole actorRole (optional)
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logStandardActionWithHttpInfo(String actorId, String action, String entityType, String entityId, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole) throws ApiException {
-        com.squareup.okhttp.Call call = logStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, applicationId, authorization, actorDisplayName, actorRole, null, null);
+    public ApiResponse<LogResponse> logStandardActionWithHttpInfo(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole) throws ApiException {
+        com.squareup.okhttp.Call call = logStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRole, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -507,15 +454,14 @@ public class AuditLogControllerApi {
      * @param entityType entityType (required)
      * @param entityId entityId (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param actorDisplayName actorDisplayName (optional)
      * @param actorRole actorRole (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call logStandardActionAsync(String actorId, String action, String entityType, String entityId, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole, final ApiCallback<LogResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call logStandardActionAsync(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -536,13 +482,13 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = logStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, applicationId, authorization, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /* Build call for log */
-    private com.squareup.okhttp.Call logCall(String actorId, String action, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logCall(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = details;
         
         // create path and map variables
@@ -557,10 +503,6 @@ public class AuditLogControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRole", actorRole));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -592,7 +534,7 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call logValidateBeforeCall(String actorId, String action, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call logValidateBeforeCall(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorId == null) {
@@ -609,19 +551,10 @@ public class AuditLogControllerApi {
             throw new ApiException("Missing the required parameter 'details' when calling log(Async)");
         }
         
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling log(Async)");
-        }
         
-        
-        com.squareup.okhttp.Call call = logCall(actorId, action, details, applicationId, authorization, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logCall(actorId, action, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
@@ -630,15 +563,14 @@ public class AuditLogControllerApi {
      * @param actorId actorId (required)
      * @param action action (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param actorDisplayName actorDisplayName (optional)
      * @param actorRole actorRole (optional)
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse log(String actorId, String action, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole) throws ApiException {
-        ApiResponse<LogResponse> resp = logWithHttpInfo(actorId, action, details, applicationId, authorization, actorDisplayName, actorRole);
+    public LogResponse log(String actorId, String action, Object details, String actorDisplayName, String actorRole) throws ApiException {
+        ApiResponse<LogResponse> resp = logWithHttpInfo(actorId, action, details, actorDisplayName, actorRole);
         return resp.getData();
     }
 
@@ -648,15 +580,15 @@ public class AuditLogControllerApi {
      * @param actorId actorId (required)
      * @param action action (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
+
      * @param actorDisplayName actorDisplayName (optional)
      * @param actorRole actorRole (optional)
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logWithHttpInfo(String actorId, String action, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole) throws ApiException {
-        com.squareup.okhttp.Call call = logValidateBeforeCall(actorId, action, details, applicationId, authorization, actorDisplayName, actorRole, null, null);
+    public ApiResponse<LogResponse> logWithHttpInfo(String actorId, String action, Object details, String actorDisplayName, String actorRole) throws ApiException {
+        com.squareup.okhttp.Call call = logValidateBeforeCall(actorId, action, details, actorDisplayName, actorRole, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -667,15 +599,14 @@ public class AuditLogControllerApi {
      * @param actorId actorId (required)
      * @param action action (required)
      * @param details details (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param actorDisplayName actorDisplayName (optional)
      * @param actorRole actorRole (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call logAsync(String actorId, String action, Object details, String applicationId, String authorization, String actorDisplayName, String actorRole, final ApiCallback<LogResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call logAsync(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -696,13 +627,13 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = logValidateBeforeCall(actorId, action, details, applicationId, authorization, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = logValidateBeforeCall(actorId, action, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    /* Build call for searchUsingGET */
-    private com.squareup.okhttp.Call searchUsingGETCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    /* Build call for search */
+    private com.squareup.okhttp.Call searchCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -721,10 +652,6 @@ public class AuditLogControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "pageSize", pageSize));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -756,46 +683,35 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call searchUsingGETValidateBeforeCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call searchValidateBeforeCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'query' is set
         if (query == null) {
-            throw new ApiException("Missing the required parameter 'query' when calling searchUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'query' when calling search(Async)");
         }
         
         // verify the required parameter 'startTime' is set
         if (startTime == null) {
-            throw new ApiException("Missing the required parameter 'startTime' when calling searchUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'startTime' when calling search(Async)");
         }
         
         // verify the required parameter 'endTime' is set
         if (endTime == null) {
-            throw new ApiException("Missing the required parameter 'endTime' when calling searchUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'endTime' when calling search(Async)");
         }
         
         // verify the required parameter 'page' is set
         if (page == null) {
-            throw new ApiException("Missing the required parameter 'page' when calling searchUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'page' when calling search(Async)");
         }
         
         // verify the required parameter 'pageSize' is set
         if (pageSize == null) {
-            throw new ApiException("Missing the required parameter 'pageSize' when calling searchUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'pageSize' when calling search(Async)");
         }
         
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling searchUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = searchUsingGETCall(query, startTime, endTime, page, pageSize, applicationId, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = searchCall(query, startTime, endTime, page, pageSize, progressListener, progressRequestListener);
         return call;
-
-        
-        
-        
-        
     }
 
     /**
@@ -806,13 +722,12 @@ public class AuditLogControllerApi {
      * @param endTime endTime (required)
      * @param page page (required)
      * @param pageSize pageSize (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<AuditLogEntry> searchUsingGET(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, String authorization) throws ApiException {
-        ApiResponse<List<AuditLogEntry>> resp = searchUsingGETWithHttpInfo(query, startTime, endTime, page, pageSize, applicationId, authorization);
+    public List<AuditLogEntry> search(String query, Long startTime, Long endTime, Integer page, Integer pageSize) throws ApiException {
+        ApiResponse<List<AuditLogEntry>> resp = searchWithHttpInfo(query, startTime, endTime, page, pageSize);
         return resp.getData();
     }
 
@@ -824,13 +739,12 @@ public class AuditLogControllerApi {
      * @param endTime endTime (required)
      * @param page page (required)
      * @param pageSize pageSize (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<AuditLogEntry>> searchUsingGETWithHttpInfo(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, String authorization) throws ApiException {
-        com.squareup.okhttp.Call call = searchUsingGETValidateBeforeCall(query, startTime, endTime, page, pageSize, applicationId, authorization, null, null);
+    public ApiResponse<List<AuditLogEntry>> searchWithHttpInfo(String query, Long startTime, Long endTime, Integer page, Integer pageSize) throws ApiException {
+        com.squareup.okhttp.Call call = searchValidateBeforeCall(query, startTime, endTime, page, pageSize, null, null);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -843,13 +757,12 @@ public class AuditLogControllerApi {
      * @param endTime endTime (required)
      * @param page page (required)
      * @param pageSize pageSize (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
+
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call searchUsingGETAsync(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, String authorization, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+    public com.squareup.okhttp.Call searchAsync(String query, Long startTime, Long endTime, Integer page, Integer pageSize, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -870,13 +783,13 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = searchUsingGETValidateBeforeCall(query, startTime, endTime, page, pageSize, applicationId, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = searchValidateBeforeCall(query, startTime, endTime, page, pageSize, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /* Build call for verify */
-    private com.squareup.okhttp.Call verifyCall(String hash, String applicationId, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call verifyCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -887,10 +800,6 @@ public class AuditLogControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "hash", hash));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -922,20 +831,14 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call verifyValidateBeforeCall(String hash, String applicationId, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call verifyValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'hash' is set
         if (hash == null) {
             throw new ApiException("Missing the required parameter 'hash' when calling verify(Async)");
         }
         
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling verify(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = verifyCall(hash, applicationId, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = verifyCall(hash, progressListener, progressRequestListener);
         return call;
 
     }
@@ -944,13 +847,11 @@ public class AuditLogControllerApi {
      * Verify whether a given hash is present, indicating that the log is intact
      * 
      * @param hash hash (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
      * @return Verification
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Verification verify(String hash, String applicationId, String authorization) throws ApiException {
-        ApiResponse<Verification> resp = verifyWithHttpInfo(hash, applicationId, authorization);
+    public Verification verify(String hash) throws ApiException {
+        ApiResponse<Verification> resp = verifyWithHttpInfo(hash);
         return resp.getData();
     }
 
@@ -958,13 +859,11 @@ public class AuditLogControllerApi {
      * Verify whether a given hash is present, indicating that the log is intact
      * 
      * @param hash hash (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
      * @return ApiResponse&lt;Verification&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Verification> verifyWithHttpInfo(String hash, String applicationId, String authorization) throws ApiException {
-        com.squareup.okhttp.Call call = verifyValidateBeforeCall(hash, applicationId, authorization, null, null);
+    public ApiResponse<Verification> verifyWithHttpInfo(String hash) throws ApiException {
+        com.squareup.okhttp.Call call = verifyValidateBeforeCall(hash, null, null);
         Type localVarReturnType = new TypeToken<Verification>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -973,13 +872,11 @@ public class AuditLogControllerApi {
      * Verify whether a given hash is present, indicating that the log is intact (asynchronously)
      * 
      * @param hash hash (required)
-     * @param applicationId Application-Id (required)
-     * @param authorization Authorization (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call verifyAsync(String hash, String applicationId, String authorization, final ApiCallback<Verification> callback) throws ApiException {
+    public com.squareup.okhttp.Call verifyAsync(String hash, final ApiCallback<Verification> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1000,7 +897,7 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = verifyValidateBeforeCall(hash, applicationId, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = verifyValidateBeforeCall(hash, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Verification>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

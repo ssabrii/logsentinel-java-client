@@ -45,14 +45,12 @@ public class AuditLogControllerApiTest {
         String actorId = null;
         String authAction = null;
         String details = null;
-        String applicationId = null;
         String userId = null;
-        String authorization = null;
         String signedLoginChallenge = null;
         String userPublicKey = null;
         String actorDisplayName = null;
         String actorRole = null;
-        LogResponse response = api.logAuthAction(actorId, authAction, details, applicationId, userId, authorization, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
+        LogResponse response = api.logAuthAction(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
 
         // TODO: test validations
     }
@@ -68,9 +66,8 @@ public class AuditLogControllerApiTest {
     @Test
     public void logSimpleTest() throws ApiException {
         String details = null;
-        String applicationId = null;
-        String authorization = null;
-        LogResponse response = api.logSimple(details, applicationId, authorization);
+        
+        LogResponse response = api.logSimple(details);
 
         // TODO: test validations
     }
@@ -90,11 +87,9 @@ public class AuditLogControllerApiTest {
         String entityType = null;
         String entityId = null;
         String details = null;
-        String applicationId = null;
-        String authorization = null;
         String actorDisplayName = null;
         String actorRole = null;
-        LogResponse response = api.logStandardAction(actorId, action, entityType, entityId, details, applicationId, authorization, actorDisplayName, actorRole);
+        LogResponse response = api.logStandardAction(actorId, action, entityType, entityId, details, actorDisplayName, actorRole);
 
         // TODO: test validations
     }
@@ -112,11 +107,9 @@ public class AuditLogControllerApiTest {
         String actorId = null;
         String action = null;
         String details = null;
-        String applicationId = null;
-        String authorization = null;
         String actorDisplayName = null;
         String actorRole = null;
-        LogResponse response = api.log(actorId, action, details, applicationId, authorization, actorDisplayName, actorRole);
+        LogResponse response = api.log(actorId, action, details, actorDisplayName, actorRole);
 
         // TODO: test validations
     }
@@ -136,9 +129,7 @@ public class AuditLogControllerApiTest {
         Long endTime = null;
         Integer page = null;
         Integer pageSize = null;
-        String applicationId = null;
-        String authorization = null;
-        List<AuditLogEntry> response = api.searchUsingGET(query, startTime, endTime, page, pageSize, applicationId, authorization);
+        List<AuditLogEntry> response = api.search(query, startTime, endTime, page, pageSize);
 
         // TODO: test validations
     }
@@ -154,9 +145,7 @@ public class AuditLogControllerApiTest {
     @Test
     public void verifyTest() throws ApiException {
         String hash = null;
-        String applicationId = null;
-        String authorization = null;
-        Verification response = api.verify(hash, applicationId, authorization);
+        Verification response = api.verify(hash);
 
         // TODO: test validations
     }
