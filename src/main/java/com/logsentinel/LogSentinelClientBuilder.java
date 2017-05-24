@@ -17,6 +17,7 @@ public class LogSentinelClientBuilder {
     
     private byte[] encryptionKey;
     private BodySerializer bodySerializer;
+    private String basePath;
     
     public static LogSentinelClientBuilder create(String applicationId, String organizationId, String secret) {
         LogSentinelClientBuilder builder = new LogSentinelClientBuilder();
@@ -27,6 +28,9 @@ public class LogSentinelClientBuilder {
 
     public LogSentinelClient build() {
         ApiClient apiClient = new ApiClient();
+        if (basePath != null) {
+            apiClient.setBasePath(basePath);
+        }
         HttpBasicAuth auth = (HttpBasicAuth) apiClient.getAuthentication("basicAuth");
         auth.setUsername(organizationId);
         auth.setPassword(secret);
@@ -100,4 +104,22 @@ public class LogSentinelClientBuilder {
         this.bodySerializer = bodySerializer;
         return this;
     }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    /**
+     * Sets a custom base path for the API, other than logsentinel.com. Should
+     * be used when running a local/hosted instance rather than using the cloud
+     * one
+     * 
+     * @param basePath
+     * @return
+     */
+    public LogSentinelClientBuilder setBasePath(String basePath) {
+        this.basePath = basePath;
+        return this;
+    }
+    
 }
