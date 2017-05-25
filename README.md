@@ -9,7 +9,6 @@ Add this dependency to your project's POM:
     <groupId>com.logsentinel</groupId>
     <artifactId>logsentinel-client</artifactId>
     <version>1.0.0</version>
-    <scope>compile</scope>
 </dependency>
 ```
 

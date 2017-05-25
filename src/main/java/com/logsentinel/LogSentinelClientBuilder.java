@@ -96,7 +96,7 @@ public class LogSentinelClientBuilder {
     /**
      * Sets a custom body serializer. If none is specified, JSON serializer is used for the body
      * 
-     * @param bodySerializer
+     * @param bodySerializer an implementation of body serializer
      * @return the builder
      */
     public LogSentinelClientBuilder setBodySerializer(BodySerializer bodySerializer) {
@@ -113,7 +113,7 @@ public class LogSentinelClientBuilder {
      * be used when running a local/hosted instance rather than using the cloud
      * one
      * 
-     * @param basePath
+     * @param basePath the root url of the logsentinel installation
      * @return
      */
     public LogSentinelClientBuilder setBasePath(String basePath) {
