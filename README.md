@@ -31,11 +31,13 @@ public class AuditLogControllerApiExample {
 
     public static void main(String[] args) {
         //credentials obtained after registration
-        LogSentinelClientBuilder builder = LogSentinelClientBuilder.create(applicationId, organizationId, secret);
+        LogSentinelClientBuilder builder = LogSentinelClientBuilder
+            .create(applicationId, organizationId, secret);
         LogSentinelClient client = builder.build();
         
         try {
-            LogResponse result = client.getAuditLogActions().log(actorId, action, details, String actorDisplayName, String actorRole) throws ApiException {
+            LogResponse result = client.getAuditLogActions().log(actorId, action, details, 
+                actorDisplayName, actorRole);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AuditLogControllerApi#logAuthAction");
