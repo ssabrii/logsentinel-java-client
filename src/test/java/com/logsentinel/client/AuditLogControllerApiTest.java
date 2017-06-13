@@ -13,15 +13,16 @@
 
 package com.logsentinel.client;
 
+import java.util.Arrays;
 import java.util.List;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 import com.logsentinel.ApiException;
 import com.logsentinel.client.model.AuditLogEntry;
 import com.logsentinel.client.model.LogResponse;
 import com.logsentinel.client.model.Verification;
-
-import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * API tests for AuditLogControllerApi
@@ -49,8 +50,9 @@ public class AuditLogControllerApiTest {
         String signedLoginChallenge = null;
         String userPublicKey = null;
         String actorDisplayName = null;
-        String actorRole = null;
-        LogResponse response = api.logAuthAction(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
+        List<String> actorRoles = null;
+        LogResponse response = api.logAuthAction(actorId, authAction, details, userId, signedLoginChallenge,
+                userPublicKey, actorDisplayName, actorRoles);
 
         // TODO: test validations
     }

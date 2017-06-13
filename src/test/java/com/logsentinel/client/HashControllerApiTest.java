@@ -13,9 +13,12 @@
 
 package com.logsentinel.client;
 
-import com.logsentinel.ApiException;
-import org.junit.Test;
+import java.util.List;
+
 import org.junit.Ignore;
+import org.junit.Test;
+
+import com.logsentinel.ApiException;
 
 /**
  * API tests for HashControllerApi
@@ -43,8 +46,8 @@ public class HashControllerApiTest {
         String signedLoginChallenge = null;
         String userPublicKey = null;
         String actorDisplayName = null;
-        String actorRole = null;
-        String response = api.getHashableContentForAuthAction(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
+        List<String> actorRoles = null;
+        String response = api.getHashableContentForAuthAction(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRoles);
 
         // TODO: test validations
     }
@@ -65,8 +68,8 @@ public class HashControllerApiTest {
         String entityId = null;
         String details = null;
         String actorDisplayName = null;
-        String actorRole = null;
-        String response = api.getHashableContentForStandardAction(actorId, action, entityType, entityId, details, actorDisplayName, actorRole);
+        List<String> actorRoles = null;
+        String response = api.getHashableContentForStandardAction(actorId, action, entityType, entityId, details, actorDisplayName, actorRoles);
 
         // TODO: test validations
     }
@@ -101,8 +104,8 @@ public class HashControllerApiTest {
         String action = null;
         String details = null;
         String actorDisplayName = null;
-        String actorRole = null;
-        String response = api.getHashableContent(actorId, action, details, actorDisplayName, actorRole);
+        List<String> actorRoles = null;
+        String response = api.getHashableContent(actorId, action, details, actorDisplayName, actorRoles);
 
         // TODO: test validations
     }

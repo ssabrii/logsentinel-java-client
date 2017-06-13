@@ -57,7 +57,7 @@ public class HashControllerApi {
     }
 
     /* Build call for getHashableContentForAuthAction */
-    private com.squareup.okhttp.Call getHashableContentForAuthActionCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashableContentForAuthActionCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = details;
         
         // create path and map variables
@@ -70,8 +70,8 @@ public class HashControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "userId", userId));
         if (actorDisplayName != null)
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDisplayName", actorDisplayName));
-        if (actorRole != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRole", actorRole));
+        if (actorRoles != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorRoles));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (signedLoginChallenge != null)
@@ -109,7 +109,7 @@ public class HashControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call getHashableContentForAuthActionValidateBeforeCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashableContentForAuthActionValidateBeforeCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorId == null) {
@@ -126,7 +126,7 @@ public class HashControllerApi {
             throw new ApiException("Missing the required parameter 'details' when calling getHashableContentForAuthAction(Async)");
         }
         
-        com.squareup.okhttp.Call call = getHashableContentForAuthActionCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashableContentForAuthActionCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRoles, progressListener, progressRequestListener);
         return call;
     }
 
@@ -145,8 +145,8 @@ public class HashControllerApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashableContentForAuthAction(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole) throws ApiException {
-        ApiResponse<String> resp = getHashableContentForAuthActionWithHttpInfo(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole);
+    public String getHashableContentForAuthAction(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles) throws ApiException {
+        ApiResponse<String> resp = getHashableContentForAuthActionWithHttpInfo(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRoles);
         return resp.getData();
     }
 
@@ -165,8 +165,8 @@ public class HashControllerApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashableContentForAuthActionWithHttpInfo(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole) throws ApiException {
-        com.squareup.okhttp.Call call = getHashableContentForAuthActionValidateBeforeCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, null, null);
+    public ApiResponse<String> getHashableContentForAuthActionWithHttpInfo(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles) throws ApiException {
+        com.squareup.okhttp.Call call = getHashableContentForAuthActionValidateBeforeCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRoles, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -187,7 +187,7 @@ public class HashControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getHashableContentForAuthActionAsync(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, String actorRole, final ApiCallback<String> callback) throws ApiException {
+    public com.squareup.okhttp.Call getHashableContentForAuthActionAsync(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -208,13 +208,13 @@ public class HashControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getHashableContentForAuthActionValidateBeforeCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashableContentForAuthActionValidateBeforeCall(actorId, authAction, details, userId, signedLoginChallenge, userPublicKey, actorDisplayName, actorRoles, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /* Build call for getHashableContentForStandardAction */
-    private com.squareup.okhttp.Call getHashableContentForStandardActionCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashableContentForStandardActionCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = details;
         
         // create path and map variables
@@ -227,8 +227,8 @@ public class HashControllerApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (actorDisplayName != null)
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDisplayName", actorDisplayName));
-        if (actorRole != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRole", actorRole));
+        if (actorRoles != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorRoles));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -262,7 +262,7 @@ public class HashControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private com.squareup.okhttp.Call getHashableContentForStandardActionValidateBeforeCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashableContentForStandardActionValidateBeforeCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorId == null) {
@@ -289,7 +289,7 @@ public class HashControllerApi {
             throw new ApiException("Missing the required parameter 'details' when calling getHashableContentForStandardAction(Async)");
         }
         
-        com.squareup.okhttp.Call call = getHashableContentForStandardActionCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashableContentForStandardActionCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRoles, progressListener, progressRequestListener);
         return call;
     }
 
@@ -307,8 +307,8 @@ public class HashControllerApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashableContentForStandardAction(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole) throws ApiException {
-        ApiResponse<String> resp = getHashableContentForStandardActionWithHttpInfo(actorId, action, entityType, entityId, details, actorDisplayName, actorRole);
+    public String getHashableContentForStandardAction(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, List<String> actorRoles) throws ApiException {
+        ApiResponse<String> resp = getHashableContentForStandardActionWithHttpInfo(actorId, action, entityType, entityId, details, actorDisplayName, actorRoles);
         return resp.getData();
     }
 
@@ -326,8 +326,8 @@ public class HashControllerApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashableContentForStandardActionWithHttpInfo(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole) throws ApiException {
-        com.squareup.okhttp.Call call = getHashableContentForStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRole, null, null);
+    public ApiResponse<String> getHashableContentForStandardActionWithHttpInfo(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, List<String> actorRoles) throws ApiException {
+        com.squareup.okhttp.Call call = getHashableContentForStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRoles, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -347,7 +347,7 @@ public class HashControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getHashableContentForStandardActionAsync(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ApiCallback<String> callback) throws ApiException {
+    public com.squareup.okhttp.Call getHashableContentForStandardActionAsync(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, List<String> actorRoles, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -368,7 +368,7 @@ public class HashControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getHashableContentForStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashableContentForStandardActionValidateBeforeCall(actorId, action, entityType, entityId, details, actorDisplayName, actorRoles, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -489,7 +489,7 @@ public class HashControllerApi {
         return call;
     }
     /* Build call for getHashableContent */
-    private com.squareup.okhttp.Call getHashableContentCall(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashableContentCall(String actorId, String action, Object details, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = preProcess(details);
         
         // create path and map variables
@@ -500,8 +500,8 @@ public class HashControllerApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (actorDisplayName != null)
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDisplayName", actorDisplayName));
-        if (actorRole != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRole", actorRole));
+        if (actorRoles != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorRoles));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -539,7 +539,7 @@ public class HashControllerApi {
         return bodySerializer.serialize(details);
     }
 
-    private com.squareup.okhttp.Call getHashableContentValidateBeforeCall(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashableContentValidateBeforeCall(String actorId, String action, Object details, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorId == null) {
@@ -556,7 +556,7 @@ public class HashControllerApi {
             throw new ApiException("Missing the required parameter 'details' when calling getHashableContent(Async)");
         }
         
-        com.squareup.okhttp.Call call = getHashableContentCall(actorId, action, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashableContentCall(actorId, action, details, actorDisplayName, actorRoles, progressListener, progressRequestListener);
         return call;
     }
 
@@ -572,8 +572,8 @@ public class HashControllerApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashableContent(String actorId, String action, Object details, String actorDisplayName, String actorRole) throws ApiException {
-        ApiResponse<String> resp = getHashableContentWithHttpInfo(actorId, action, details, actorDisplayName, actorRole);
+    public String getHashableContent(String actorId, String action, Object details, String actorDisplayName, List<String> actorRoles) throws ApiException {
+        ApiResponse<String> resp = getHashableContentWithHttpInfo(actorId, action, details, actorDisplayName, actorRoles);
         return resp.getData();
     }
 
@@ -589,8 +589,8 @@ public class HashControllerApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashableContentWithHttpInfo(String actorId, String action, Object details, String actorDisplayName, String actorRole) throws ApiException {
-        com.squareup.okhttp.Call call = getHashableContentValidateBeforeCall(actorId, action, details, actorDisplayName, actorRole, null, null);
+    public ApiResponse<String> getHashableContentWithHttpInfo(String actorId, String action, Object details, String actorDisplayName, List<String> actorRoles) throws ApiException {
+        com.squareup.okhttp.Call call = getHashableContentValidateBeforeCall(actorId, action, details, actorDisplayName, actorRoles, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -608,7 +608,7 @@ public class HashControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getHashableContentAsync(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ApiCallback<String> callback) throws ApiException {
+    public com.squareup.okhttp.Call getHashableContentAsync(String actorId, String action, Object details, String actorDisplayName, List<String> actorRoles, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -629,7 +629,7 @@ public class HashControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getHashableContentValidateBeforeCall(actorId, action, details, actorDisplayName, actorRole, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashableContentValidateBeforeCall(actorId, action, details, actorDisplayName, actorRoles, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
