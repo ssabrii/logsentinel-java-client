@@ -26,6 +26,7 @@ import com.logsentinel.ApiClient;
 import com.logsentinel.ApiException;
 import com.logsentinel.ApiResponse;
 import com.logsentinel.BodySerializer;
+import com.logsentinel.BodySigner;
 import com.logsentinel.Configuration;
 import com.logsentinel.JsonBodySerializer;
 import com.logsentinel.Pair;
@@ -38,14 +39,16 @@ import com.logsentinel.client.model.Verification;
 public class AuditLogControllerApi {
     private ApiClient apiClient;
     private BodySerializer bodySerializer;
+    private BodySigner bodySigner;
     
     public AuditLogControllerApi() {
-        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()));
+        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()), null);
     }
 
-    public AuditLogControllerApi(ApiClient apiClient, BodySerializer bodySerializer) {
+    public AuditLogControllerApi(ApiClient apiClient, BodySerializer bodySerializer, BodySigner bodySigner) {
         this.apiClient = apiClient;
         this.bodySerializer = bodySerializer;
+        this.bodySigner = bodySigner;
     }
 
     public ApiClient getApiClient() {
@@ -58,7 +61,7 @@ public class AuditLogControllerApi {
 
     /* Build call for logAuthAction */
     private com.squareup.okhttp.Call logAuthActionCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = preProcessBody(details);
+        String localVarPostBody = preProcessBody(details);
         
         // create path and map variables
         String localVarPath = "/api/log/{actorId}/auth/{authAction}".replaceAll("\\{format\\}","json")
@@ -92,6 +95,10 @@ public class AuditLogControllerApi {
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
+        
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
 
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
@@ -215,7 +222,7 @@ public class AuditLogControllerApi {
     }
     /* Build call for logSimple */
     private com.squareup.okhttp.Call logSimpleCall(Object details, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = details;
+        String localVarPostBody = preProcessBody(details);
         
         // create path and map variables
         String localVarPath = "/api/log/simple".replaceAll("\\{format\\}","json");
@@ -250,6 +257,10 @@ public class AuditLogControllerApi {
             });
         }
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         String[] localVarAuthNames = new String[] { "basicAuth" };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
@@ -329,7 +340,7 @@ public class AuditLogControllerApi {
     }
     /* Build call for logStandardAction */
     private com.squareup.okhttp.Call logStandardActionCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = details;
+        String localVarPostBody = preProcessBody(details);
         
         // create path and map variables
         String localVarPath = "/api/log/{actorId}/{action}/{entityType}/{entityId}".replaceAll("\\{format\\}","json")
@@ -360,6 +371,10 @@ public class AuditLogControllerApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
@@ -489,7 +504,7 @@ public class AuditLogControllerApi {
     }
     /* Build call for log */
     private com.squareup.okhttp.Call logCall(String actorId, String action, Object details, String actorDisplayName, String actorRole, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = details;
+        String localVarPostBody = preProcessBody(details);
         
         // create path and map variables
         String localVarPath = "/api/log/{actorId}/{action}".replaceAll("\\{format\\}","json")
@@ -518,6 +533,10 @@ public class AuditLogControllerApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
@@ -903,7 +922,7 @@ public class AuditLogControllerApi {
         return call;
     }
     
-    private Object preProcessBody(Object details) {
+    private String preProcessBody(Object details) {
         return bodySerializer.serialize(details);
     }
 }

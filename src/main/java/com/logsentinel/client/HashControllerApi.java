@@ -13,39 +13,39 @@
 
 package com.logsentinel.client;
 
-import com.logsentinel.ApiCallback;
-import com.logsentinel.ApiClient;
-import com.logsentinel.ApiException;
-import com.logsentinel.ApiResponse;
-import com.logsentinel.BodySerializer;
-import com.logsentinel.Configuration;
-import com.logsentinel.JsonBodySerializer;
-import com.logsentinel.Pair;
-import com.logsentinel.ProgressRequestBody;
-import com.logsentinel.ProgressResponseBody;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
-
-
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.reflect.TypeToken;
+import com.logsentinel.ApiCallback;
+import com.logsentinel.ApiClient;
+import com.logsentinel.ApiException;
+import com.logsentinel.ApiResponse;
+import com.logsentinel.BodySerializer;
+import com.logsentinel.BodySigner;
+import com.logsentinel.Configuration;
+import com.logsentinel.JsonBodySerializer;
+import com.logsentinel.Pair;
+import com.logsentinel.ProgressRequestBody;
+import com.logsentinel.ProgressResponseBody;
+
 public class HashControllerApi {
     private ApiClient apiClient;
     private BodySerializer bodySerializer;
+    private BodySigner bodySigner;
 
     public HashControllerApi() {
-        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()));
+        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()), null);
     }
 
-    public HashControllerApi(ApiClient apiClient, BodySerializer bodySerializer) {
+    public HashControllerApi(ApiClient apiClient, BodySerializer bodySerializer, BodySigner signer) {
         this.apiClient = apiClient;
         this.bodySerializer = bodySerializer;
+        this.bodySigner = signer;
     }
 
     public ApiClient getApiClient() {
@@ -58,7 +58,7 @@ public class HashControllerApi {
 
     /* Build call for getHashableContentForAuthAction */
     private com.squareup.okhttp.Call getHashableContentForAuthActionCall(String actorId, String authAction, Object details, String userId, String signedLoginChallenge, String userPublicKey, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = details;
+        String localVarPostBody = preProcess(details);
         
         // create path and map variables
         String localVarPath = "/api/getHashableContent/{actorId}/auth/{authAction}".replaceAll("\\{format\\}","json")
@@ -93,6 +93,10 @@ public class HashControllerApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
@@ -215,7 +219,7 @@ public class HashControllerApi {
     }
     /* Build call for getHashableContentForStandardAction */
     private com.squareup.okhttp.Call getHashableContentForStandardActionCall(String actorId, String action, String entityType, String entityId, Object details, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = details;
+        String localVarPostBody = preProcess(details);
         
         // create path and map variables
         String localVarPath = "/api/getHashableContent/{actorId}/{action}/{entityType}/{entityId}".replaceAll("\\{format\\}","json")
@@ -246,6 +250,10 @@ public class HashControllerApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
@@ -375,7 +383,7 @@ public class HashControllerApi {
     }
     /* Build call for getHashableContentSimple */
     private com.squareup.okhttp.Call getHashableContentSimpleCall(Object details, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = details;
+        String localVarPostBody = preProcess(details);
         
         // create path and map variables
         String localVarPath = "/api/getHashableContent".replaceAll("\\{format\\}","json");
@@ -398,6 +406,10 @@ public class HashControllerApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
@@ -490,7 +502,7 @@ public class HashControllerApi {
     }
     /* Build call for getHashableContent */
     private com.squareup.okhttp.Call getHashableContentCall(String actorId, String action, Object details, String actorDisplayName, List<String> actorRoles, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = preProcess(details);
+        String localVarPostBody = preProcess(details);
         
         // create path and map variables
         String localVarPath = "/api/getHashableContent/{actorId}/{action}".replaceAll("\\{format\\}","json")
@@ -519,6 +531,10 @@ public class HashControllerApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
+        if (bodySigner != null) {
+            localVarHeaderParams.put("Signature", bodySigner.computeSignature(localVarPostBody));
+        }
+        
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
@@ -535,7 +551,7 @@ public class HashControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    private Object preProcess(Object details) {
+    private String preProcess(Object details) {
         return bodySerializer.serialize(details);
     }
 

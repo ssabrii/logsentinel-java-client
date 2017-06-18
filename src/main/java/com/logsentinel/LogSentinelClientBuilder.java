@@ -1,5 +1,7 @@
 package com.logsentinel;
 
+import java.security.PrivateKey;
+
 import com.logsentinel.client.AuditLogControllerApi;
 import com.logsentinel.client.HashControllerApi;
 
@@ -15,6 +17,7 @@ public class LogSentinelClientBuilder {
     private String secret;
     
     private byte[] encryptionKey;
+    private PrivateKey signingKey;
     private BodySerializer bodySerializer;
     private String basePath;
     
@@ -38,8 +41,12 @@ public class LogSentinelClientBuilder {
         if (encryptionKey != null) {
             serializer = new EncryptingBodySerializer(encryptionKey, serializer);
         }
-        AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer);
-        HashControllerApi hashActions = new HashControllerApi(apiClient, serializer);
+        BodySigner signer = null;
+        if (signingKey != null) {
+            signer = new BodySigner(signingKey);
+        }
+        AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer);
+        HashControllerApi hashActions = new HashControllerApi(apiClient, serializer, signer);
         
         LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions);
         return client;
@@ -118,6 +125,18 @@ public class LogSentinelClientBuilder {
      */
     public LogSentinelClientBuilder setBasePath(String basePath) {
         this.basePath = basePath;
+        return this;
+    }
+   
+    /**
+     * Sets a signing key for this client. The signing key is used to sign request details in order
+     * to make sure no attacker can insert fake records if they gain control on a logging server
+     * 
+     * @param signingKey the private key to use for request body signing
+     * @return
+     */
+    public LogSentinelClientBuilder setSigningKey(PrivateKey signingKey) {
+        this.signingKey = signingKey;
         return this;
     }
     
