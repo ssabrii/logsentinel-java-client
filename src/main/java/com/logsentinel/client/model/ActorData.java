@@ -15,19 +15,22 @@ public class ActorData {
     public List<String> getActorRoles() {
         return actorRoles;
     }
-    public void setActorRoles(List<String> actorRole) {
+    public ActorData setActorRoles(List<String> actorRole) {
         this.actorRoles = actorRole;
+        return this;
     }
     public String getActorId() {
         return actorId;
     }
-    public void setActorId(String actorId) {
+    public ActorData setActorId(String actorId) {
         this.actorId = actorId;
+        return this;
     }
     public String getActorDisplayName() {
         return actorDisplayName;
     }
-    public void setActorDisplayName(String actorAlias) {
+    public ActorData setActorDisplayName(String actorAlias) {
         this.actorDisplayName = actorAlias;
+        return this;
     }
 }

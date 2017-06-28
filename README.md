@@ -8,7 +8,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>com.logsentinel</groupId>
     <artifactId>logsentinel-client</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
@@ -17,7 +17,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.logsentinel:logsentinel-client:1.0.0"
+compile "com.logsentinel:logsentinel-client:0.0.1"
 ```
 
 ## Getting Started
@@ -35,8 +35,10 @@ public class AuditLogControllerApiExample {
         LogSentinelClient client = builder.build();
         
         try {
-            LogResponse result = client.getAuditLogActions().log(actorId, action, details, 
-                actorDisplayName, actorRole);
+            LogResponse result = client.getAuditLogActions().log(
+                new ActorData(actorId).setActorDisplayName(username).setActorRoles(roles), 
+                new ActionData(details).setAction(action)
+            );
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AuditLogControllerApi#logAuthAction");
