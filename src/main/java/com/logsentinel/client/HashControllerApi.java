@@ -302,7 +302,7 @@ public class HashControllerApi {
     /**
      * Get the hash of a request without any additional metadata (including encrypted request bodies)
      * 
-     * @param details details (required)
+     * @param actionData the action data (required)
 
      * @return String hash
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -315,7 +315,7 @@ public class HashControllerApi {
     /**
      * Get the hash of a request without any additional metadata (including encrypted request bodies)
      * 
-     * @param details details (required)
+     * @param actionData the action data (required)
 
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body

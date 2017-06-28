@@ -264,7 +264,8 @@ public class AuditLogControllerApi {
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      * 
-     * @param details details (required)
+     * @param actionData the action data (required)
+     * 
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -276,7 +277,7 @@ public class AuditLogControllerApi {
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      * 
-     * @param details details (required)
+     * @param actionData the aciton data (required)
 
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -290,7 +291,7 @@ public class AuditLogControllerApi {
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted (asynchronously)
      * 
-     * @param details details (required)
+     * @param actionData the action data (required)
 
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
