@@ -865,7 +865,9 @@ public class ApiClient {
         } else if (obj instanceof File) {
             // File body parameter support.
             return RequestBody.create(MediaType.parse(contentType), (File) obj);
-        } else if (isJsonMime(contentType)) {
+        } else if (obj instanceof String) {
+            return RequestBody.create(MediaType.parse(contentType), (String) obj);
+        } else if (isJsonMime(contentType) && !(obj instanceof String)) {
             String content;
             if (obj != null) {
                 content = json.serialize(obj);
@@ -874,7 +876,7 @@ public class ApiClient {
             }
             return RequestBody.create(MediaType.parse(contentType), content);
         } else {
-            throw new ApiException("Content type \"" + contentType + "\" is not supported");
+            throw new ApiException("Content type \"" + contentType + "\" is not supported for body of type " + obj.getClass().getName());
         }
     }
 

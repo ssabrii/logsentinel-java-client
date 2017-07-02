@@ -43,15 +43,17 @@ public class HashControllerApi {
     private ApiClient apiClient;
     private BodySerializer bodySerializer;
     private BodySigner bodySigner;
-
+    private String contentType;
+    
     public HashControllerApi() {
-        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()), null);
+        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()), null, "application/json");
     }
 
-    public HashControllerApi(ApiClient apiClient, BodySerializer bodySerializer, BodySigner signer) {
+    public HashControllerApi(ApiClient apiClient, BodySerializer bodySerializer, BodySigner signer, String contentType) {
         this.apiClient = apiClient;
         this.bodySerializer = bodySerializer;
         this.bodySigner = signer;
+        this.contentType = contentType;
     }
 
     public ApiClient getApiClient() {
@@ -281,7 +283,7 @@ public class HashControllerApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json", "*/*"
+            contentType, "*/*"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);

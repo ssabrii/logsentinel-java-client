@@ -20,6 +20,7 @@ public class LogSentinelClientBuilder {
     private PrivateKey signingKey;
     private BodySerializer bodySerializer;
     private String basePath;
+    private String contentType;
     
     public static LogSentinelClientBuilder create(String applicationId, String organizationId, String secret) {
         LogSentinelClientBuilder builder = new LogSentinelClientBuilder();
@@ -45,8 +46,12 @@ public class LogSentinelClientBuilder {
         if (signingKey != null) {
             signer = new BodySigner(signingKey);
         }
-        AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer);
-        HashControllerApi hashActions = new HashControllerApi(apiClient, serializer, signer);
+        if (contentType == null) {
+            contentType = "application/json;charsets=UTF-8";
+        }
+        
+        AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer, contentType);
+        HashControllerApi hashActions = new HashControllerApi(apiClient, serializer, signer, contentType);
         
         LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions);
         return client;
@@ -139,5 +144,15 @@ public class LogSentinelClientBuilder {
         this.signingKey = signingKey;
         return this;
     }
-    
+
+    /**
+     * Sets the content type for sending requests
+     * 
+     * @param contentType
+     * @return
+     */
+    public LogSentinelClientBuilder setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
+    }
 }
