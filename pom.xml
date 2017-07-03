@@ -31,19 +31,19 @@
 		</repository>
 	</distributionManagement>
 
-    <scm>
-        <connection>scm:git:https://github.com/LogSentinel/logsentinel-java-client.git</connection>
-        <developerConnection>scm:git:https://github.com/LogSentinel/logsentinel-java-client.git</developerConnection>
-        <url>https://github.com/LogSentinel/logsentinel-java-client</url>
-    </scm>
+	<scm>
+		<connection>scm:git:https://github.com/LogSentinel/logsentinel-java-client.git</connection>
+		<developerConnection>scm:git:https://github.com/LogSentinel/logsentinel-java-client.git</developerConnection>
+		<url>https://github.com/LogSentinel/logsentinel-java-client</url>
+	</scm>
 
-    <developers>
-        <developer>
-            <name>Bozhidar Bozhanov</name>
-            <url>https://techblog.bozho.net</url>
-            <organizationUrl>https://logsentinel.com</organizationUrl>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<name>Bozhidar Bozhanov</name>
+			<url>https://techblog.bozho.net</url>
+			<organizationUrl>https://logsentinel.com</organizationUrl>
+		</developer>
+	</developers>
 
 	<build>
 		<plugins>
@@ -163,6 +163,20 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -198,30 +212,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>sign-artifacts</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<dependency>
