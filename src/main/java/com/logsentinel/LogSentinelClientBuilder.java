@@ -126,7 +126,7 @@ public class LogSentinelClientBuilder {
      * one
      * 
      * @param basePath the root url of the logsentinel installation
-     * @return
+     * @return the builder
      */
     public LogSentinelClientBuilder setBasePath(String basePath) {
         this.basePath = basePath;
@@ -138,7 +138,7 @@ public class LogSentinelClientBuilder {
      * to make sure no attacker can insert fake records if they gain control on a logging server
      * 
      * @param signingKey the private key to use for request body signing
-     * @return
+     * @return the builder
      */
     public LogSentinelClientBuilder setSigningKey(PrivateKey signingKey) {
         this.signingKey = signingKey;
@@ -149,7 +149,7 @@ public class LogSentinelClientBuilder {
      * Sets the content type for sending requests
      * 
      * @param contentType
-     * @return
+     * @return the builder
      */
     public LogSentinelClientBuilder setContentType(String contentType) {
         this.contentType = contentType;

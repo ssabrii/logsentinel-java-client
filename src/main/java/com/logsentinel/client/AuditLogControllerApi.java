@@ -152,7 +152,7 @@ public class AuditLogControllerApi {
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse logAuthAction(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, String actorDisplayName, List<String> actorRoles) throws ApiException {
+    public LogResponse logAuthAction(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
         ApiResponse<LogResponse> resp = logAuthActionWithHttpInfo(actorData, actionData, signedLoginChallenge, userPublicKey);
         return resp.getData();
     }
