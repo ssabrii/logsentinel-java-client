@@ -783,6 +783,119 @@ public class AuditLogControllerApi {
         return call;
     }
     
+    
+    /* Build call for getEntityHistory */
+    private Call getEntityHistoryCall(String entityId, String entityType,
+            final ProgressResponseBody.ProgressListener progressListener,
+            final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/api/getEntityHistory".replaceAll("\\{format\\}","json");
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (entityId != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "entityId", entityId));
+        if (entityType != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "entityType", entityType));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        setContentType(localVarHeaderParams);
+
+        setProgressListener(progressListener);
+        
+        String[] localVarAuthNames = new String[] { "basicAuth" };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    private Call getEntityHistoryValidateBeforeCall(String entityId, String entityType,
+            final ProgressResponseBody.ProgressListener progressListener,
+            final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'entityId' is set
+        if (entityId == null) {
+            throw new ApiException("Missing the required parameter 'entityId' when calling search(Async)");
+        }
+        
+        // verify the required parameter 'entityType' is set
+        if (entityType == null) {
+            throw new ApiException("Missing the required parameter 'entityType' when calling search(Async)");
+        }
+        
+        Call call = getEntityHistoryCall(entityId, entityType, progressListener, progressRequestListener);
+        return call;
+    }
+
+    /**
+     * Get all entries for a given entity
+     * 
+     * @param entityId entityId (required)
+     * @param entityType entityType (required)
+     * 
+     * @return List&lt;AuditLogEntry&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public List<AuditLogEntry> getEntityHistory(String entityId, String entityType) throws ApiException {
+        ApiResponse<List<AuditLogEntry>> resp = getEntityHistoryWithHttpInfo(entityId, entityType);
+        return resp.getData();
+    }
+
+    /**
+     * Get all entries for a given entity
+     * 
+     * @param entityId entityId (required)
+     * @param entityType entityType (required)
+     * 
+     * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<List<AuditLogEntry>> getEntityHistoryWithHttpInfo(String entityId, String entityType) throws ApiException {
+        Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, null, null);
+        Type localVarReturnType = new TypeToken<List<AuditLogEntry>>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Get all entries for a given entity (asynchronously)
+     * 
+     * @param entityId entityId (required)
+     * @param entityType entityType (required)
+     * @param callback The callback to be executed when the API call finishes
+     * 
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public Call getEntityHistoryAsync(String entityId, String entityType, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<List<AuditLogEntry>>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    
     private String preProcessBody(Object details) {
         return bodySerializer.serialize(details);
     }
