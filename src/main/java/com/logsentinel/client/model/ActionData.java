@@ -1,11 +1,15 @@
 package com.logsentinel.client.model;
 
+import org.javers.core.diff.Diff;
+
 public class ActionData {
 
     private String action;
     private String entityId;
     private String entityType;
     private String details;
+    private Diff diffDetails;
+    
     private AuditLogEntryType entryType;
     
     public ActionData(String details) {
@@ -49,4 +53,15 @@ public class ActionData {
         this.entryType = entryType;
         return this;
     }
+
+	public Diff getDiffDetails() {
+		return diffDetails;
+	}
+
+	public ActionData setDiffDetails(Diff diffDetails) {
+		this.diffDetails = diffDetails;
+		return this;
+	}
+    
+    
 }

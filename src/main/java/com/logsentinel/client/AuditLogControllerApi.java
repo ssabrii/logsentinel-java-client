@@ -70,7 +70,7 @@ public class AuditLogControllerApi {
 
     /* Build call for logAuthAction */
     private Call logAuthActionCall(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcessBody(actionData.getDetails());
+        String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
         String localVarPath = "/api/log/{actorId}/auth/{authAction}".replaceAll("\\{format\\}","json")
@@ -137,8 +137,8 @@ public class AuditLogControllerApi {
         }
         
         // verify the required parameter 'details' is set
-        if (actionData.getDetails() == null) {
-            throw new ApiException("Missing the required parameter 'details' when calling logAuthAction(Async)");
+        if (actionData.getDetails() == null && actionData.getDiffDetails() == null) {
+            throw new ApiException("Missing the required parameter 'details' or 'diffDetails' when calling logAuthAction(Async)");
         }
     }
 
@@ -212,7 +212,7 @@ public class AuditLogControllerApi {
     }
     /* Build call for logSimple */
     private Call logSimpleCall(ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcessBody(actionData.getDetails());
+        String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
         String localVarPath = "/api/log/simple".replaceAll("\\{format\\}","json");
@@ -327,7 +327,7 @@ public class AuditLogControllerApi {
     }
     /* Build call for logStandardAction */
     private Call logCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcessBody(actionData.getDetails());
+        String localVarPostBody = preProcessBody(actionData);
         
         String localVarPath;
         // create path and map variables
@@ -694,7 +694,7 @@ public class AuditLogControllerApi {
     
     /* Build call for verify */
     private Call logBatchCall(List<BatchLogRequestEntry> request, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = preProcessBody(request);
+        Object localVarPostBody = bodySerializer.serialize(request);
         
         // create path and map variables
         String localVarPath = "/api/logBatch".replaceAll("\\{format\\}","json");
@@ -896,7 +896,12 @@ public class AuditLogControllerApi {
         return call;
     }
     
-    private String preProcessBody(Object details) {
-        return bodySerializer.serialize(details);
+    private String preProcessBody(ActionData actionData) {
+    	if (actionData.getDetails() != null) {
+    		return bodySerializer.serialize(actionData.getDetails());
+    	} else {
+    		return bodySerializer.serialize(actionData.getDiffDetails());
+    	}
+    	
     }
 }

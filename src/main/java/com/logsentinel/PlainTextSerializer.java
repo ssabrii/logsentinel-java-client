@@ -3,8 +3,8 @@ package com.logsentinel;
 public class PlainTextSerializer implements BodySerializer {
 
     @Override
-    public String serialize(Object text) {
-        return text.toString();
+    public String serialize(Object object) {
+        return object.toString();
     }
 
 }

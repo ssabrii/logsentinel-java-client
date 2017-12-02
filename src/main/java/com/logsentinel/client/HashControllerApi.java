@@ -66,7 +66,7 @@ public class HashControllerApi {
 
     /* Build call for getHashableContentForAuthAction */
     private Call getHashableContentForAuthActionCall(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcess(actionData.getDetails());
+        String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
         String localVarPath = "/api/getHashableContent/{actorId}/auth/{authAction}".replaceAll("\\{format\\}","json")
@@ -193,7 +193,7 @@ public class HashControllerApi {
     }
     /* Build call for getHashableContentForStandardAction */
     private Call getHashableContentCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcess(actionData.getDetails());
+        String localVarPostBody = preProcessBody(actionData);
         
         String localVarPath;
         // create path and map variables
@@ -229,7 +229,7 @@ public class HashControllerApi {
     
     /* Build call for getHashableContentSimple */
     private Call getHashableContentSimpleCall(ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcess(actionData.getDetails());
+        String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
         String localVarPath = "/api/getHashableContent".replaceAll("\\{format\\}","json");
@@ -364,8 +364,13 @@ public class HashControllerApi {
         return call;
     }
         
-    private String preProcess(Object details) {
-        return bodySerializer.serialize(details);
+    private String preProcessBody(ActionData actionData) {
+    	if (actionData.getDetails() != null) {
+    		return bodySerializer.serialize(actionData.getDetails());
+    	} else {
+    		return bodySerializer.serialize(actionData.getDiffDetails());
+    	}
+    	
     }
 
     private Call getHashableContentValidateBeforeCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
