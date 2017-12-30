@@ -17,7 +17,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.logsentinel:logsentinel-client:0.0.1"
+compile "com.logsentinel:logsentinel-java-client:0.0.2"
 ```
 
 ## Getting Started
