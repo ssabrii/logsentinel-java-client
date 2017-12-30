@@ -7,7 +7,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
     <groupId>com.logsentinel</groupId>
-    <artifactId>logsentinel-client</artifactId>
+    <artifactId>logsentinel-java-client</artifactId>
     <version>0.0.2</version>
 </dependency>
 ```
