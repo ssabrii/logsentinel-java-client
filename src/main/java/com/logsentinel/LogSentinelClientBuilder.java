@@ -34,9 +34,9 @@ public class LogSentinelClientBuilder {
         if (basePath != null) {
             apiClient.setBasePath(basePath);
         }
-        apiClient.setUsername(organizationId);
-        apiClient.setPassword(secret);
-        apiClient.addDefaultHeader("Application-Id", applicationId);
+        apiClient.setUsername(organizationId.trim());
+        apiClient.setPassword(secret.trim());
+        apiClient.addDefaultHeader("Application-Id", applicationId.trim());
         
         BodySerializer serializer = bodySerializer != null ? bodySerializer : new JsonBodySerializer(apiClient.getJSON());
         if (encryptionKey != null) {
