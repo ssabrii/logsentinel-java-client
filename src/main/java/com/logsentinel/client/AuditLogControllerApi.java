@@ -331,7 +331,7 @@ public class AuditLogControllerApi {
         
         String localVarPath;
         // create path and map variables
-        if (actionData.getEntityType() != null) {
+        if (actionData.getEntityType() == null) {
             localVarPath = "/api/log/{actorId}/{action}".replaceAll("\\{format\\}","json");
         } else { 
             localVarPath = "/api/log/{actorId}/{action}/{entityType}/{entityId}".replaceAll("\\{format\\}","json")
