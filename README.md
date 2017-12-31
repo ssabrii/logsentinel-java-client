@@ -8,7 +8,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>com.logsentinel</groupId>
     <artifactId>logsentinel-java-client</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 </dependency>
 ```
 
@@ -17,7 +17,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.logsentinel:logsentinel-java-client:0.0.2"
+compile "com.logsentinel:logsentinel-java-client:0.0.3"
 ```
 
 ## Getting Started

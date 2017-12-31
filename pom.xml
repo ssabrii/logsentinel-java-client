@@ -5,7 +5,7 @@
 	<artifactId>logsentinel-java-client</artifactId>
 	<packaging>jar</packaging>
 	<name>logsentinel-java-client</name>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<url>https://logsentinel.com/</url>
 	<description>Java Client for LogSentinel</description>
 	<prerequisites>
@@ -274,7 +274,7 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<java.version>9</java.version>
+		<java.version>8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<swagger-core-version>1.5.12</swagger-core-version>
