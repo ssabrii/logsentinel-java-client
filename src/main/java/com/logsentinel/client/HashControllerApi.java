@@ -65,7 +65,7 @@ public class HashControllerApi {
     }
 
     /* Build call for getHashableContentForAuthAction */
-    private Call getHashableContentForAuthActionCall(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call getHashableContentForAuthActionCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
@@ -100,7 +100,7 @@ public class HashControllerApi {
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorData.getActorRoles()));
     }
     
-    private Call getHashableContentForAuthActionValidateBeforeCall(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call getHashableContentForAuthActionValidateBeforeCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorData.getActorId() == null) {
@@ -123,17 +123,18 @@ public class HashControllerApi {
 
     /**
      * Get the hash of a request for auth actions
+     *
+     * @param <T> the type of the action data details
      * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
-     * 
      * @param signedLoginChallenge Signed-Login-Challenge (optional)
      * @param userPublicKey User-Public-Key (optional)
      * 
      * @return String hash
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashableContentForAuthAction(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
+    public <T> String getHashableContentForAuthAction(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
         ApiResponse<String> resp = getHashableContentForAuthActionWithHttpInfo(actorData, actionData, signedLoginChallenge, userPublicKey);
         return resp.getData();
     }
@@ -141,15 +142,17 @@ public class HashControllerApi {
     /**
      * Get the hash of a request for auth actions
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
-     * 
      * @param signedLoginChallenge Signed-Login-Challenge (optional)
      * @param userPublicKey User-Public-Key (optional)
+     * 
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashableContentForAuthActionWithHttpInfo(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
+    public <T> ApiResponse<String> getHashableContentForAuthActionWithHttpInfo(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
         Call call = getHashableContentForAuthActionValidateBeforeCall(actorData, actionData, signedLoginChallenge, userPublicKey, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -158,14 +161,18 @@ public class HashControllerApi {
     /**
      * Get the hash of a request for auth actions (asynchronously)
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
-     * 
+     * @param signedLoginChallenge Signed-Login-Challenge (optional)
+     * @param userPublicKey User-Public-Key (optional)
      * @param callback The callback to be executed when the API call finishes
+     * 
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call getHashableContentForAuthActionAsync(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ApiCallback<String> callback) throws ApiException {
+    public <T> Call getHashableContentForAuthActionAsync(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -192,7 +199,7 @@ public class HashControllerApi {
         return call;
     }
     /* Build call for getHashableContentForStandardAction */
-    private Call getHashableContentCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call getHashableContentCall(ActorData actorData, ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         String localVarPostBody = preProcessBody(actionData);
         
         String localVarPath;
@@ -228,7 +235,10 @@ public class HashControllerApi {
     
     
     /* Build call for getHashableContentSimple */
-    private Call getHashableContentSimpleCall(ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call getHashableContentSimpleCall(T details, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        ActionData<T> actionData = new ActionData<T>(details);
+        
         String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
@@ -264,7 +274,7 @@ public class HashControllerApi {
         }
     }
 
-    private void setDefaultHeaders(ActionData actionData, String localVarPostBody,
+    private <T> void setDefaultHeaders(ActionData<T> actionData, String localVarPostBody,
             Map<String, String> localVarHeaderParams) {
         
         if (actionData.getEntryType() != null)
@@ -289,7 +299,7 @@ public class HashControllerApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
     }
     
-    private Call getHashableContentSimpleValidateBeforeCall(ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call getHashableContentSimpleValidateBeforeCall(ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'details' is set
         if (actionData.getDetails() == null) {
@@ -304,26 +314,29 @@ public class HashControllerApi {
     /**
      * Get the hash of a request without any additional metadata (including encrypted request bodies)
      * 
-     * @param actionData the action data (required)
+     * @param <T> the type of the action data details
+     * @param details the action details (required)
 
      * @return String hash
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashableContentSimple(ActionData actionData) throws ApiException {
-        ApiResponse<String> resp = getHashableContentSimpleWithHttpInfo(actionData);
+    public <T> String getHashableContentSimple(T details) throws ApiException {
+        ApiResponse<String> resp = getHashableContentSimpleWithHttpInfo(new ActionData<T>(details));
         return resp.getData();
     }
 
     /**
      * Get the hash of a request without any additional metadata (including encrypted request bodies)
      * 
-     * @param actionData the action data (required)
+     * @param <T> the type of the action data details
+     * 
+     * @param details the action details (required)
 
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashableContentSimpleWithHttpInfo(ActionData actionData) throws ApiException {
-        Call call = getHashableContentSimpleValidateBeforeCall(actionData, null, null);
+    public <T> ApiResponse<String> getHashableContentSimpleWithHttpInfo(T details) throws ApiException {
+        Call call = getHashableContentSimpleValidateBeforeCall(new ActionData<T>(details), null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -331,13 +344,14 @@ public class HashControllerApi {
     /**
      * Get the hash of a request without any additional metadata (including encrypted request bodies) (asynchronously)
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actionData the action data (required)
-
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call getHashableContentSimpleAsync(ActionData actionData, final ApiCallback<String> callback) throws ApiException {
+    public <T> Call getHashableContentSimpleAsync(ActionData<T> actionData, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -364,7 +378,7 @@ public class HashControllerApi {
         return call;
     }
         
-    private String preProcessBody(ActionData actionData) {
+    private <T> String preProcessBody(ActionData<T> actionData) {
     	if (actionData.getDetails() != null) {
     		return bodySerializer.serialize(actionData.getDetails());
     	} else {
@@ -373,7 +387,7 @@ public class HashControllerApi {
     	
     }
 
-    private Call getHashableContentValidateBeforeCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call getHashableContentValidateBeforeCall(ActorData actorData, ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorData.getActorId() == null) {
@@ -397,12 +411,14 @@ public class HashControllerApi {
     /**
      * Get the hash of a request for simple (minimial metadata) actions
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
      * @return String hash
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashableContent(ActorData actorData, ActionData actionData) throws ApiException {
+    public <T> String getHashableContent(ActorData actorData, ActionData<T> actionData) throws ApiException {
         ApiResponse<String> resp = getHashableContentWithHttpInfo(actorData, actionData);
         return resp.getData();
     }
@@ -410,12 +426,14 @@ public class HashControllerApi {
     /**
      * Get the hash of a request for simple (minimial metadata) actions
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashableContentWithHttpInfo(ActorData actorData, ActionData actionData) throws ApiException {
+    public <T> ApiResponse<String> getHashableContentWithHttpInfo(ActorData actorData, ActionData<T> actionData) throws ApiException {
         Call call = getHashableContentValidateBeforeCall(actorData, actionData, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -424,13 +442,15 @@ public class HashControllerApi {
     /**
      * Get the hash of a request for simple (minimial metadata) actions (asynchronously)
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call getHashableContentAsync(ActorData actorData, ActionData actionData, final ApiCallback<String> callback) throws ApiException {
+    public <T> Call getHashableContentAsync(ActorData actorData, ActionData<T> actionData, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
