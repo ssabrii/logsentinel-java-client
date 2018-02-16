@@ -726,7 +726,7 @@ public class AuditLogControllerApi {
 
         setContentType(localVarHeaderParams);
         // override content type as batch requests always need to supply JSON
-        localVarFormParams.put("Content-Type", "application/json");
+        localVarHeaderParams.put("Content-Type", "application/json");
 
         setProgressListener(progressListener);
 
