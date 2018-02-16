@@ -2,45 +2,45 @@ package com.logsentinel.client.model;
 
 import org.javers.core.diff.Diff;
 
-public class ActionData {
+public class ActionData<T> {
 
     private String action;
     private String entityId;
     private String entityType;
-    private String details;
+    private T details;
     private Diff diffDetails;
     
     private AuditLogEntryType entryType;
     
-    public ActionData(String details) {
+    public ActionData(T details) {
         this.details = details;
     }
     
     public String getAction() {
         return action;
     }
-    public ActionData setAction(String action) {
+    public ActionData<T> setAction(String action) {
         this.action = action;
         return this;
     }
     public String getEntityId() {
         return entityId;
     }
-    public ActionData setEntityId(String entityId) {
+    public ActionData<T> setEntityId(String entityId) {
         this.entityId = entityId;
         return this;
     }
     public String getEntityType() {
         return entityType;
     }
-    public ActionData setEntityType(String entityType) {
+    public ActionData<T> setEntityType(String entityType) {
         this.entityType = entityType;
         return this;
     }
-    public String getDetails() {
+    public T getDetails() {
         return details;
     }
-    public ActionData setDetails(String details) {
+    public ActionData<T> setDetails(T details) {
         this.details = details;
         return this;
     }
@@ -49,7 +49,7 @@ public class ActionData {
         return entryType;
     }
 
-    public ActionData setEntryType(AuditLogEntryType entryType) {
+    public ActionData<T> setEntryType(AuditLogEntryType entryType) {
         this.entryType = entryType;
         return this;
     }
@@ -58,7 +58,7 @@ public class ActionData {
 		return diffDetails;
 	}
 
-	public ActionData setDiffDetails(Diff diffDetails) {
+	public ActionData<T> setDiffDetails(Diff diffDetails) {
 		this.diffDetails = diffDetails;
 		return this;
 	}

@@ -8,7 +8,7 @@ import java.util.Map;
  * 
  * @author bozho
  *
- * @param <T>
+ * @param <T> the return type
  */
 public class ApiCallbackAdapter<T> implements ApiCallback<T> {
 

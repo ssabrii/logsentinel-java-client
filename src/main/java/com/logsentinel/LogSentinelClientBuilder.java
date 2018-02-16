@@ -148,7 +148,7 @@ public class LogSentinelClientBuilder {
     /**
      * Sets the content type for sending requests
      * 
-     * @param contentType
+     * @param contentType the value for the Content-Type header
      * @return the builder
      */
     public LogSentinelClientBuilder setContentType(String contentType) {

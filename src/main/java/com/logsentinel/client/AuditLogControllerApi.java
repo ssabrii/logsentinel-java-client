@@ -47,6 +47,7 @@ public class AuditLogControllerApi {
     private ApiClient apiClient;
     private BodySerializer bodySerializer;
     private BodySigner bodySigner;
+    private JsonBodySerializer jsonBodySerializer;
     private String contentType;
     
     public AuditLogControllerApi() {
@@ -58,6 +59,7 @@ public class AuditLogControllerApi {
         this.bodySerializer = bodySerializer;
         this.bodySigner = bodySigner;
         this.contentType = contentType;
+        this.jsonBodySerializer = new JsonBodySerializer(apiClient.getJSON());
     }
 
     public ApiClient getApiClient() {
@@ -69,7 +71,7 @@ public class AuditLogControllerApi {
     }
 
     /* Build call for logAuthAction */
-    private Call logAuthActionCall(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call logAuthActionCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
@@ -95,7 +97,7 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
-    private void setDefaultHeaders(ActionData actionData, String localVarPostBody,
+    private <T> void setDefaultHeaders(ActionData<T> actionData, String localVarPostBody,
             Map<String, String> localVarHeaderParams) {
         
         if (actionData.getEntryType() != null) {
@@ -116,7 +118,7 @@ public class AuditLogControllerApi {
         return localVarQueryParams;
     }
     
-    private Call logAuthActionValidateBeforeCall(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call logAuthActionValidateBeforeCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         validateRequiredParams(actorData, actionData);
         
@@ -125,7 +127,7 @@ public class AuditLogControllerApi {
         
     }
 
-    private void validateRequiredParams(ActorData actorData, ActionData actionData) throws ApiException {
+    private <T> void validateRequiredParams(ActorData actorData, ActionData<T> actionData) throws ApiException {
         // verify the required parameter 'actorId' is set
         if (actorData.getActorId() == null) {
             throw new ApiException("Missing the required parameter 'actorId' when calling logAuthAction(Async)");
@@ -145,6 +147,8 @@ public class AuditLogControllerApi {
     /**
      * Log an authentication event with the option to pass actor public key and signature
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
      * @param signedLoginChallenge Signed-Login-Challenge (optional)
@@ -152,13 +156,15 @@ public class AuditLogControllerApi {
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse logAuthAction(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
+    public <T> LogResponse logAuthAction(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
         ApiResponse<LogResponse> resp = logAuthActionWithHttpInfo(actorData, actionData, signedLoginChallenge, userPublicKey);
         return resp.getData();
     }
 
     /**
      * Log an authentication event with the option to pass actor public key and signature
+     * 
+     * @param <T> the type of the action data details
      * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
@@ -167,7 +173,7 @@ public class AuditLogControllerApi {
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logAuthActionWithHttpInfo(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
+    public <T> ApiResponse<LogResponse> logAuthActionWithHttpInfo(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey) throws ApiException {
         Call call = logAuthActionValidateBeforeCall(actorData, actionData, signedLoginChallenge, userPublicKey, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -175,6 +181,8 @@ public class AuditLogControllerApi {
 
     /**
      * Log an authentication event with the option to pass actor public key and signature (asynchronously)
+     * 
+     * @param <T> the type of the action data details
      * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
@@ -184,7 +192,7 @@ public class AuditLogControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call logAuthActionAsync(ActorData actorData, ActionData actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ApiCallback<LogResponse> callback) throws ApiException {
+    public <T> Call logAuthActionAsync(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -211,7 +219,7 @@ public class AuditLogControllerApi {
         return call;
     }
     /* Build call for logSimple */
-    private Call logSimpleCall(ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call logSimpleCall(ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         String localVarPostBody = preProcessBody(actionData);
         
         // create path and map variables
@@ -251,7 +259,7 @@ public class AuditLogControllerApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
     }
     
-    private Call logSimpleValidateBeforeCall(ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call logSimpleValidateBeforeCall(ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'details' is set
         if (actionData.getDetails() == null) {
@@ -266,26 +274,30 @@ public class AuditLogControllerApi {
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      * 
-     * @param actionData the action data (required)
+     * @param <T> the type of the action data details
+     * 
+     * @param details the action details (required)
      * 
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse logSimple(ActionData actionData) throws ApiException {
-        ApiResponse<LogResponse> resp = logSimpleWithHttpInfo(actionData);
+    public <T> LogResponse logSimple(T details) throws ApiException {
+        ApiResponse<LogResponse> resp = logSimpleWithHttpInfo(new ActionData<T>(details));
         return resp.getData();
     }
 
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      * 
-     * @param actionData the action data (required)
+     * @param <T> the type of the action data details
+     * 
+     * @param details the action details (required)
 
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logSimpleWithHttpInfo(ActionData actionData) throws ApiException {
-        Call call = logSimpleValidateBeforeCall(actionData, null, null);
+    public <T> ApiResponse<LogResponse> logSimpleWithHttpInfo(T details) throws ApiException {
+        Call call = logSimpleValidateBeforeCall(new ActionData<T>(details), null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -293,13 +305,15 @@ public class AuditLogControllerApi {
     /**
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted (asynchronously)
      * 
-     * @param actionData the action data (required)
-
+     * @param <T> the type of the action data details
+     * 
+     * @param details the action details (required)
      * @param callback The callback to be executed when the API call finishes
+     * 
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call logSimpleAsync(ActionData actionData, final ApiCallback<LogResponse> callback) throws ApiException {
+    public <T> Call logSimpleAsync(T details, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -320,13 +334,14 @@ public class AuditLogControllerApi {
             };
         }
 
-        Call call = logSimpleValidateBeforeCall(actionData, progressListener, progressRequestListener);
+        Call call = logSimpleValidateBeforeCall(new ActionData<T>(details), progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /* Build call for logStandardAction */
-    private Call logCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call logCall(ActorData actorData, ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         String localVarPostBody = preProcessBody(actionData);
         
         String localVarPath;
@@ -372,7 +387,7 @@ public class AuditLogControllerApi {
         }
     }
     
-    private Call logValidateBeforeCall(ActorData actorData, ActionData actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private <T> Call logValidateBeforeCall(ActorData actorData, ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'actorId' is set
         if (actorData.getActorId() == null) {
@@ -398,13 +413,15 @@ public class AuditLogControllerApi {
     /**
      * Log an event
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
      * 
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogResponse log(ActorData actorData, ActionData actionData) throws ApiException {
+    public <T> LogResponse log(ActorData actorData, ActionData<T> actionData) throws ApiException {
         ApiResponse<LogResponse> resp = logWithHttpInfo(actorData, actionData);
         return resp.getData();
     }
@@ -412,12 +429,14 @@ public class AuditLogControllerApi {
     /**
      * Log an event
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogResponse> logWithHttpInfo(ActorData actorData, ActionData actionData) throws ApiException {
+    public <T> ApiResponse<LogResponse> logWithHttpInfo(ActorData actorData, ActionData<T> actionData) throws ApiException {
         Call call = logValidateBeforeCall(actorData, actionData, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -426,14 +445,16 @@ public class AuditLogControllerApi {
     /**
      * Log an event (asynchronously)
      * 
+     * @param <T> the type of the action data details
+     * 
      * @param actorData all actor-related parameters (required)
      * @param actionData all action-related parameters (required)
-     * 
      * @param callback The callback to be executed when the API call finishes
+     * 
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call logAsync(ActorData actorData, ActionData actionData, final ApiCallback<LogResponse> callback) throws ApiException {
+    public <T> Call logAsync(ActorData actorData, ActionData<T> actionData, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -694,16 +715,18 @@ public class AuditLogControllerApi {
     
     /* Build call for verify */
     private Call logBatchCall(List<BatchLogRequestEntry> request, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = bodySerializer.serialize(request);
+        Object localVarPostBody = jsonBodySerializer.serialize(request);
         
         // create path and map variables
-        String localVarPath = "/api/logBatch".replaceAll("\\{format\\}","json");
+        String localVarPath = "/api/log/batch".replaceAll("\\{format\\}","json");
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         setContentType(localVarHeaderParams);
+        // override content type as batch requests always need to supply JSON
+        localVarHeaderParams.put("Content-Type", "application/json");
 
         setProgressListener(progressListener);
 
@@ -731,7 +754,7 @@ public class AuditLogControllerApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Verification logBatch(List<BatchLogRequestEntry> request) throws ApiException {
-        ApiResponse<Verification> resp = verifyWithHttpInfo(request);
+        ApiResponse<Verification> resp = logBatchVerifyWithHttpInfo(request);
         return resp.getData();
     }
 
@@ -742,7 +765,7 @@ public class AuditLogControllerApi {
      * @return ApiResponse&lt;Verification&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Verification> verifyWithHttpInfo(List<BatchLogRequestEntry> request) throws ApiException {
+    public ApiResponse<Verification> logBatchVerifyWithHttpInfo(List<BatchLogRequestEntry> request) throws ApiException {
         Call call = logBatchValidateBeforeCall(request, null, null);
         Type localVarReturnType = new TypeToken<Verification>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -896,7 +919,7 @@ public class AuditLogControllerApi {
         return call;
     }
     
-    private String preProcessBody(ActionData actionData) {
+    private <T> String preProcessBody(ActionData<T> actionData) {
     	if (actionData.getDetails() != null) {
     		return bodySerializer.serialize(actionData.getDetails());
     	} else {
