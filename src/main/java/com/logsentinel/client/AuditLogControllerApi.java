@@ -750,11 +750,11 @@ public class AuditLogControllerApi {
      * Batch insert events
      * 
      * @param request the list of entries
-     * @return Verification
+     * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Verification logBatch(List<BatchLogRequestEntry> request) throws ApiException {
-        ApiResponse<Verification> resp = logBatchVerifyWithHttpInfo(request);
+    public LogResponse logBatch(List<BatchLogRequestEntry> request) throws ApiException {
+        ApiResponse<LogResponse> resp = logBatchVerifyWithHttpInfo(request);
         return resp.getData();
     }
 
@@ -762,12 +762,12 @@ public class AuditLogControllerApi {
      * Batch insert events
      * 
      * @param request the list of entries
-     * @return ApiResponse&lt;Verification&gt;
+     * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Verification> logBatchVerifyWithHttpInfo(List<BatchLogRequestEntry> request) throws ApiException {
+    public ApiResponse<LogResponse> logBatchVerifyWithHttpInfo(List<BatchLogRequestEntry> request) throws ApiException {
         Call call = logBatchValidateBeforeCall(request, null, null);
-        Type localVarReturnType = new TypeToken<Verification>(){}.getType();
+        Type localVarReturnType = new TypeToken<LogResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
