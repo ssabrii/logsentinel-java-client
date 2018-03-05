@@ -26,6 +26,11 @@ public class EncryptingBodySerializer implements BodySerializer {
     @Override
     public String serialize(Object object) {
         String content = originalSerializer.serialize(object);
+        return encryptConent(content, encryptionKey);
+        
+    }
+    
+    public static String encryptConent(String content, byte[] encryptionKey) {
         try {
             Key key = new SecretKeySpec(encryptionKey, ALGORITHM);
             Cipher c = Cipher.getInstance(ALGORITHM);
@@ -35,7 +40,6 @@ public class EncryptingBodySerializer implements BodySerializer {
         } catch (Exception ex) {
             throw new RuntimeException("Failed to perform symmetric encryption", ex);
         }
-        
     }
     
 }

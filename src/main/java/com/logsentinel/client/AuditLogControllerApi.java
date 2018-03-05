@@ -29,6 +29,7 @@ import com.logsentinel.ApiResponse;
 import com.logsentinel.BodySerializer;
 import com.logsentinel.BodySigner;
 import com.logsentinel.Configuration;
+import com.logsentinel.EncryptingBodySerializer;
 import com.logsentinel.JsonBodySerializer;
 import com.logsentinel.Pair;
 import com.logsentinel.ProgressRequestBody;
@@ -920,11 +921,18 @@ public class AuditLogControllerApi {
     }
     
     private <T> String preProcessBody(ActionData<T> actionData) {
+        String result;
     	if (actionData.getDetails() != null) {
-    		return bodySerializer.serialize(actionData.getDetails());
+    		result = bodySerializer.serialize(actionData.getDetails());
     	} else {
-    		return bodySerializer.serialize(actionData.getDiffDetails());
+    		result = bodySerializer.serialize(actionData.getDiffDetails());
     	}
     	
+    	// encrypting with per-action/per-user key. Note that if the serializer is 
+    	// an encrypting one, we are doing double encryption
+    	if (actionData.getEncryptionKey() != null) {
+    	    result = EncryptingBodySerializer.encryptConent(result, actionData.getEncryptionKey());
+    	}
+    	return result;
     }
 }
