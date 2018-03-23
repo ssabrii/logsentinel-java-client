@@ -22,17 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.gson.reflect.TypeToken;
-import com.logsentinel.ApiCallback;
-import com.logsentinel.ApiClient;
-import com.logsentinel.ApiException;
-import com.logsentinel.ApiResponse;
-import com.logsentinel.BodySerializer;
-import com.logsentinel.BodySigner;
-import com.logsentinel.Configuration;
-import com.logsentinel.JsonBodySerializer;
-import com.logsentinel.Pair;
-import com.logsentinel.ProgressRequestBody;
-import com.logsentinel.ProgressResponseBody;
+import com.logsentinel.*;
 import com.logsentinel.client.model.ActionData;
 import com.logsentinel.client.model.ActorData;
 import com.logsentinel.client.model.AuditLogEntry;
@@ -43,23 +33,32 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Response;
 
+import static java.util.stream.Collectors.joining;
+
 public class AuditLogControllerApi {
     private ApiClient apiClient;
     private BodySerializer bodySerializer;
     private BodySigner bodySigner;
     private JsonBodySerializer jsonBodySerializer;
     private String contentType;
+    private KeywordsExtractor keywordsExtractor;
     
     public AuditLogControllerApi() {
-        this(Configuration.getDefaultApiClient(), new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()), null, "application/json");
+        this(Configuration.getDefaultApiClient(),
+                new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()),
+                null,
+                "application/json",
+                new BasicKeywordExtractor());
     }
 
-    public AuditLogControllerApi(ApiClient apiClient, BodySerializer bodySerializer, BodySigner bodySigner, String contentType) {
+    public AuditLogControllerApi(ApiClient apiClient, BodySerializer bodySerializer,
+                                 BodySigner bodySigner, String contentType, KeywordsExtractor keywordsExtractor) {
         this.apiClient = apiClient;
         this.bodySerializer = bodySerializer;
         this.bodySigner = bodySigner;
         this.contentType = contentType;
         this.jsonBodySerializer = new JsonBodySerializer(apiClient.getJSON());
+        this.keywordsExtractor = keywordsExtractor;
     }
 
     public ApiClient getApiClient() {
@@ -72,7 +71,9 @@ public class AuditLogControllerApi {
 
     /* Build call for logAuthAction */
     private <T> Call logAuthActionCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcessBody(actionData);
+        BodyAndKeywords bodyAndKeywords = preProcessBody(actionData);
+        String localVarPostBody = bodyAndKeywords.getBody();
+        List<String> keywords = bodyAndKeywords.getKeywords();
         
         // create path and map variables
         String localVarPath = "/api/log/{actorId}/auth/{authAction}".replaceAll("\\{format\\}","json")
@@ -80,6 +81,7 @@ public class AuditLogControllerApi {
         .replaceAll("\\{" + "authAction" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
+        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         signedLoginChallenge.ifPresent(param -> localVarHeaderParams.put("Signed-Login-Challenge", apiClient.parameterToString(signedLoginChallenge)));
@@ -220,12 +222,15 @@ public class AuditLogControllerApi {
     }
     /* Build call for logSimple */
     private <T> Call logSimpleCall(ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcessBody(actionData);
+        BodyAndKeywords bodyAndKeywords = preProcessBody(actionData);
+        String localVarPostBody = bodyAndKeywords.getBody();
+        List<String> keywords = bodyAndKeywords.getKeywords();
         
         // create path and map variables
         String localVarPath = "/api/log/simple".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -342,7 +347,9 @@ public class AuditLogControllerApi {
     
     /* Build call for logStandardAction */
     private <T> Call logCall(ActorData actorData, ActionData<T> actionData, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        String localVarPostBody = preProcessBody(actionData);
+        BodyAndKeywords bodyAndKeywords = preProcessBody(actionData);
+        String localVarPostBody = bodyAndKeywords.getBody();
+        List<String> keywords = bodyAndKeywords.getKeywords();
         
         String localVarPath;
         // create path and map variables
@@ -358,6 +365,7 @@ public class AuditLogControllerApi {
                 .replaceAll("\\{" + "action" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
+        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -919,11 +927,17 @@ public class AuditLogControllerApi {
         return call;
     }
     
-    private <T> String preProcessBody(ActionData<T> actionData) {
+    private <T> BodyAndKeywords preProcessBody(ActionData<T> actionData) {
     	if (actionData.getDetails() != null) {
-    		return bodySerializer.serialize(actionData.getDetails());
+            BodyAndKeywords bodyAndKeywords =
+                    new BodyAndKeywords(bodySerializer.serialize(actionData.getDetails()),
+                                        keywordsExtractor.extract(actionData.getDetails()));
+    		return bodyAndKeywords;
     	} else {
-    		return bodySerializer.serialize(actionData.getDiffDetails());
+            BodyAndKeywords bodyAndKeywords =
+                    new BodyAndKeywords(bodySerializer.serialize(actionData.getDiffDetails()),
+                                        keywordsExtractor.extract(actionData.getDiffDetails()));
+    		return bodyAndKeywords;
     	}
     	
     }

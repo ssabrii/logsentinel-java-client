@@ -264,6 +264,22 @@
 			<version>1.3.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>${lucene-analyzers-version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene-analyzers-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene-analyzers-version}</version>
+        </dependency>
 
 		<!-- test dependencies -->
 		<dependency>
@@ -284,5 +300,6 @@
 		<maven-plugin-version>1.0.0</maven-plugin-version>
 		<junit-version>4.12</junit-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<lucene-analyzers-version>7.2.1</lucene-analyzers-version>
 	</properties>
 </project>
