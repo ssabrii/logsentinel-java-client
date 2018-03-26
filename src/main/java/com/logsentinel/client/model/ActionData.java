@@ -44,7 +44,7 @@ public class ActionData<T> {
      * Sets the entity ID (optional). If the event is about a particular model entity, 
      * you can set its ID here.
      * 
-     * @param entityType the ID of the entity
+     * @param entityId the ID of the entity
      */
     public ActionData<T> setEntityId(String entityId) {
         this.entityId = entityId;

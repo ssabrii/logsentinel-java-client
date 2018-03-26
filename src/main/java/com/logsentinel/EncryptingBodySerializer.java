@@ -24,7 +24,7 @@ public class EncryptingBodySerializer implements BodySerializer {
 
     }
 
-    public static String encryptConent(String content, byte[] encryptionKey) {
+    private String encryptConent(String content, byte[] encryptionKey) {
         try {
             return EncryptUtil.encrypt(content, encryptionKey);
         } catch (Exception ex) {
