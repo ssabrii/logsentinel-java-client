@@ -42,7 +42,7 @@ public class AuditLogControllerApi {
     private JsonBodySerializer jsonBodySerializer;
     private String contentType;
     private KeywordsExtractor keywordsExtractor;
-    
+
     public AuditLogControllerApi() {
         this(Configuration.getDefaultApiClient(),
                 new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()),
@@ -940,5 +940,11 @@ public class AuditLogControllerApi {
     		return bodyAndKeywords;
     	}
     	
+    	// encrypting with per-action/per-user key. Note that if the serializer is
+    	// an encrypting one, we are doing double encryption
+    	if (actionData.getEncryptionKey() != null) {
+    	    result = EncryptingBodySerializer.encryptConent(result, actionData.getEncryptionKey());
+    	}
+    	return result;
     }
 }

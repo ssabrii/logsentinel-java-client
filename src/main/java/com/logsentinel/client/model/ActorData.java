@@ -2,6 +2,10 @@ package com.logsentinel.client.model;
 
 import java.util.List;
 
+/**
+ * Data about the actor who performed an action
+ *
+ */
 public class ActorData {
 
     private String actorId;
@@ -15,13 +19,26 @@ public class ActorData {
     public List<String> getActorRoles() {
         return actorRoles;
     }
-    public ActorData setActorRoles(List<String> actorRole) {
-        this.actorRoles = actorRole;
+    
+    /**
+     * Sets the roles of the actor (optional)
+     * 
+     * @param actorRoles a list of roles
+     */
+    public ActorData setActorRoles(List<String> actorRoles) {
+        this.actorRoles = actorRoles;
         return this;
     }
+    
     public String getActorId() {
         return actorId;
     }
+    
+    /**
+     * Sets the ID of the actor
+     * 
+     * @param actorId
+     */
     public ActorData setActorId(String actorId) {
         this.actorId = actorId;
         return this;
@@ -29,8 +46,14 @@ public class ActorData {
     public String getActorDisplayName() {
         return actorDisplayName;
     }
-    public ActorData setActorDisplayName(String actorAlias) {
-        this.actorDisplayName = actorAlias;
+    
+    /**
+     * Sets a display name for the actor (optional)
+     * 
+     * @param actorDisplayName
+     */
+    public ActorData setActorDisplayName(String actorDisplayName) {
+        this.actorDisplayName = actorDisplayName;
         return this;
     }
 }
