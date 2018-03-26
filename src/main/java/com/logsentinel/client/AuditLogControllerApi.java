@@ -48,7 +48,7 @@ public class AuditLogControllerApi {
                 new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()),
                 null,
                 "application/json",
-                new BasicKeywordExtractor());
+                new BasicKeywordExtractor(null));
     }
 
     public AuditLogControllerApi(ApiClient apiClient, BodySerializer bodySerializer,

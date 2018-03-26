@@ -7,22 +7,22 @@ import com.logsentinel.client.HashControllerApi;
 
 /**
  * Builder used to create an instance of the LogSentinel client.
- * @author bozho
  *
+ * @author bozho
  */
 public class LogSentinelClientBuilder {
 
     private String applicationId;
     private String organizationId;
     private String secret;
-    
+
     private byte[] encryptionKey;
     private PrivateKey signingKey;
     private BodySerializer bodySerializer;
     private String basePath;
     private String contentType;
     private KeywordsExtractor keywordsExtractor;
-    
+
     public static LogSentinelClientBuilder create(String applicationId, String organizationId, String secret) {
         LogSentinelClientBuilder builder = new LogSentinelClientBuilder();
         return builder.setApplicationId(applicationId)
@@ -38,7 +38,7 @@ public class LogSentinelClientBuilder {
         apiClient.setUsername(organizationId.trim());
         apiClient.setPassword(secret.trim());
         apiClient.addDefaultHeader("Application-Id", applicationId.trim());
-        
+
         BodySerializer serializer = bodySerializer != null ? bodySerializer : new JsonBodySerializer(apiClient.getJSON());
         if (encryptionKey != null) {
             serializer = new EncryptingBodySerializer(encryptionKey, serializer);
@@ -50,17 +50,17 @@ public class LogSentinelClientBuilder {
         if (contentType == null) {
             contentType = "application/json;charsets=UTF-8";
         }
-        if(keywordsExtractor == null){
-            keywordsExtractor = new BasicKeywordExtractor();
+        if (keywordsExtractor == null) {
+            keywordsExtractor = new BasicKeywordExtractor(encryptionKey);
         }
-        
+
         AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer, contentType, keywordsExtractor);
         HashControllerApi hashActions = new HashControllerApi(apiClient, serializer, signer, contentType);
-        
+
         LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions);
         return client;
     }
-    
+
     public String getApplicationId() {
         return applicationId;
     }
@@ -96,7 +96,7 @@ public class LogSentinelClientBuilder {
      * Sets the (symmetric) key used to encrypt outgoing messages. If not set, messages are
      * set unencrypted. Refer to the LogSentniel documentation to get more
      * information on when and why you should encrypt the requests
-     * 
+     *
      * @param encryptionKey the symmetric (AES) encryption key
      * @return the builder
      */
@@ -111,7 +111,7 @@ public class LogSentinelClientBuilder {
 
     /**
      * Sets a custom body serializer. If none is specified, JSON serializer is used for the body
-     * 
+     *
      * @param bodySerializer an implementation of body serializer
      * @return the builder
      */
@@ -128,7 +128,7 @@ public class LogSentinelClientBuilder {
      * Sets a custom base path for the API, other than logsentinel.com. Should
      * be used when running a local/hosted instance rather than using the cloud
      * one
-     * 
+     *
      * @param basePath the root url of the logsentinel installation
      * @return the builder
      */
@@ -136,11 +136,11 @@ public class LogSentinelClientBuilder {
         this.basePath = basePath;
         return this;
     }
-   
+
     /**
      * Sets a signing key for this client. The signing key is used to sign request details in order
      * to make sure no attacker can insert fake records if they gain control on a logging server
-     * 
+     *
      * @param signingKey the private key to use for request body signing
      * @return the builder
      */
@@ -151,7 +151,7 @@ public class LogSentinelClientBuilder {
 
     /**
      * Sets the content type for sending requests
-     * 
+     *
      * @param contentType the value for the Content-Type header
      * @return the builder
      */
