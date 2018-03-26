@@ -1,9 +1,9 @@
 package com.logsentinel;
 
-import java.security.PrivateKey;
-
 import com.logsentinel.client.AuditLogControllerApi;
 import com.logsentinel.client.HashControllerApi;
+
+import java.security.PrivateKey;
 
 /**
  * Builder used to create an instance of the LogSentinel client.
