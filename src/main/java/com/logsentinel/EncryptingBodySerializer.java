@@ -2,13 +2,6 @@ package com.logsentinel;
 
 import com.logsentinel.util.EncryptUtil;
 
-import java.nio.charset.Charset;
-import java.security.Key;
-import java.util.Base64;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 /**
  * Serializer performing symmetric encryption based on a nested original serializer's output
  *
