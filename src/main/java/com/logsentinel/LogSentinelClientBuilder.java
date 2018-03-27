@@ -91,7 +91,8 @@ public class LogSentinelClientBuilder {
 
     /**
      * Sets the (symmetric) key used to encrypt outgoing messages. If not set, messages are
-     * set unencrypted. Refer to the LogSentniel documentation to get more
+     * set unencrypted. Also sets encrypting keyword extractor and so enable encrypted search.
+     * Refer to the LogSentniel documentation to get more
      * information on when and why you should encrypt the requests
      *
      * @param encryptionKey the symmetric (AES) encryption key
@@ -99,6 +100,7 @@ public class LogSentinelClientBuilder {
      */
     public LogSentinelClientBuilder setEncryptionKey(byte[] encryptionKey) {
         this.encryptionKey = encryptionKey;
+        this.encryptingKeywordExtractor = new LuceneEncryptingKeywordExtractor(encryptionKey);
         return this;
     }
 
@@ -156,4 +158,5 @@ public class LogSentinelClientBuilder {
         this.contentType = contentType;
         return this;
     }
+
 }
