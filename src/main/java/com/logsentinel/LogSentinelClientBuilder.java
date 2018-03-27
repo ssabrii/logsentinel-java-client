@@ -21,7 +21,7 @@ public class LogSentinelClientBuilder {
     private BodySerializer bodySerializer;
     private String basePath;
     private String contentType;
-    private KeywordsExtractor keywordsExtractor;
+    private EncryptingKeywordExtractor encryptingKeywordExtractor;
 
     public static LogSentinelClientBuilder create(String applicationId, String organizationId, String secret) {
         LogSentinelClientBuilder builder = new LogSentinelClientBuilder();
@@ -50,11 +50,8 @@ public class LogSentinelClientBuilder {
         if (contentType == null) {
             contentType = "application/json;charsets=UTF-8";
         }
-        if (keywordsExtractor == null) {
-            keywordsExtractor = new BasicKeywordExtractor(encryptionKey);
-        }
 
-        AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer, contentType, keywordsExtractor);
+        AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer, contentType, encryptingKeywordExtractor);
         HashControllerApi hashActions = new HashControllerApi(apiClient, serializer, signer, contentType);
 
         LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions);

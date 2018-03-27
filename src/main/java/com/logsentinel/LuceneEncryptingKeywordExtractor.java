@@ -11,19 +11,22 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicKeywordExtractor implements KeywordsExtractor {
+/**
+ * Extracts keywords from given text and encrypts them.
+ * Uses Lucene StandardAnalyzer to tokenize the string
+ */
+public class LuceneEncryptingKeywordExtractor implements EncryptingKeywordExtractor {
 
     private static Analyzer analyzer = new StandardAnalyzer();
 
     private byte[] encryptionKey;
 
-    public BasicKeywordExtractor(byte[] encryptionKey) {
+    public LuceneEncryptingKeywordExtractor(byte[] encryptionKey) {
         this.encryptionKey = encryptionKey;
     }
 
     @Override
-    public List<String> extract(Object obj) {
-        String text = obj.toString();
+    public List<String> extract(String text) {
         List result = new ArrayList<>();
 
         try {

@@ -15,8 +15,6 @@ package com.logsentinel.client;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +34,6 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Response;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
 import static java.util.stream.Collectors.joining;
 
 public class AuditLogControllerApi {
@@ -48,24 +42,24 @@ public class AuditLogControllerApi {
     private BodySigner bodySigner;
     private JsonBodySerializer jsonBodySerializer;
     private String contentType;
-    private KeywordsExtractor keywordsExtractor;
+    private EncryptingKeywordExtractor encryptingKeywordExtractor;
 
     public AuditLogControllerApi() {
         this(Configuration.getDefaultApiClient(),
                 new JsonBodySerializer(Configuration.getDefaultApiClient().getJSON()),
                 null,
                 "application/json",
-                new BasicKeywordExtractor(null));
+                new LuceneEncryptingKeywordExtractor(null));
     }
 
     public AuditLogControllerApi(ApiClient apiClient, BodySerializer bodySerializer,
-                                 BodySigner bodySigner, String contentType, KeywordsExtractor keywordsExtractor) {
+                                 BodySigner bodySigner, String contentType, EncryptingKeywordExtractor encryptingKeywordExtractor) {
         this.apiClient = apiClient;
         this.bodySerializer = bodySerializer;
         this.bodySigner = bodySigner;
         this.contentType = contentType;
         this.jsonBodySerializer = new JsonBodySerializer(apiClient.getJSON());
-        this.keywordsExtractor = keywordsExtractor;
+        this.encryptingKeywordExtractor = encryptingKeywordExtractor;
     }
 
     public ApiClient getApiClient() {
@@ -88,8 +82,9 @@ public class AuditLogControllerApi {
                 .replaceAll("\\{" + "authAction" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
-        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
-
+        if(keywords != null) {
+            localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
+        }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         signedLoginChallenge.ifPresent(param -> localVarHeaderParams.put("Signed-Login-Challenge", apiClient.parameterToString(signedLoginChallenge)));
         userPublicKey.ifPresent(param -> localVarHeaderParams.put("User-Public-Key", apiClient.parameterToString(param)));
@@ -368,7 +363,7 @@ public class AuditLogControllerApi {
                 .replaceAll("\\{" + "action" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
-        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
+        localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -934,11 +929,15 @@ public class AuditLogControllerApi {
         List<String> keywords = null;
         if (actionData.getDetails() != null) {
             serialized = bodySerializer.serialize(actionData.getDetails());
-            keywords = keywordsExtractor.extract(actionData.getDetails());
+            if(encryptingKeywordExtractor != null) {
+                keywords = encryptingKeywordExtractor.extract(actionData.getDetails().toString());
+            }
 
         } else {
             serialized = bodySerializer.serialize(actionData.getDiffDetails());
-            keywords = keywordsExtractor.extract(actionData.getDiffDetails());
+            if(encryptingKeywordExtractor != null) {
+                keywords = encryptingKeywordExtractor.extract(actionData.getDiffDetails().toString());
+            }
 
         }
 

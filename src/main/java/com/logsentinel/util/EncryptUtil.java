@@ -13,13 +13,14 @@ import java.util.Base64;
 
 public class EncryptUtil {
 
-    private static final String ALGORITHM = "AES";
+    private static final String ALGORITHM = "AES/ECB/PKCS5Padding";
+    private static final String encrKey = "1234567890123456789012";
 
     public static String encrypt(String data, byte[] encryptionKey)
             throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
-        Key key = new SecretKeySpec(encryptionKey, ALGORITHM);
+        Key key = new SecretKeySpec(Base64.getDecoder().decode(encrKey), "AES");
         Cipher c = Cipher.getInstance(ALGORITHM);
         c.init(Cipher.ENCRYPT_MODE, key);
         byte[] encValue = c.doFinal(data.getBytes(Charset.forName("UTF-8")));
