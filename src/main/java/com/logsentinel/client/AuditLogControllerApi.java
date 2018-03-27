@@ -363,8 +363,9 @@ public class AuditLogControllerApi {
                 .replaceAll("\\{" + "action" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
-        localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
-
+        if(keywords != null) {
+            localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
+        }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
