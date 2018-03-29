@@ -82,7 +82,7 @@ public class AuditLogControllerApi {
                 .replaceAll("\\{" + "authAction" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
-        if(keywords != null) {
+        if (keywords != null) {
             localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
         }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -216,8 +216,7 @@ public class AuditLogControllerApi {
         }
 
         Call call = logAuthActionValidateBeforeCall(actorData, actionData, signedLoginChallenge, userPublicKey, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<LogResponse>() {
-        }.getType();
+        Type localVarReturnType = new TypeToken<LogResponse>() {}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
@@ -232,7 +231,7 @@ public class AuditLogControllerApi {
         String localVarPath = "/api/log/simple".replaceAll("\\{format\\}", "json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
+        localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -363,7 +362,7 @@ public class AuditLogControllerApi {
                 .replaceAll("\\{" + "action" + "\\}", apiClient.escapeString(actionData.getAction()));
 
         List<Pair> localVarQueryParams = createQueryParams(actorData);
-        if(keywords != null) {
+        if (keywords != null) {
             localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
         }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -930,13 +929,13 @@ public class AuditLogControllerApi {
         List<String> keywords = null;
         if (actionData.getDetails() != null) {
             serialized = bodySerializer.serialize(actionData.getDetails());
-            if(encryptingKeywordExtractor != null) {
+            if (encryptingKeywordExtractor != null) {
                 keywords = encryptingKeywordExtractor.extract(actionData.getDetails().toString());
             }
 
         } else {
             serialized = bodySerializer.serialize(actionData.getDiffDetails());
-            if(encryptingKeywordExtractor != null) {
+            if (encryptingKeywordExtractor != null) {
                 keywords = encryptingKeywordExtractor.extract(actionData.getDiffDetails().toString());
             }
 
@@ -952,6 +951,6 @@ public class AuditLogControllerApi {
                 throw new RuntimeException("Failed to perform symmetric encryption", e);
             }
         }
-        return new BodyAndKeywords(serialized,keywords);
+        return new BodyAndKeywords(serialized, keywords);
     }
 }
