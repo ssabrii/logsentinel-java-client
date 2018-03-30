@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public class EncryptUtil {
 
-    private static final byte[] IV = new byte[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    private static final byte[] IV = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     public static String encrypt(String data, byte[] encryptionKey, boolean appendRandomBlock)
             throws NoSuchPaddingException, NoSuchAlgorithmException,
@@ -31,12 +31,12 @@ public class EncryptUtil {
         c.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(IV));
         byte[] bytes = data.getBytes();
         byte[] encValue;
-        if(appendRandomBlock) {
+        if (appendRandomBlock) {
             //using same IV with random beginning block of bytes is as secure as using random IV
-            byte[] withRandomStart = appendRandomBeginning(bytes, encryptionKey.length/8);
+            byte[] withRandomStart = appendRandomBeginning(bytes, encryptionKey.length / 8);
             encValue = c.doFinal(withRandomStart);
 
-        }else{
+        } else {
             encValue = c.doFinal(bytes);
         }
 
@@ -46,7 +46,7 @@ public class EncryptUtil {
         return result;
     }
 
-    private static byte[] appendRandomBeginning(byte[] original, int lenght){
+    private static byte[] appendRandomBeginning(byte[] original, int lenght) {
         byte[] random = new byte[lenght];
         new Random().nextBytes(random);
 
