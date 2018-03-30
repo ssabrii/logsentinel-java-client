@@ -26,7 +26,7 @@ public class EncryptingBodySerializer implements BodySerializer {
 
     private String encryptConent(String content, byte[] encryptionKey) {
         try {
-            return EncryptUtil.encrypt(content, encryptionKey);
+            return EncryptUtil.encrypt(content, encryptionKey, true);
         } catch (Exception ex) {
             throw new RuntimeException("Failed to perform symmetric encryption", ex);
         }
