@@ -3,6 +3,7 @@ package com.logsentinel;
 import com.logsentinel.client.AuditLogControllerApi;
 import com.logsentinel.client.HashControllerApi;
 
+import java.nio.charset.Charset;
 import java.security.PrivateKey;
 
 /**
@@ -95,11 +96,13 @@ public class LogSentinelClientBuilder {
      * Refer to the LogSentniel documentation to get more
      * information on when and why you should encrypt the requests
      *
-     * @param encryptionKey the symmetric (AES) encryption key
+     * @param keyPhrase keyPhrase to generate AES key. Must be 8 or 16 characters long
      * @return the builder
      */
-    public LogSentinelClientBuilder setEncryptionKey(byte[] encryptionKey) {
-        this.encryptionKey = encryptionKey;
+    public LogSentinelClientBuilder setEncryptionKey(String keyPhrase) {
+        validateEncryptionKeyPhraseLength(keyPhrase);
+        //encode with 2 bytes per char to have predictability of key length
+        this.encryptionKey = keyPhrase.getBytes(Charset.forName("UTF-16LE"));
         this.encryptingKeywordExtractor = new LuceneEncryptingKeywordExtractor(encryptionKey);
         return this;
     }
@@ -157,6 +160,13 @@ public class LogSentinelClientBuilder {
     public LogSentinelClientBuilder setContentType(String contentType) {
         this.contentType = contentType;
         return this;
+    }
+
+    private void validateEncryptionKeyPhraseLength(String keyPhrase) {
+        if (keyPhrase.length() != 8 && keyPhrase.length() != 16) {
+            throw new IllegalArgumentException("Illegal key phrase length: " + keyPhrase.length()
+                    + ". Must be 8 or 16");
+        }
     }
 
 }
