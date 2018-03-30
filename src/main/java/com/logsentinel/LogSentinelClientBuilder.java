@@ -107,6 +107,22 @@ public class LogSentinelClientBuilder {
         return this;
     }
 
+    /**
+     * Sets the (symmetric) key used to encrypt outgoing messages. If not set, messages are
+     * set unencrypted. Also sets encrypting keyword extractor and so enable encrypted search.
+     * Refer to the LogSentniel documentation to get more
+     * information on when and why you should encrypt the requests
+     *
+     * @param keyBytes The key. Must be 16 or 32 bytes (128/256 bit)
+     * @return the builder
+     */
+    public LogSentinelClientBuilder setEncryptionKey(byte[] keyBytes) {
+        validateEncryptionKeyBytesLength(keyBytes);
+        this.encryptionKey = keyBytes;
+        this.encryptingKeywordExtractor = new LuceneEncryptingKeywordExtractor(encryptionKey);
+        return this;
+    }
+
     public BodySerializer getBodySerializer() {
         return bodySerializer;
     }
@@ -166,6 +182,13 @@ public class LogSentinelClientBuilder {
         if (keyPhrase.length() != 8 && keyPhrase.length() != 16) {
             throw new IllegalArgumentException("Illegal key phrase length: " + keyPhrase.length()
                     + ". Must be 8 or 16");
+        }
+    }
+
+    private void validateEncryptionKeyBytesLength(byte[] keyBytes) {
+        if (keyBytes.length != 16 && keyBytes.length != 32) {
+            throw new IllegalArgumentException("Illegal key length: " + keyBytes.length
+                    + ". Must be 16 or 32");
         }
     }
 
