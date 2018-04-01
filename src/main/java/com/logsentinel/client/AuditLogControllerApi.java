@@ -231,7 +231,7 @@ public class AuditLogControllerApi {
         String localVarPath = "/api/log/simple".replaceAll("\\{format\\}", "json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
+        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -946,7 +946,7 @@ public class AuditLogControllerApi {
         // keywords are not encrypted twice
         if (actionData.getEncryptionKey() != null) {
             try {
-                serialized = EncryptUtil.encrypt(serialized, actionData.getEncryptionKey());
+                serialized = EncryptUtil.encrypt(serialized, actionData.getEncryptionKey(), true);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to perform symmetric encryption", e);
             }

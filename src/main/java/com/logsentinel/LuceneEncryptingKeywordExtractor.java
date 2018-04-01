@@ -46,7 +46,7 @@ public class LuceneEncryptingKeywordExtractor implements EncryptingKeywordExtrac
             return keyWord;
         }
         try {
-            return EncryptUtil.encrypt(keyWord, encryptionKey);
+            return EncryptUtil.encrypt(keyWord, encryptionKey, false);
         } catch (Exception e) {
             throw new RuntimeException("Failed to perform keyword encryption", e);
         }
