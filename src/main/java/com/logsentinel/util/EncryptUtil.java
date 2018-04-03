@@ -1,5 +1,7 @@
 package com.logsentinel.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -13,6 +15,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Random;
 
+import static tests.TestClient.printByteaerray;
+
 /**
  * Utility class for encrypting with AES. Uses CBC mode with static IV and random block appended
  * at the beginning of the encrypted data. This way there is no need to know IV when decrypting,
@@ -22,7 +26,7 @@ public class EncryptUtil {
 
     private static final byte[] IV = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    public static String encrypt(String data, byte[] encryptionKey, boolean appendRandomBlock)
+    public static byte[] encrypt(String data, byte[] encryptionKey, boolean appendRandomBlock)
             throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
 
@@ -39,11 +43,15 @@ public class EncryptUtil {
         } else {
             encValue = c.doFinal(bytes);
         }
+        return encValue;
+    }
 
+    public static byte[] hash(byte[] input) {
+        return DigestUtils.sha512(input);
+    }
 
-        String result = new String(Base64.getEncoder().encode(encValue));
-
-        return result;
+    public static String base64Encode(byte[] bytes){
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     private static byte[] appendRandomBeginning(byte[] original, int lenght) {

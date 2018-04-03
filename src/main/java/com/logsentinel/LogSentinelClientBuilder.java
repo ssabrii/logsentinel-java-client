@@ -96,23 +96,6 @@ public class LogSentinelClientBuilder {
      * Refer to the LogSentniel documentation to get more
      * information on when and why you should encrypt the requests
      *
-     * @param keyPhrase keyPhrase to generate AES key. Must be 8 or 16 characters long
-     * @return the builder
-     */
-    public LogSentinelClientBuilder setEncryptionKey(String keyPhrase) {
-        validateEncryptionKeyPhraseLength(keyPhrase);
-        //encode with 2 bytes per char to have predictability of key length
-        this.encryptionKey = keyPhrase.getBytes(Charset.forName("UTF-16LE"));
-        this.encryptingKeywordExtractor = new LuceneEncryptingKeywordExtractor(encryptionKey);
-        return this;
-    }
-
-    /**
-     * Sets the (symmetric) key used to encrypt outgoing messages. If not set, messages are
-     * set unencrypted. Also sets encrypting keyword extractor and so enable encrypted search.
-     * Refer to the LogSentniel documentation to get more
-     * information on when and why you should encrypt the requests
-     *
      * @param keyBytes The key. Must be 16 or 32 bytes (128/256 bit)
      * @return the builder
      */

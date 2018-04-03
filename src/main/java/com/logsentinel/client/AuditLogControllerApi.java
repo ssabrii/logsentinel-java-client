@@ -34,6 +34,8 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Response;
 
+import static com.logsentinel.util.EncryptUtil.base64Encode;
+import static com.logsentinel.util.EncryptUtil.encrypt;
 import static java.util.stream.Collectors.joining;
 
 public class AuditLogControllerApi {
@@ -946,7 +948,7 @@ public class AuditLogControllerApi {
         // keywords are not encrypted twice
         if (actionData.getEncryptionKey() != null) {
             try {
-                serialized = EncryptUtil.encrypt(serialized, actionData.getEncryptionKey(), true);
+                serialized = base64Encode(encrypt(serialized, actionData.getEncryptionKey(), true));
             } catch (Exception e) {
                 throw new RuntimeException("Failed to perform symmetric encryption", e);
             }

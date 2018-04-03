@@ -11,6 +11,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.logsentinel.util.EncryptUtil.base64Encode;
+import static com.logsentinel.util.EncryptUtil.hash;
+import static tests.TestClient.printByteaerray;
+
 /**
  * Extracts keywords from given text and encrypts them.
  * Uses Lucene StandardAnalyzer to tokenize the string
@@ -46,7 +50,10 @@ public class LuceneEncryptingKeywordExtractor implements EncryptingKeywordExtrac
             return keyWord;
         }
         try {
-            return EncryptUtil.encrypt(keyWord, encryptionKey, false);
+            System.out.println(keyWord);
+            byte[] encrypted = EncryptUtil.encrypt(keyWord, encryptionKey, false);
+            byte[] hashed = hash(encrypted);
+            return base64Encode(hashed);
         } catch (Exception e) {
             throw new RuntimeException("Failed to perform keyword encryption", e);
         }
