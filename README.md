@@ -51,3 +51,11 @@ public class AuditLogControllerApiExample {
 
 Note: the client is thread-safe, so ideally you should have a single instance in your multithreaded application.
 
+## Encryption of payload
+add following lines before builder.build():
+
+byte[] key = <AES-128 or AES-256 encryption key >;
+builder.setEncryptionKey(key);
+
+By setting this, keywordExtractor is configured as well. It extracts keywords from details before encryption, encrypts them
+separately and send them as URL param, this way enabling search in encrypted details in dashboard.
