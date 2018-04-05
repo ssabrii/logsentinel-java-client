@@ -37,7 +37,7 @@ public class EncryptUtil {
         byte[] encValue;
         if (appendRandomBlock) {
             //using same IV with random beginning block of bytes is as secure as using random IV
-            byte[] withRandomStart = appendRandomBeginning(bytes, encryptionKey.length / 8);
+            byte[] withRandomStart = appendRandomBeginning(bytes, 16);
             encValue = c.doFinal(withRandomStart);
 
         } else {
@@ -47,7 +47,7 @@ public class EncryptUtil {
     }
 
     public static byte[] hash(byte[] input) {
-        return DigestUtils.sha512(input);
+        return DigestUtils.sha256(input);
     }
 
     public static String base64Encode(byte[] bytes){

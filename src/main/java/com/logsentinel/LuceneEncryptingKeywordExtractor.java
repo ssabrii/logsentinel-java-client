@@ -50,7 +50,6 @@ public class LuceneEncryptingKeywordExtractor implements EncryptingKeywordExtrac
             return keyWord;
         }
         try {
-            System.out.println(keyWord);
             byte[] encrypted = EncryptUtil.encrypt(keyWord, encryptionKey, false);
             byte[] hashed = hash(encrypted);
             return base64Encode(hashed);
