@@ -54,8 +54,19 @@ Note: the client is thread-safe, so ideally you should have a single instance in
 ## Encryption of payload
 add following lines before builder.build():
 
+```java
+
 byte[] key = <AES-128 or AES-256 encryption key >;
 builder.setEncryptionKey(key);
 
+```
 By setting this, keywordExtractor is configured as well. It extracts keywords from details before encryption, encrypts them
 separately and send them as URL param, this way enabling search in encrypted details in dashboard.
+If you want to use the key in dashboard it must be base64 encoded string. So it's recommended to use it like this:
+
+```java
+String keyBase64 = "MTIzNDU2Nzg5MDEyMzQ1Ng==";
+byte[] key = Base64.getDecoder().decode(keyBase64);
+builder.setEncryptionKey(key);
+
+```
