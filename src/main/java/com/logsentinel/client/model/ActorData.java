@@ -24,6 +24,7 @@ public class ActorData {
      * Sets the roles of the actor (optional)
      * 
      * @param actorRoles a list of roles
+     * @return the current ActorData
      */
     public ActorData setActorRoles(List<String> actorRoles) {
         this.actorRoles = actorRoles;
@@ -37,7 +38,8 @@ public class ActorData {
     /**
      * Sets the ID of the actor
      * 
-     * @param actorId
+     * @param actorId actor ID
+     * @return the current ActorData
      */
     public ActorData setActorId(String actorId) {
         this.actorId = actorId;
@@ -50,7 +52,8 @@ public class ActorData {
     /**
      * Sets a display name for the actor (optional)
      * 
-     * @param actorDisplayName
+     * @param actorDisplayName Actor display name
+     * @return the current ActorData
      */
     public ActorData setActorDisplayName(String actorDisplayName) {
         this.actorDisplayName = actorDisplayName;

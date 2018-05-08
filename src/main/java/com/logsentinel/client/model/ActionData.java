@@ -30,6 +30,7 @@ public class ActionData<T> {
      * Sets the action name, i.e. what action this entry represents  
      * 
      * @param action the name of the action
+     * @return the current ActionData
      */
     public ActionData<T> setAction(String action) {
         this.action = action;
@@ -45,6 +46,7 @@ public class ActionData<T> {
      * you can set its ID here.
      * 
      * @param entityId the ID of the entity
+     * @return the current ActionData
      */
     public ActionData<T> setEntityId(String entityId) {
         this.entityId = entityId;
@@ -60,6 +62,7 @@ public class ActionData<T> {
      * you can set it here (e.g. via <code>entity.getClass().getSimpleName()</code>)
      * 
      * @param entityType the type of the entity
+     * @return the current ActionData
      */
     public ActionData<T> setEntityType(String entityType) {
         this.entityType = entityType;
@@ -73,7 +76,7 @@ public class ActionData<T> {
      * Sets the details (body) of the action. You can put any data in any form here. 
      * It will get serialized with the serializer supplied to the client object
      * @param details the details object
-     * @return
+     * @return the current ActionData
      */
     public ActionData<T> setDetails(T details) {
         this.details = details;
@@ -88,6 +91,7 @@ public class ActionData<T> {
      * Sets the entry type. By default it's BUSINESS_LOGIC_ENTRY
      * 
      * @param entryType the entry type
+     * @return the current ActionData
      */
     public ActionData<T> setEntryType(AuditLogEntryType entryType) {
         this.entryType = entryType;
@@ -102,6 +106,7 @@ public class ActionData<T> {
 	 * Sets the diffDetails - you can use Javers to provide a diff which will be used as a body. 
 	 * Diff details and details are mutually exclusive
 	 * @param diffDetails Javers diff
+	 * @return the current ActionData
 	 */
 	public ActionData<T> setDiffDetails(Diff diffDetails) {
 		this.diffDetails = diffDetails;
@@ -117,6 +122,7 @@ public class ActionData<T> {
      * personal data is stored and crypto-erasure needs to be performed
      * 
      * @param encryptionKey the AES encryption key
+     * @return the current ActionData
      */
     public ActionData<T> setEncryptionKey(byte[] encryptionKey) {
         this.encryptionKey = encryptionKey;
