@@ -4,7 +4,7 @@ import org.javers.core.diff.Diff;
 
 /**
  * Details about actions performed
- * 
+ *
  * @param <T> the type of the details (body)
  */
 public class ActionData<T> {
@@ -15,20 +15,21 @@ public class ActionData<T> {
     private T details;
     private Diff diffDetails;
     private byte[] encryptionKey;
-    
+    private boolean binaryContent;
+
     private AuditLogEntryType entryType;
-    
+
     public ActionData(T details) {
         this.details = details;
     }
-    
+
     public String getAction() {
         return action;
     }
-    
+
     /**
-     * Sets the action name, i.e. what action this entry represents  
-     * 
+     * Sets the action name, i.e. what action this entry represents
+     *
      * @param action the name of the action
      * @return the current ActionData
      */
@@ -36,15 +37,15 @@ public class ActionData<T> {
         this.action = action;
         return this;
     }
-    
+
     public String getEntityId() {
         return entityId;
     }
-    
+
     /**
-     * Sets the entity ID (optional). If the event is about a particular model entity, 
+     * Sets the entity ID (optional). If the event is about a particular model entity,
      * you can set its ID here.
-     * 
+     *
      * @param entityId the ID of the entity
      * @return the current ActionData
      */
@@ -52,15 +53,15 @@ public class ActionData<T> {
         this.entityId = entityId;
         return this;
     }
-    
+
     public String getEntityType() {
         return entityType;
     }
-    
+
     /**
-     * Sets the entity type (optional). If the event is about a particular model entity, 
+     * Sets the entity type (optional). If the event is about a particular model entity,
      * you can set it here (e.g. via <code>entity.getClass().getSimpleName()</code>)
-     * 
+     *
      * @param entityType the type of the entity
      * @return the current ActionData
      */
@@ -68,13 +69,15 @@ public class ActionData<T> {
         this.entityType = entityType;
         return this;
     }
+
     public T getDetails() {
         return details;
     }
-    
+
     /**
-     * Sets the details (body) of the action. You can put any data in any form here. 
+     * Sets the details (body) of the action. You can put any data in any form here.
      * It will get serialized with the serializer supplied to the client object
+     *
      * @param details the details object
      * @return the current ActionData
      */
@@ -89,7 +92,7 @@ public class ActionData<T> {
 
     /**
      * Sets the entry type. By default it's BUSINESS_LOGIC_ENTRY
-     * 
+     *
      * @param entryType the entry type
      * @return the current ActionData
      */
@@ -98,20 +101,21 @@ public class ActionData<T> {
         return this;
     }
 
-	public Diff getDiffDetails() {
-		return diffDetails;
-	}
+    public Diff getDiffDetails() {
+        return diffDetails;
+    }
 
-	/**
-	 * Sets the diffDetails - you can use Javers to provide a diff which will be used as a body. 
-	 * Diff details and details are mutually exclusive
-	 * @param diffDetails Javers diff
-	 * @return the current ActionData
-	 */
-	public ActionData<T> setDiffDetails(Diff diffDetails) {
-		this.diffDetails = diffDetails;
-		return this;
-	}
+    /**
+     * Sets the diffDetails - you can use Javers to provide a diff which will be used as a body.
+     * Diff details and details are mutually exclusive
+     *
+     * @param diffDetails Javers diff
+     * @return the current ActionData
+     */
+    public ActionData<T> setDiffDetails(Diff diffDetails) {
+        this.diffDetails = diffDetails;
+        return this;
+    }
 
     public byte[] getEncryptionKey() {
         return encryptionKey;
@@ -120,7 +124,7 @@ public class ActionData<T> {
     /**
      * Sets the encryption key in case the application wants to encrypt data with more granular keys, for example if
      * personal data is stored and crypto-erasure needs to be performed
-     * 
+     *
      * @param encryptionKey the AES encryption key
      * @return the current ActionData
      */
@@ -128,5 +132,19 @@ public class ActionData<T> {
         this.encryptionKey = encryptionKey;
         return this;
     }
-    
+
+    public boolean isBinaryContent() {
+        return binaryContent;
+    }
+
+    /**
+     * Sets flag if details is in binary format.
+     * If set to true, details won't be indexed on the server for searching purposes
+     *
+     * @param binaryContent details is binary
+     */
+    public ActionData<T> setBinaryContent(boolean binaryContent) {
+        this.binaryContent = binaryContent;
+        return this;
+    }
 }
