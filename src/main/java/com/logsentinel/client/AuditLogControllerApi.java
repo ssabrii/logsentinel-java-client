@@ -823,7 +823,7 @@ public class AuditLogControllerApi {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/api/getEntityHistory".replaceAll("\\{format\\}", "json");
+        String localVarPath = "/api/search/entityHistory".replaceAll("\\{format\\}", "json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (entityId != null)

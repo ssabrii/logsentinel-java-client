@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/LogSentinel/logsentinel-java-client.svg?branch=master)](https://travis-ci.org/LogSentinel/logsentinel-java-client)
+
 # LogSentinel Java client
 
 ### Maven users
