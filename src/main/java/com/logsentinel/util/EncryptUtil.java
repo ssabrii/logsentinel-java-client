@@ -15,8 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Random;
 
-import static tests.TestClient.printByteaerray;
-
 /**
  * Utility class for encrypting with AES. Uses CBC mode with static IV and random block appended
  * at the beginning of the encrypted data. This way there is no need to know IV when decrypting,
@@ -50,7 +48,7 @@ public class EncryptUtil {
         return DigestUtils.sha256(input);
     }
 
-    public static String base64Encode(byte[] bytes){
+    public static String base64Encode(byte[] bytes) {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
