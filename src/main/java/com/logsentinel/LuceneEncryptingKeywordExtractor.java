@@ -13,7 +13,6 @@ import java.util.List;
 
 import static com.logsentinel.util.EncryptUtil.base64Encode;
 import static com.logsentinel.util.EncryptUtil.hash;
-import static tests.TestClient.printByteaerray;
 
 /**
  * Extracts keywords from given text and encrypts them.
