@@ -2,6 +2,9 @@ package com.logsentinel;
 
 import com.logsentinel.util.EncryptUtil;
 
+import static com.logsentinel.util.EncryptUtil.base64Encode;
+import static com.logsentinel.util.EncryptUtil.encrypt;
+
 /**
  * Serializer performing symmetric encryption based on a nested original serializer's output
  *
@@ -26,7 +29,7 @@ public class EncryptingBodySerializer implements BodySerializer {
 
     private String encryptConent(String content, byte[] encryptionKey) {
         try {
-            return EncryptUtil.encrypt(content, encryptionKey, true);
+            return base64Encode(encrypt(content, encryptionKey, true));
         } catch (Exception ex) {
             throw new RuntimeException("Failed to perform symmetric encryption", ex);
         }

@@ -1,5 +1,7 @@
 package com.logsentinel.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -22,7 +24,7 @@ public class EncryptUtil {
 
     private static final byte[] IV = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    public static String encrypt(String data, byte[] encryptionKey, boolean appendRandomBlock)
+    public static byte[] encrypt(String data, byte[] encryptionKey, boolean appendRandomBlock)
             throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
 
@@ -33,17 +35,21 @@ public class EncryptUtil {
         byte[] encValue;
         if (appendRandomBlock) {
             //using same IV with random beginning block of bytes is as secure as using random IV
-            byte[] withRandomStart = appendRandomBeginning(bytes, encryptionKey.length / 8);
+            byte[] withRandomStart = appendRandomBeginning(bytes, 16);
             encValue = c.doFinal(withRandomStart);
 
         } else {
             encValue = c.doFinal(bytes);
         }
+        return encValue;
+    }
 
+    public static byte[] hash(byte[] input) {
+        return DigestUtils.sha256(input);
+    }
 
-        String result = new String(Base64.getEncoder().encode(encValue));
-
-        return result;
+    public static String base64Encode(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     private static byte[] appendRandomBeginning(byte[] original, int lenght) {

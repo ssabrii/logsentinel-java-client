@@ -13,27 +13,19 @@
 
 package com.logsentinel.client;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import com.google.gson.reflect.TypeToken;
 import com.logsentinel.*;
-import com.logsentinel.client.model.ActionData;
-import com.logsentinel.client.model.ActorData;
-import com.logsentinel.client.model.AuditLogEntry;
-import com.logsentinel.client.model.BatchLogRequestEntry;
-import com.logsentinel.client.model.LogResponse;
-import com.logsentinel.client.model.Verification;
-import com.logsentinel.util.EncryptUtil;
+import com.logsentinel.client.model.*;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.*;
+
+import static com.logsentinel.util.EncryptUtil.base64Encode;
+import static com.logsentinel.util.EncryptUtil.encrypt;
 import static java.util.stream.Collectors.joining;
 
 public class AuditLogControllerApi {
@@ -84,6 +76,9 @@ public class AuditLogControllerApi {
         List<Pair> localVarQueryParams = createQueryParams(actorData);
         if (keywords != null) {
             localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
+        }
+        if (actionData.isBinaryContent()) {
+            localVarQueryParams.add(new Pair("binaryContent", "true"));
         }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         signedLoginChallenge.ifPresent(param -> localVarHeaderParams.put("Signed-Login-Challenge", apiClient.parameterToString(signedLoginChallenge)));
@@ -216,7 +211,8 @@ public class AuditLogControllerApi {
         }
 
         Call call = logAuthActionValidateBeforeCall(actorData, actionData, signedLoginChallenge, userPublicKey, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<LogResponse>() {}.getType();
+        Type localVarReturnType = new TypeToken<LogResponse>() {
+        }.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
@@ -231,8 +227,13 @@ public class AuditLogControllerApi {
         String localVarPath = "/api/log/simple".replaceAll("\\{format\\}", "json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
 
+        if (keywords != null) {
+            localVarQueryParams.add(new Pair("keywords", keywords.stream().collect(joining(","))));
+        }
+        if (actionData.isBinaryContent()) {
+            localVarQueryParams.add(new Pair("binaryContent", "true"));
+        }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
@@ -364,6 +365,9 @@ public class AuditLogControllerApi {
         List<Pair> localVarQueryParams = createQueryParams(actorData);
         if (keywords != null) {
             localVarQueryParams.add(new Pair("encryptedKeywords", keywords.stream().collect(joining(","))));
+        }
+        if (actionData.isBinaryContent()) {
+            localVarQueryParams.add(new Pair("binaryContent", "true"));
         }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -946,7 +950,7 @@ public class AuditLogControllerApi {
         // keywords are not encrypted twice
         if (actionData.getEncryptionKey() != null) {
             try {
-                serialized = EncryptUtil.encrypt(serialized, actionData.getEncryptionKey(), true);
+                serialized = base64Encode(encrypt(serialized, actionData.getEncryptionKey(), true));
             } catch (Exception e) {
                 throw new RuntimeException("Failed to perform symmetric encryption", e);
             }
