@@ -1109,6 +1109,154 @@ public class ApiClient {
     }
 
     /**
+     * Build HTTP call with the given options.
+     *
+     * @param path The sub-path of the HTTP URL
+     * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
+     * @param queryParams The query parameters
+     * @param collectionQueryParams The collection query parameters
+     * @param body The request body object
+     * @param headerParams The header parameters
+     * @param formParams The form parameters
+     * @param authNames The authentications to apply
+     * @param progressRequestListener Progress request listener
+     * @return The HTTP call
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public Call buildCallNew(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, authNames, progressRequestListener);
+
+        return httpClient.newCall(request);
+    }
+
+    /**
+     * Formats the specified query parameter to a list containing a single {@code Pair} object.
+     *
+     * Note that {@code value} must not be a collection.
+     *
+     * @param name The name of the parameter.
+     * @param value The value of the parameter.
+     * @return A list containing a single {@code Pair} object.
+     */
+    public List<Pair> parameterToPair(String name, Object value) {
+        List<Pair> params = new ArrayList<Pair>();
+
+        // preconditions
+        if (name == null || name.isEmpty() || value == null || value instanceof Collection) return params;
+
+        params.add(new Pair(name, parameterToString(value)));
+        return params;
+    }
+
+    /**
+     * Build an HTTP request with the given options.
+     *
+     * @param path The sub-path of the HTTP URL
+     * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
+     * @param queryParams The query parameters
+     * @param collectionQueryParams The collection query parameters
+     * @param body The request body object
+     * @param headerParams The header parameters
+     * @param formParams The form parameters
+     * @param authNames The authentications to apply
+     * @param progressRequestListener Progress request listener
+     * @return The HTTP request
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        updateParamsForAuth(authNames, queryParams, headerParams);
+
+        final String url = buildUrl(path, queryParams, collectionQueryParams);
+        final Request.Builder reqBuilder = new Request.Builder().url(url);
+        processHeaderParams(headerParams, reqBuilder);
+
+        String contentType = (String) headerParams.get("Content-Type");
+        // ensuring a default content type
+        if (contentType == null) {
+            contentType = "application/json";
+        }
+
+        RequestBody reqBody;
+        if (!HttpMethod.permitsRequestBody(method)) {
+            reqBody = null;
+        } else if ("application/x-www-form-urlencoded".equals(contentType)) {
+            reqBody = buildRequestBodyFormEncoding(formParams);
+        } else if ("multipart/form-data".equals(contentType)) {
+            reqBody = buildRequestBodyMultipart(formParams);
+        } else if (body == null) {
+            if ("DELETE".equals(method)) {
+                // allow calling DELETE without sending a request body
+                reqBody = null;
+            } else {
+                // use an empty request body (for POST, PUT and PATCH)
+                reqBody = RequestBody.create(MediaType.parse(contentType), "");
+            }
+        } else {
+            reqBody = serialize(body, contentType);
+        }
+
+        Request request = null;
+
+        if(progressRequestListener != null && reqBody != null) {
+            ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, progressRequestListener);
+            request = reqBuilder.method(method, progressRequestBody).build();
+        } else {
+            request = reqBuilder.method(method, reqBody).build();
+        }
+
+        return request;
+    }
+
+    /**
+     * Build full URL by concatenating base path, the given sub path and query parameters.
+     *
+     * @param path The sub path
+     * @param queryParams The query parameters
+     * @param collectionQueryParams The collection query parameters
+     * @return The full URL
+     */
+    public String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
+        final StringBuilder url = new StringBuilder();
+        url.append(basePath).append(path);
+
+        if (queryParams != null && !queryParams.isEmpty()) {
+            // support (constant) query string in `path`, e.g. "/posts?draft=1"
+            String prefix = path.contains("?") ? "&" : "?";
+            for (Pair param : queryParams) {
+                if (param.getValue() != null) {
+                    if (prefix != null) {
+                        url.append(prefix);
+                        prefix = null;
+                    } else {
+                        url.append("&");
+                    }
+                    String value = parameterToString(param.getValue());
+                    url.append(escapeString(param.getName())).append("=").append(escapeString(value));
+                }
+            }
+        }
+
+        if (collectionQueryParams != null && !collectionQueryParams.isEmpty()) {
+            String prefix = url.toString().contains("?") ? "&" : "?";
+            for (Pair param : collectionQueryParams) {
+                if (param.getValue() != null) {
+                    if (prefix != null) {
+                        url.append(prefix);
+                        prefix = null;
+                    } else {
+                        url.append("&");
+                    }
+                    String value = parameterToString(param.getValue());
+                    // collection query parameter value already escaped as part of parameterToPairs
+                    url.append(escapeString(param.getName())).append("=").append(value);
+                }
+            }
+        }
+
+        return url.toString();
+    }
+
+    /**
      * Build full URL by concatenating base path, the given sub path and query parameters.
      *
      * @param path The sub path
