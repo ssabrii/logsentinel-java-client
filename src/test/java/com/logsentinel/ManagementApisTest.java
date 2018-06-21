@@ -4,7 +4,6 @@ import com.logsentinel.client.ManageApplicationControllerApi;
 import com.logsentinel.client.OrganizationUsersControllerApi;
 import com.logsentinel.client.model.*;
 import org.junit.Before;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -39,11 +38,11 @@ public class ManagementApisTest {
     public void testCalls() {
         try {
             //create application
-            Application app = applicationActions.createApplicationUsingPUT(buildApplicationRequest(null, "app1"));
+            Application app = applicationActions.createApplication(buildApplicationRequest(null, "app1"));
             assertEquals("app1", app.getName());
 
             //update application
-            app = applicationActions.updateApplicationUsingPOST(buildApplicationRequest(app.getId(), "app2"));
+            app = applicationActions.updateApplication(buildApplicationRequest(app.getId(), "app2"));
             assertEquals("app2", app.getName());
 
 
@@ -53,23 +52,23 @@ public class ManagementApisTest {
 
 
             UserRegistrationRequest registrationRequest = buildCreateRequest();
-            UserDetails userDetails = userActions.createUsingPUT(registrationRequest);
+            UserDetails userDetails = userActions.create(registrationRequest);
             assertEquals(EMAIL, userDetails.getEmail());
 
             // get user by email
-            userDetails = userActions.getUserDetailsByEmailUsingGET(EMAIL);
+            userDetails = userActions.getUserDetailsByEmail(EMAIL);
             assertEquals(EMAIL, userDetails.getEmail());
 
             //get user by id
-            userDetails = userActions.getUserDetailsByIdUsingGET(userDetails.getId());
+            userDetails = userActions.getUserDetailsById(userDetails.getId());
             assertEquals(EMAIL, userDetails.getEmail());
 
             //update user
-            userDetails = userActions.updateUsingPOST(buildUpdateRequest(userDetails));
+            userDetails = userActions.update(buildUpdateRequest(userDetails));
             assertEquals("new" + EMAIL, userDetails.getEmail());
 
             //forget user
-            userDetails = userActions.forgetUserUsingPOST(userDetails.getId());
+            userDetails = userActions.forgetUser(userDetails.getId());
             assertEquals("anonymized@logsentinel.com", userDetails.getEmail());
 
         } catch (ApiException e) {

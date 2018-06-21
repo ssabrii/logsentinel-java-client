@@ -2,7 +2,6 @@ package com.logsentinel;
 
 import com.logsentinel.client.*;
 
-import java.nio.charset.Charset;
 import java.security.PrivateKey;
 
 /**
@@ -39,7 +38,7 @@ public class LogSentinelClientBuilder {
         apiClient.setPassword(secret.trim());
 
 
-        if(applicationId != null) {
+        if (applicationId != null) {
             apiClient.addDefaultHeader("Application-Id", applicationId.trim());
         }
 
@@ -62,7 +61,7 @@ public class LogSentinelClientBuilder {
         AuditLogSearchControllerApi searchActions = new AuditLogSearchControllerApi(apiClient);
 
         LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions, userActions,
-                                                        applicationActions, searchActions);
+                applicationActions, searchActions);
         return client;
     }
 
