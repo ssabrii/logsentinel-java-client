@@ -1,9 +1,7 @@
 package com.logsentinel;
 
-import com.logsentinel.client.AuditLogControllerApi;
-import com.logsentinel.client.HashControllerApi;
+import com.logsentinel.client.*;
 
-import java.nio.charset.Charset;
 import java.security.PrivateKey;
 
 /**
@@ -38,7 +36,11 @@ public class LogSentinelClientBuilder {
         }
         apiClient.setUsername(organizationId.trim());
         apiClient.setPassword(secret.trim());
-        apiClient.addDefaultHeader("Application-Id", applicationId.trim());
+
+
+        if (applicationId != null) {
+            apiClient.addDefaultHeader("Application-Id", applicationId.trim());
+        }
 
         BodySerializer serializer = bodySerializer != null ? bodySerializer : new JsonBodySerializer(apiClient.getJSON());
         if (encryptionKey != null) {
@@ -54,8 +56,12 @@ public class LogSentinelClientBuilder {
 
         AuditLogControllerApi auditLogActions = new AuditLogControllerApi(apiClient, serializer, signer, contentType, encryptingKeywordExtractor);
         HashControllerApi hashActions = new HashControllerApi(apiClient, serializer, signer, contentType);
+        OrganizationUsersControllerApi userActions = new OrganizationUsersControllerApi(apiClient);
+        ManageApplicationControllerApi applicationActions = new ManageApplicationControllerApi(apiClient);
+        AuditLogSearchControllerApi searchActions = new AuditLogSearchControllerApi(apiClient);
 
-        LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions);
+        LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions, userActions,
+                applicationActions, searchActions);
         return client;
     }
 
