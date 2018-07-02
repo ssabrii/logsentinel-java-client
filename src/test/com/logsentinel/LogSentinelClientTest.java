@@ -1,5 +1,6 @@
 package com.logsentinel;
 import com.logsentinel.client.model.*;
+import com.logsentinel.merkletree.utils.TreeUtils;
 import com.logsentinel.merkletree.verification.ConsistencyProofVerification;
 import com.logsentinel.merkletree.verification.InclusionProofVerification;
 import org.junit.Assert;
@@ -61,6 +62,10 @@ public class LogSentinelClientTest {
             Assert.assertTrue(inclusionProof.getTreeSize() > 0);
             Assert.assertNotEquals(inclusionProof.getRootHash(), "");
 
+            Assert.assertTrue(inclusionProof.getPath().size() == TreeUtils.calculateInclusionProofSize(
+                    inclusionProof.getTreeSize(), inclusionProof.getIndex()
+            ));
+
             List<byte[]> inclusionProofPath = new ArrayList<>();
             for (String pathEntry : inclusionProof.getPath()) {
                 inclusionProofPath.add(Base64.getDecoder().decode(pathEntry));
@@ -83,6 +88,10 @@ public class LogSentinelClientTest {
             Assert.assertTrue(consistencyProof.getFirstTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getSecondTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getPath().size() > 0);
+
+            Assert.assertTrue(consistencyProof.getPath().size() == TreeUtils.calculateConsistencyProofSize(
+                    consistencyProof.getFirstTreeSize(),
+                    consistencyProof.getSecondTreeSize()));
 
             List<byte[]> consistenctProofPath = new ArrayList<>();
             for (String pathEntry : consistencyProof.getPath()) {
