@@ -1,8 +1,12 @@
 package com.logsentinel;
 import com.logsentinel.client.model.*;
+import com.logsentinel.merkletree.verification.ConsistencyProofVerification;
+import com.logsentinel.merkletree.verification.InclusionProofVerification;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class LogSentinelClientTest {
@@ -13,7 +17,7 @@ public class LogSentinelClientTest {
     @Test
     public void getVerificationActions() {
         LogSentinelClientBuilder builder = LogSentinelClientBuilder
-                .create(applicationId, applicationId, secret);
+                .create(applicationId, organizationId, secret);
         LogSentinelClient client = builder.build();
 
         try {
@@ -57,6 +61,15 @@ public class LogSentinelClientTest {
             Assert.assertTrue(inclusionProof.getTreeSize() > 0);
             Assert.assertNotEquals(inclusionProof.getRootHash(), "");
 
+            List<byte[]> inclusionProofPath = new ArrayList<>();
+            for (String pathEntry : inclusionProof.getPath()) {
+                inclusionProofPath.add(Base64.getDecoder().decode(pathEntry));
+            }
+
+            Assert.assertTrue(InclusionProofVerification.verify(inclusionProofPath,
+                    Base64.getDecoder().decode(inclusionProof.getHash()), inclusionProof.getIndex(),
+                    inclusionProof.getTreeSize(), Base64.getDecoder().decode(inclusionProof.getRootHash())));
+
             ConsistencyProof consistencyProof = client.getVerificationActions().getConsistencyProofUsingGET(
                     "7CVj0TceYdKTAa2P16noGeqZLm_HN7NL5g1J-WHBcJjgA44-4zQW0rUaQlu8SiUJoSp8mabN0Zza5g6c6MIq_Q==",
                     applicationId, "");
@@ -70,6 +83,15 @@ public class LogSentinelClientTest {
             Assert.assertTrue(consistencyProof.getFirstTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getSecondTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getPath().size() > 0);
+
+            List<byte[]> consistenctProofPath = new ArrayList<>();
+            for (String pathEntry : consistencyProof.getPath()) {
+                consistenctProofPath.add(Base64.getDecoder().decode(pathEntry));
+            }
+
+            Assert.assertTrue(ConsistencyProofVerification.verify(consistenctProofPath,
+                    Base64.getDecoder().decode(consistencyProof.getFirstHash()), consistencyProof.getFirstTreeSize(),
+                    Base64.getDecoder().decode(consistencyProof.getSecondHash()), consistencyProof.getSecondTreeSize()));
 
             /*
             try {
