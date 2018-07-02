@@ -1,23 +1,8 @@
 package com.logsentinel;
 import com.logsentinel.client.model.*;
-import org.bouncycastle.asn1.*;
-import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
-import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
-import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Security;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
-import org.bouncycastle.crypto.util.PrivateKeyFactory;
-
-import java.security.KeyFactory;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
 public class LogSentinelClientTest {
