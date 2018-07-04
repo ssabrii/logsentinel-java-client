@@ -26,7 +26,7 @@ import java.util.Objects;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-07-02T11:34:18.314+03:00")
 public class TreeHead {
   @SerializedName("rootHash")
-  private List<byte[]> rootHash = null;
+  private String rootHash = null;
 
   @SerializedName("timestampToken")
   private String timestampToken = null;
@@ -34,30 +34,12 @@ public class TreeHead {
   @SerializedName("treeSize")
   private Integer treeSize = null;
 
-  public TreeHead rootHash(List<byte[]> rootHash) {
+  public void setRootHash(String rootHash) {
     this.rootHash = rootHash;
-    return this;
   }
 
-  public TreeHead addRootHashItem(byte[] rootHashItem) {
-    if (this.rootHash == null) {
-      this.rootHash = new ArrayList<byte[]>();
-    }
-    this.rootHash.add(rootHashItem);
-    return this;
-  }
-
-   /**
-   * Get rootHash
-   * @return rootHash
-  **/
-  @ApiModelProperty(value = "")
-  public List<byte[]> getRootHash() {
+  public String getRootHash() {
     return rootHash;
-  }
-
-  public void setRootHash(List<byte[]> rootHash) {
-    this.rootHash = rootHash;
   }
 
   public TreeHead timestampToken(String timestampToken) {

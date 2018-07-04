@@ -3,23 +3,30 @@ import com.logsentinel.client.model.*;
 import com.logsentinel.merkletree.utils.TreeUtils;
 import com.logsentinel.merkletree.verification.ConsistencyProofVerification;
 import com.logsentinel.merkletree.verification.InclusionProofVerification;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 public class LogSentinelClientTest {
-    private String applicationId = "38773350-6a64-11e8-a7b3-cfa432063561";
-    private String organizationId = "387648f0-6a64-11e8-a7b3-cfa432063561";
-    private String secret = "bedaac15925a2e46eed80d5b5276fd91764d3ea4fb5ac2b44bd6e06e4c83be87";
+    private String applicationId = "ae37f8c0-7f38-11e8-bf35-cbf6b8eea46f";
+    private String organizationId = "ae1c3360-7f38-11e8-bf35-cbf6b8eea46f";
+    private String secret = "846b72776182fe44a9e31dc009f9d97989b64e251d323acff43dc3d665e6ac15";
 
     @Test
     public void getVerificationActions() {
         LogSentinelClientBuilder builder = LogSentinelClientBuilder
                 .create(applicationId, organizationId, secret);
+        builder.setBasePath("http://localhost:8080");
         LogSentinelClient client = builder.build();
+
+
+        String hash1 = "0qHnEuGmu5I5vBIURvcjkTDw3LF_t_BQLUWRvoutPCSaCU1-j9lafQ8A_qbJFfkiUYU1fHtz9OyCwWP_XUjHbw==";
+        String hash2 = "dht-bOoP-g1LPgwO7hNgvahGf2Pv87VxpMQ7jiufF2XratgOZJF5FmZ29lfwuJvJywtFE1fQyJ9HV6hVABo5Tg==";
 
         try {
             LogInfo logInfo = client.getVerificationActions().getMerkleTreeInfoUsingGET();
@@ -36,8 +43,10 @@ public class LogSentinelClientTest {
             Assert.assertNotEquals(treeHead.getTimestampToken(), "");
             Assert.assertNotEquals(treeHead.getRootHash(), "");
 
-            List<AuditLogEntry> logEntries = client.getVerificationActions().getEntriesBetweenHashesUsingGET("",
-                    "", applicationId);
+            List<String> entriesForVerification = new ArrayList<>();
+
+            List<AuditLogEntry> logEntries = client.getVerificationActions().getEntriesBetweenHashesUsingGET(hash1,
+                    hash2, applicationId);
 
             Assert.assertNotNull(logEntries);
             Assert.assertTrue(logEntries.size() > 0);
@@ -45,43 +54,69 @@ public class LogSentinelClientTest {
             for (AuditLogEntry entry : logEntries) {
                 Assert.assertNotNull(entry.getHash());
                 Assert.assertNotNull(entry.getTimestampTime());
-                Assert.assertNotNull(entry.getPreviousEntryId());
-                Assert.assertNotNull(entry.getEntityId());
+                Assert.assertNotNull(entry.getId());
+
+                String prevEntryHash = new String();
+
+                if (entry.getPreviousEntryId() != null) {
+                    AuditLogEntry prevEntry = client.getAuditLogActions().getEntryByIdUsingGET(applicationId,
+                            entry.getPreviousEntryId());
+                    prevEntryHash = prevEntry.getHash();
+                } else {
+                    prevEntryHash = "";
+                }
+
+                String expectedHash =  Base64.getUrlEncoder().encodeToString(DigestUtils.sha512(
+                        entry.getHashableContent() + prevEntryHash));
+
+                Assert.assertEquals(entry.getHash(), expectedHash);
+
+                String standaloneHash = client.getHashActions().getHashUsingPOST(applicationId,
+                        UUID.fromString(entry.getId()));
+
+                Assert.assertNotNull(standaloneHash);
+
+                entriesForVerification.add(standaloneHash);
             }
 
-            InclusionProof inclusionProof = client.getVerificationActions().getInclusionProofUsingGET(
-                    "7CVj0TceYdKTAa2P16noGeqZLm_HN7NL5g1J-WHBcJjgA44-4zQW0rUaQlu8SiUJoSp8mabN0Zza5g6c6MIq_Q==",
-                    applicationId);
+            /*
+            for (String entryForVerification : entriesForVerification) {
+                InclusionProof inclusionProof = client.getVerificationActions().getInclusionProofUsingGET(
+                        entryForVerification,
+                        applicationId);
 
-            Assert.assertNotNull(inclusionProof);
-            Assert.assertNotEquals(inclusionProof.getHash(), "");
-            Assert.assertEquals("7CVj0TceYdKTAa2P16noGeqZLm_HN7NL5g1J-WHBcJjgA44-4zQW0rUaQlu8SiUJoSp8mabN0Zza5g6c6MIq_Q==",
-                    inclusionProof.getHash());
-            Assert.assertTrue(inclusionProof.getIndex() >= 0);
-            Assert.assertTrue(inclusionProof.getPath().size() > 0);
-            Assert.assertTrue(inclusionProof.getTreeSize() > 0);
-            Assert.assertNotEquals(inclusionProof.getRootHash(), "");
+                Assert.assertNotNull(inclusionProof);
+                Assert.assertNotEquals(inclusionProof.getHash(), "");
+                Assert.assertEquals(entryForVerification,
+                        inclusionProof.getHash());
+                Assert.assertTrue(inclusionProof.getIndex() >= 0);
+                Assert.assertTrue(inclusionProof.getPath().size() > 0);
+                Assert.assertTrue(inclusionProof.getTreeSize() > 0);
+                Assert.assertNotEquals(inclusionProof.getRootHash(), "");
 
-            Assert.assertTrue(inclusionProof.getPath().size() == TreeUtils.calculateInclusionProofSize(
-                    inclusionProof.getTreeSize(), inclusionProof.getIndex()
-            ));
+                Assert.assertTrue(inclusionProof.getPath().size() == TreeUtils.calculateInclusionProofSize(
+                        inclusionProof.getTreeSize(), inclusionProof.getIndex() + 1
+                ));
 
-            List<byte[]> inclusionProofPath = new ArrayList<>();
-            for (String pathEntry : inclusionProof.getPath()) {
-                inclusionProofPath.add(Base64.getDecoder().decode(pathEntry));
+                List<byte[]> inclusionProofPath = new ArrayList<>();
+                for (String pathEntry : inclusionProof.getPath()) {
+                    inclusionProofPath.add(Base64.getUrlDecoder().decode(pathEntry));
+                }
+
+                int index = inclusionProof.getIndex();
+
+                Assert.assertTrue(InclusionProofVerification.verify(inclusionProofPath,
+                        Base64.getUrlDecoder().decode(entryForVerification), index,
+                        inclusionProof.getTreeSize(), Base64.getUrlDecoder().decode(inclusionProof.getRootHash())));
             }
-
-            Assert.assertTrue(InclusionProofVerification.verify(inclusionProofPath,
-                    Base64.getDecoder().decode(inclusionProof.getHash()), inclusionProof.getIndex(),
-                    inclusionProof.getTreeSize(), Base64.getDecoder().decode(inclusionProof.getRootHash())));
 
             ConsistencyProof consistencyProof = client.getVerificationActions().getConsistencyProofUsingGET(
-                    "7CVj0TceYdKTAa2P16noGeqZLm_HN7NL5g1J-WHBcJjgA44-4zQW0rUaQlu8SiUJoSp8mabN0Zza5g6c6MIq_Q==",
+                    hash1,
                     applicationId, "");
 
             Assert.assertNotNull(consistencyProof);
             Assert.assertNotEquals(consistencyProof.getFirstHash(), "");
-            Assert.assertEquals("7CVj0TceYdKTAa2P16noGeqZLm_HN7NL5g1J-WHBcJjgA44-4zQW0rUaQlu8SiUJoSp8mabN0Zza5g6c6MIq_Q==",
+            Assert.assertEquals(hash1,
                     consistencyProof.getFirstHash());
             Assert.assertNotEquals(consistencyProof.getSecondHash(), "");
             Assert.assertEquals("", consistencyProof.getSecondHash());
@@ -95,13 +130,14 @@ public class LogSentinelClientTest {
 
             List<byte[]> consistenctProofPath = new ArrayList<>();
             for (String pathEntry : consistencyProof.getPath()) {
-                consistenctProofPath.add(Base64.getDecoder().decode(pathEntry));
+                consistenctProofPath.add(Base64.getUrlDecoder().decode(pathEntry));
             }
 
             Assert.assertTrue(ConsistencyProofVerification.verify(consistenctProofPath,
                     Base64.getDecoder().decode(consistencyProof.getFirstHash()), consistencyProof.getFirstTreeSize(),
                     Base64.getDecoder().decode(consistencyProof.getSecondHash()), consistencyProof.getSecondTreeSize()));
 
+                    */
             /*
             try {
                 byte[] publicKey = Base64.getUrlDecoder().decode(result.getPublicKey());
