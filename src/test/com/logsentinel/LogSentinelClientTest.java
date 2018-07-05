@@ -14,12 +14,10 @@ import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.bc.BcDigestCalculatorProvider;
 import org.bouncycastle.tsp.TSPException;
-import org.bouncycastle.util.CollectionStore;
 import org.junit.Assert;
 import org.junit.Test;
 
 import org.bouncycastle.tsp.TimeStampToken;
-import org.bouncycastle.cms.CMSSignedData;
 
 import java.io.IOException;
 import java.security.*;
@@ -27,20 +25,9 @@ import java.util.*;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class LogSentinelClientTest {
-    private final String applicationId = "ae37f8c0-7f38-11e8-bf35-cbf6b8eea46f";
-    private final String organizationId = "ae1c3360-7f38-11e8-bf35-cbf6b8eea46f";
-    private final String secret = "846b72776182fe44a9e31dc009f9d97989b64e251d323acff43dc3d665e6ac15";
-
-    private Optional<X509CertificateHolder> getCertificateHolder(CMSSignedData signedData) throws IOException {
-        CollectionStore<X509CertificateHolder> store = (CollectionStore<X509CertificateHolder>) signedData
-                .getCertificates();
-        Iterator<X509CertificateHolder> iterator = store.iterator();
-        if (iterator.hasNext()) {
-            return Optional.of(store.iterator().next());
-        } else {
-            return Optional.empty();
-        }
-    }
+    final String applicationId = "ae37f8c0-7f38-11e8-bf35-cbf6b8eea46f";
+    final String organizationId = "ae1c3360-7f38-11e8-bf35-cbf6b8eea46f";
+    final String secret = "846b72776182fe44a9e31dc009f9d97989b64e251d323acff43dc3d665e6ac15";
 
     private String base64StringAddPadding(String base64) {
         int rem = Math.floorMod(base64.length(), 4);
@@ -162,9 +149,8 @@ public class LogSentinelClientTest {
                 Assert.assertTrue(inclusionProof.getTreeSize() > 0);
                 Assert.assertNotEquals(inclusionProof.getRootHash(), "");
 
-                Assert.assertTrue(inclusionProof.getPath().size() == TreeUtils.calculateInclusionProofSize(
-                        inclusionProof.getTreeSize(), inclusionProof.getIndex() + 1
-                ));
+                Assert.assertEquals(TreeUtils.calculateInclusionProofSize(inclusionProof.getTreeSize(),
+                        inclusionProof.getIndex() + 1), inclusionProof.getPath().size());
 
                 List<byte[]> inclusionProofPath = new ArrayList<>();
                 for (String pathEntry : inclusionProof.getPath()) {
@@ -191,9 +177,8 @@ public class LogSentinelClientTest {
             Assert.assertTrue(consistencyProof.getSecondTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getPath().size() > 0);
 
-            Assert.assertTrue(consistencyProof.getPath().size() == TreeUtils.calculateConsistencyProofSize(
-                    consistencyProof.getFirstTreeSize(),
-                    consistencyProof.getSecondTreeSize()));
+            Assert.assertEquals(TreeUtils.calculateConsistencyProofSize(consistencyProof.getFirstTreeSize(),
+                    consistencyProof.getSecondTreeSize()), consistencyProof.getPath().size());
 
             List<byte[]> consistencyProofPath = new ArrayList<>();
             for (String pathEntry : consistencyProof.getPath()) {
