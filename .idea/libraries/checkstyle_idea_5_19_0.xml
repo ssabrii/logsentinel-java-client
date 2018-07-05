@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="checkstyle-idea-5.19.0">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/Downloads/CheckStyle-IDEA-5.19.0/CheckStyle-IDEA/lib/checkstyle-idea-5.19.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
