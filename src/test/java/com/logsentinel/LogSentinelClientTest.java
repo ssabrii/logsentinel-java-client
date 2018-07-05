@@ -20,7 +20,7 @@ public class LogSentinelClientTest {
     final String organizationId = "ae1c3360-7f38-11e8-bf35-cbf6b8eea46f";
     final String secret = "846b72776182fe44a9e31dc009f9d97989b64e251d323acff43dc3d665e6ac15";
 
-    @Test
+    // @Test
     public void getVerificationActions() {
         // Test the audit log verification controller
 
