@@ -11,7 +11,7 @@ public class MathUtils {
     private static final double logSubtractFromNumber = 0.01;
 
     /**
-     * Calculates the parameter k - the largest power of 2 smaller than n (i.e., k < n <= 2k)
+     * Calculates the parameter k - the largest power of 2 smaller than n (i.e., k &lt; n &lt;= 2k)
      *
      * @param n the parameter n that is used to calculate the parameter k
      * @return the calculated parameter k

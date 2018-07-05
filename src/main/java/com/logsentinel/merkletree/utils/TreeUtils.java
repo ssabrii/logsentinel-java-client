@@ -36,7 +36,7 @@ public class TreeUtils {
      * Calculates the number of entries in a Merkle consistency proof
      *
      * @param firstTreeSize tree size of the previously advertised Merkle tree of the first m leaves
-     * @param secondTreeSize tree size of the current Merkle Tree of size n (0 < m < n)
+     * @param secondTreeSize tree size of the current Merkle Tree of size n (0 &lt; m &lt; n)
      * @return number of nodes
      */
     public static int calculateConsistencyProofSize(int firstTreeSize, int secondTreeSize) {

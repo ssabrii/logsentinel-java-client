@@ -142,6 +142,7 @@ public class ActionData<T> {
      * If set to true, details won't be indexed on the server for searching purposes
      *
      * @param binaryContent details is binary
+     * @return binary content
      */
     public ActionData<T> setBinaryContent(boolean binaryContent) {
         this.binaryContent = binaryContent;

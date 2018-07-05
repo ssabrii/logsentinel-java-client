@@ -21,9 +21,9 @@ public class ConsistencyProofVerification {
      * @param consistencyProof consistency proof for a Merkle Tree Hash (MTH) and a previously advertised hash (MTH)
      *                         of the first m leaves
      * @param firstHash first Merkle Tree Hash (MTH)
-     * @param treeSizeFirst tree size of first Merkle Tree Hash (MTH), 0 < treeSizeFirst < treeSizeSecond
+     * @param treeSizeFirst tree size of first Merkle Tree Hash (MTH), 0 &lt; treeSizeFirst &lt; treeSizeSecond
      * @param secondHash second Merkle Tree Hash (MTH)
-     * @param treeSizeSecond tree size of second Merkle Tree Hash (MTH), 0 < treeSizeFirst < treeSizeSecond
+     * @param treeSizeSecond tree size of second Merkle Tree Hash (MTH), 0 &lt; treeSizeFirst &lt; treeSizeSecond
      * @return verification status
      */
     public static Boolean verify(List<byte[]> consistencyProof, byte[] firstHash, int treeSizeFirst,
