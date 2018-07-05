@@ -4,13 +4,13 @@ public class LogInfo {
     private String hashAlgorithmOid;
     private String leafHashAlgorithmOid;
     private String timestampAlgorithmOid;
-    private String publicKey;
+    private String timestampPublicKey;
 
     public LogInfo(String hashAlgorithmOid, String leafHashAlgorithmOid, String timestampAlgorithmOid, String publicKey) {
         this.hashAlgorithmOid = hashAlgorithmOid;
         this.leafHashAlgorithmOid = leafHashAlgorithmOid;
         this.timestampAlgorithmOid = timestampAlgorithmOid;
-        this.publicKey = publicKey;
+        this.timestampPublicKey = publicKey;
     }
 
     public String getHashAlgorithmOid() {
@@ -26,6 +26,6 @@ public class LogInfo {
     }
 
     public String getPublicKey() {
-        return publicKey;
+        return timestampPublicKey;
     }
 }

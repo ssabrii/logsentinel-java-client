@@ -7,6 +7,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cms.*;
 import org.bouncycastle.cms.bc.BcRSASignerInfoVerifierBuilder;
+import org.bouncycastle.crypto.Digest;
+import org.bouncycastle.crypto.signers.RSADigestSigner;
 import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.OperatorCreationException;
@@ -17,10 +19,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import org.bouncycastle.tsp.TimeStampToken;
+import org.bouncycastle.cms.CMSSignedData;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
+import java.security.cert.CertificateFactory;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 
 public class LogSentinelClientTest {
@@ -39,6 +45,19 @@ public class LogSentinelClientTest {
         }
     }
 
+    private String base64StringAddPadding(String base64) {
+        int rem = Math.floorMod(base64.length(), 4);
+
+        if (rem == 2) {
+            base64 = base64 + "==";
+        }
+        else if (rem == 3) {
+            base64 = base64 + "=";
+        }
+
+        return base64;
+    }
+
     @Test
     public void getVerificationActions() {
         LogSentinelClientBuilder builder = LogSentinelClientBuilder
@@ -54,6 +73,7 @@ public class LogSentinelClientTest {
 
         String logSentinelTsCert = "MIICzjCCAbagAwIBAgIEWPIrGjANBgkqhkiG9w0BAQ0FADAbMRkwFwYDVQQDDBBhdWRpdGxvZy10c2Eta2V5MB4XDTE3MDQxNTE0MTcyM1oXDTIyMDQxNTE0MTcyM1owGzEZMBcGA1UEAwwQYXVkaXRsb2ctdHNhLWtleTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ25X+ady+Af1K1AcNGJAVIJY2qR47DXF9gHFSXkV4fEuHvnEPzCozXNNpgwHbVVEJs0mUsaEG+MukZtJ1WWJha/qFYB9eMotYucVwUt1YulUbAJbWLb99oMJ8KyHWJtVFTfHJL+j3DScLzBQ0QglG7RiOc7gQohBnamtwe7ayIIOa/BJREYtK5o9rBLSddGeXZjoJzSrXARvaPnDolHuqK/eseFeLWJN0IvykCK/On3FCeWVtrzPlIrm1NVaVcyrK1x3j5P5I9pYZ2b32446FyXsQZlr0TvKvTbs5eKNGJ4270YVqYmSM6aZZH+x5X3oNujRk9q6OKepPv4vr9dRDcCAwEAAaMaMBgwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwgwDQYJKoZIhvcNAQENBQADggEBAJVn4p9ftwXqOsGyLuZYkCA2PxsSrMQXbrIk4geWsD7U9ZV/2yEuOKWKRmBna8i+d/g+UmNKo2EVYUaVDb+FxXbJswGSh/WHsCmVKn62iR4JldbNZHgQEBXRndxjfzigBqzbtPTIx7ivk7RyX2eSv4sA4E/Wb3Pshiqt5n9TZqDSeCUsshKOpE6WBdDyApsjDiJ/W/xhy9x9RhpAJdni+W0NgGQK/a96fxoKB75zoKqD1gnmr0WojQcDFFwMxLnVD0j0m9UECWJxI/67RkQEvequD13nZShseH4cF8hGLYF/rK0eDbjleBpAG4GBEpVY2jdVKU3KaHMdOFD+kWCT2+0=";
 
+        String historicalMth = "PBPLkDuEYgo-C55y59egFWFm9FUpDu4xUf60uw4rIpI=";
         try {
             LogInfo logInfo = client.getVerificationActions().getMerkleTreeInfoUsingGET();
 
@@ -163,17 +183,14 @@ public class LogSentinelClientTest {
                         Base64.getUrlDecoder().decode(entryForVerification), index,
                         inclusionProof.getTreeSize(), Base64.getUrlDecoder().decode(inclusionProof.getRootHash())));
             }
+            */
 
             ConsistencyProof consistencyProof = client.getVerificationActions().getConsistencyProofUsingGET(
-                    hash1,
-                    applicationId, "");
+                    historicalMth, applicationId, base64StringAddPadding(treeHead.getRootHash()));
 
             Assert.assertNotNull(consistencyProof);
-            Assert.assertNotEquals(consistencyProof.getFirstHash(), "");
-            Assert.assertEquals(hash1,
-                    consistencyProof.getFirstHash());
-            Assert.assertNotEquals(consistencyProof.getSecondHash(), "");
-            Assert.assertEquals("", consistencyProof.getSecondHash());
+            Assert.assertEquals(historicalMth, consistencyProof.getFirstHash());
+            Assert.assertEquals(base64StringAddPadding(treeHead.getRootHash()), consistencyProof.getSecondHash());
             Assert.assertTrue(consistencyProof.getFirstTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getSecondTreeSize() > 0);
             Assert.assertTrue(consistencyProof.getPath().size() > 0);
@@ -182,38 +199,17 @@ public class LogSentinelClientTest {
                     consistencyProof.getFirstTreeSize(),
                     consistencyProof.getSecondTreeSize()));
 
-            List<byte[]> consistenctProofPath = new ArrayList<>();
+            List<byte[]> consistencyProofPath = new ArrayList<>();
             for (String pathEntry : consistencyProof.getPath()) {
-                consistenctProofPath.add(Base64.getUrlDecoder().decode(pathEntry));
+                consistencyProofPath.add(Base64.getUrlDecoder().decode(pathEntry));
             }
 
-            Assert.assertTrue(ConsistencyProofVerification.verify(consistenctProofPath,
-                    Base64.getDecoder().decode(consistencyProof.getFirstHash()), consistencyProof.getFirstTreeSize(),
-                    Base64.getDecoder().decode(consistencyProof.getSecondHash()), consistencyProof.getSecondTreeSize()));
+            Assert.assertTrue(ConsistencyProofVerification.verify(consistencyProofPath,
+                    Base64.getUrlDecoder().decode(consistencyProof.getFirstHash()),
+                    consistencyProof.getFirstTreeSize(),
+                    Base64.getUrlDecoder().decode(consistencyProof.getSecondHash()),
+                    consistencyProof.getSecondTreeSize()));
 
-                    */
-            /*
-            try {
-                byte[] publicKey = Base64.getUrlDecoder().decode(result.getPublicKey());
-
-                ByteArrayInputStream bIn = new ByteArrayInputStream(publicKey);
-                ASN1InputStream aIn = new ASN1InputStream(bIn);
-
-                ASN1ObjectIdentifier c = new ASN1ObjectIdentifier("1.2.840.113549.1.1.1");
-                AlgorithmIdentifier alg = new AlgorithmIdentifier(c);
-                SubjectPublicKeyInfo subk = new SubjectPublicKeyInfo(alg, aIn.readObject());
-
-                X509EncodedKeySpec spec =
-                        new X509EncodedKeySpec(subk.parsePublicKey().getEncoded());
-                KeyFactory kf = KeyFactory.getInstance("RSA");
-
-                Assert.assertNotNull(kf.generatePublic(spec));
-            }
-            catch (NoSuchAlgorithmException|InvalidKeySpecException|IOException e) {
-                System.err.println("Exception when importing public key");
-                e.printStackTrace();
-            }
-            */
         } catch (ApiException e) {
             System.err.println("Exception when calling AuditLogControllerApi#logAuthAction");
             e.printStackTrace();
