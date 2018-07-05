@@ -51,11 +51,12 @@ public class LogSentinelClientTest {
 
 
         String hash1 = "0qHnEuGmu5I5vBIURvcjkTDw3LF_t_BQLUWRvoutPCSaCU1-j9lafQ8A_qbJFfkiUYU1fHtz9OyCwWP_XUjHbw==";
-        String hash2 = "dht-bOoP-g1LPgwO7hNgvahGf2Pv87VxpMQ7jiufF2XratgOZJF5FmZ29lfwuJvJywtFE1fQyJ9HV6hVABo5Tg==";
+        String hash2 = "aGpNDMW5vIJ1Mbe9fb-SSCyQoH6ZFigFCJ2ZvGIUn2pIWF00IaOzRNTpfckvwF7cmyXLJFnM3-9VOUNVKyLc9g==";
 
         String logSentinelTsCert = "MIICzjCCAbagAwIBAgIEWPIrGjANBgkqhkiG9w0BAQ0FADAbMRkwFwYDVQQDDBBhdWRpdGxvZy10c2Eta2V5MB4XDTE3MDQxNTE0MTcyM1oXDTIyMDQxNTE0MTcyM1owGzEZMBcGA1UEAwwQYXVkaXRsb2ctdHNhLWtleTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ25X+ady+Af1K1AcNGJAVIJY2qR47DXF9gHFSXkV4fEuHvnEPzCozXNNpgwHbVVEJs0mUsaEG+MukZtJ1WWJha/qFYB9eMotYucVwUt1YulUbAJbWLb99oMJ8KyHWJtVFTfHJL+j3DScLzBQ0QglG7RiOc7gQohBnamtwe7ayIIOa/BJREYtK5o9rBLSddGeXZjoJzSrXARvaPnDolHuqK/eseFeLWJN0IvykCK/On3FCeWVtrzPlIrm1NVaVcyrK1x3j5P5I9pYZ2b32446FyXsQZlr0TvKvTbs5eKNGJ4270YVqYmSM6aZZH+x5X3oNujRk9q6OKepPv4vr9dRDcCAwEAAaMaMBgwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwgwDQYJKoZIhvcNAQENBQADggEBAJVn4p9ftwXqOsGyLuZYkCA2PxsSrMQXbrIk4geWsD7U9ZV/2yEuOKWKRmBna8i+d/g+UmNKo2EVYUaVDb+FxXbJswGSh/WHsCmVKn62iR4JldbNZHgQEBXRndxjfzigBqzbtPTIx7ivk7RyX2eSv4sA4E/Wb3Pshiqt5n9TZqDSeCUsshKOpE6WBdDyApsjDiJ/W/xhy9x9RhpAJdni+W0NgGQK/a96fxoKB75zoKqD1gnmr0WojQcDFFwMxLnVD0j0m9UECWJxI/67RkQEvequD13nZShseH4cF8hGLYF/rK0eDbjleBpAG4GBEpVY2jdVKU3KaHMdOFD+kWCT2+0=";
 
         String historicalMth = "PBPLkDuEYgo-C55y59egFWFm9FUpDu4xUf60uw4rIpI=";
+
         try {
             LogInfo logInfo = client.getVerificationActions().getMerkleTreeInfoUsingGET();
 
@@ -107,33 +108,31 @@ public class LogSentinelClientTest {
             Assert.assertNotNull(logEntries);
             Assert.assertTrue(logEntries.size() > 0);
 
-            for (AuditLogEntry entry : logEntries) {
-                Assert.assertNotNull(entry.getHash());
-                Assert.assertNotNull(entry.getTimestampTime());
-                Assert.assertNotNull(entry.getId());
+            boolean logChainingVerificationError = false;
 
-                String prevEntryHash;
-
-                if (entry.getPreviousEntryId() != null) {
-                    AuditLogEntry prevEntry = client.getAuditLogActions().getEntryByIdUsingGET(applicationId,
-                            entry.getPreviousEntryId());
-                    prevEntryHash = prevEntry.getHash();
-                } else {
-                    prevEntryHash = "";
-                }
-
-                String expectedHash =  Base64.getUrlEncoder().encodeToString(DigestUtils.sha512(
-                        entry.getHashableContent() + prevEntryHash));
-
-                Assert.assertEquals(entry.getHash(), expectedHash);
+            for (int i = 0; i <= logEntries.size() - 1; i++) {
+                Assert.assertNotNull(logEntries.get(i).getHash());
+                Assert.assertNotNull(logEntries.get(i).getTimestampTime());
+                Assert.assertNotNull(logEntries.get(i).getId());
 
                 String standaloneHash = client.getHashActions().getHashUsingPOST(applicationId,
-                        UUID.fromString(entry.getId()));
+                        UUID.fromString(logEntries.get(i).getId()));
 
                 Assert.assertNotNull(standaloneHash);
 
                 entriesForVerification.add(standaloneHash);
+
+                String prevEntryHash = i > 0 ? logEntries.get(i - 1).getHash() : "";
+
+                String expectedEntryHash =  Base64.getUrlEncoder().encodeToString(DigestUtils.sha512(
+                        logEntries.get(i).getHashableContent() + prevEntryHash));
+
+                if (!expectedEntryHash.equals(logEntries.get(i).getHash())) {
+                    logChainingVerificationError = true;
+                }
             }
+
+            Assert.assertFalse(logChainingVerificationError);
 
 
             for (String entryForVerification : entriesForVerification) {
