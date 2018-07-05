@@ -22,6 +22,8 @@ public class LogSentinelClientTest {
 
     @Test
     public void getVerificationActions() {
+        // Test the audit log verification controller
+
         LogSentinelClientBuilder builder = LogSentinelClientBuilder
                 .create(applicationId, organizationId, secret);
         builder.setBasePath("http://localhost:8080");
@@ -187,6 +189,7 @@ public class LogSentinelClientTest {
         } catch (ApiException e) {
             System.err.println("Exception when calling AuditLogControllerApi#logAuthAction");
             e.printStackTrace();
+            Assert.assertTrue(false);
         }
     }
 }
