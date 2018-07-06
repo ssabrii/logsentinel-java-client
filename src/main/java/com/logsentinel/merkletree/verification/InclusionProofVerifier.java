@@ -13,7 +13,7 @@ import java.util.List;
  * @author https://stefan.genchev.io/
  * @version 1.0
  */
-public class InclusionProofVerification {
+public class InclusionProofVerifier {
 
     /**
      * Verifies an inclusion proof for a given element

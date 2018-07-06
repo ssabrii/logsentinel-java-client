@@ -13,7 +13,7 @@ import java.util.List;
  * @author https://stefan.genchev.io/
  * @version 1.0
  */
-public class ConsistencyProofVerification {
+public class ConsistencyProofVerifier {
 
     /**
      * Verifies consistency between two tree heads

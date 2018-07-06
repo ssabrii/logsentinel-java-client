@@ -4,13 +4,12 @@ import com.logsentinel.client.model.*;
 import com.logsentinel.merkletree.utils.ArrayUtils;
 import com.logsentinel.merkletree.utils.CryptoUtils;
 import com.logsentinel.merkletree.utils.TreeUtils;
-import com.logsentinel.merkletree.verification.ConsistencyProofVerification;
-import com.logsentinel.merkletree.verification.InclusionProofVerification;
+import com.logsentinel.merkletree.verification.ConsistencyProofVerifier;
+import com.logsentinel.merkletree.verification.InclusionProofVerifier;
 import com.logsentinel.util.StringUtil;
 import com.logsentinel.util.TimeStampUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.*;
 
@@ -151,7 +150,7 @@ public class LogSentinelClientTest {
 
                 // Verify the inclusion of the given audit log entry using the retrieved Merkle inclusion proof data and
                 // MTH
-                Assert.assertTrue(InclusionProofVerification.verify(inclusionProofPath, hashToVerify, index,
+                Assert.assertTrue(InclusionProofVerifier.verify(inclusionProofPath, hashToVerify, index,
                         inclusionProof.getTreeSize(), Base64.getUrlDecoder().decode(inclusionProof.getRootHash())));
             }
 
@@ -180,7 +179,7 @@ public class LogSentinelClientTest {
 
             // Verify the consistency between two historical Merkle Tree Heads (MTHs) or between a historical MTH and
             // the latest MTH
-            Assert.assertTrue(ConsistencyProofVerification.verify(consistencyProofPath,
+            Assert.assertTrue(ConsistencyProofVerifier.verify(consistencyProofPath,
                     Base64.getUrlDecoder().decode(consistencyProof.getFirstHash()),
                     consistencyProof.getFirstTreeSize(),
                     Base64.getUrlDecoder().decode(consistencyProof.getSecondHash()),
