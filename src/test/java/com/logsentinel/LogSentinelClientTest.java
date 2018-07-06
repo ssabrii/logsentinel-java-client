@@ -44,7 +44,7 @@ public class LogSentinelClientTest {
 
         try {
             // Retrieve basic log information
-            LogInfo logInfo = client.getVerificationActions().getMerkleTreeInfoUsingGET();
+            LogInfo logInfo = client.getVerificationActions().getMerkleTreeInfo();
 
             Assert.assertNotNull(logInfo);
             Assert.assertEquals("2.16.840.1.101.3.4.2.3", logInfo.getLeafHashAlgorithmOid());
@@ -52,7 +52,7 @@ public class LogSentinelClientTest {
             Assert.assertEquals("1.2.840.113549.1.1.13", logInfo.getTimestampAlgorithmOid());
 
             // Retrieve the latest Merkle Tree Head (MTH)
-            TreeHead treeHead = client.getVerificationActions().getLatestTreeHeadUsingGET(applicationId);
+            TreeHead treeHead = client.getVerificationActions().getLatestTreeHead(applicationId);
 
             Assert.assertNotNull(treeHead);
             Assert.assertTrue(treeHead.getTreeSize() > 0);
@@ -67,7 +67,7 @@ public class LogSentinelClientTest {
             List<String> entriesForVerification = new ArrayList<>();
 
             // Retrieve all entries between two hashes
-            List<AuditLogEntry> logEntries = client.getVerificationActions().getEntriesBetweenHashesUsingGET(hash1,
+            List<AuditLogEntry> logEntries = client.getVerificationActions().getEntriesBetweenHashes(hash1,
                     hash2, applicationId);
 
             Assert.assertNotNull(logEntries);
@@ -122,7 +122,7 @@ public class LogSentinelClientTest {
             // generated list
             for (String entryForVerification : entriesForVerification) {
                 // Retrieve the inclusion proof data and the latest MTH from the server
-                InclusionProof inclusionProof = client.getVerificationActions().getInclusionProofUsingGET(
+                InclusionProof inclusionProof = client.getVerificationActions().getInclusionProof(
                         entryForVerification,
                         applicationId);
 
@@ -158,7 +158,7 @@ public class LogSentinelClientTest {
 
             // Retrieve the consistency proof data between two historical Merkle Tree Heads (MTHs) or between a
             // historical MTH and the latest MTH
-            ConsistencyProof consistencyProof = client.getVerificationActions().getConsistencyProofUsingGET(
+            ConsistencyProof consistencyProof = client.getVerificationActions().getConsistencyProof(
                     historicalMth, applicationId, StringUtil.base64StringAddPadding(treeHead.getRootHash()));
 
             Assert.assertNotNull(consistencyProof);

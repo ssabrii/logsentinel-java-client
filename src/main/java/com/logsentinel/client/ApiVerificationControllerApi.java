@@ -44,7 +44,7 @@ public class ApiVerificationControllerApi {
     }
 
     /**
-     * Build call for getConsistencyProofUsingGET
+     * Build call for getConsistencyProof
      * @param firstTreeHash firstTreeHash (required)
      * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param secondTreeHash secondTreeHash (optional, default to -1)
@@ -53,7 +53,7 @@ public class ApiVerificationControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getConsistencyProofUsingGETCall(String firstTreeHash, String applicationId, String secondTreeHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getConsistencyProof(String firstTreeHash, String applicationId, String secondTreeHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -101,20 +101,20 @@ public class ApiVerificationControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getConsistencyProofUsingGETValidateBeforeCall(String firstTreeHash, String applicationId, String secondTreeHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getConsistencyProofValidateBeforeCall(String firstTreeHash, String applicationId, String secondTreeHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'firstTreeHash' is set
         if (firstTreeHash == null) {
-            throw new ApiException("Missing the required parameter 'firstTreeHash' when calling getConsistencyProofUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'firstTreeHash' when calling getConsistencyProof(Async)");
         }
 
         // verify the required parameter 'applicationId' is set
         if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getConsistencyProofUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getConsistencyProof(Async)");
         }
 
 
-        com.squareup.okhttp.Call call = getConsistencyProofUsingGETCall(firstTreeHash, applicationId, secondTreeHash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getConsistencyProof(firstTreeHash, applicationId, secondTreeHash, progressListener, progressRequestListener);
         return call;
 
     }
@@ -128,8 +128,8 @@ public class ApiVerificationControllerApi {
      * @return ConsistencyProof
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ConsistencyProof getConsistencyProofUsingGET(String firstTreeHash, String applicationId, String secondTreeHash) throws ApiException {
-        ApiResponse<ConsistencyProof> resp = getConsistencyProofUsingGETWithHttpInfo(firstTreeHash, applicationId, secondTreeHash);
+    public ConsistencyProof getConsistencyProof(String firstTreeHash, String applicationId, String secondTreeHash) throws ApiException {
+        ApiResponse<ConsistencyProof> resp = getConsistencyProofWithHttpInfo(firstTreeHash, applicationId, secondTreeHash);
         return resp.getData();
     }
 
@@ -142,8 +142,8 @@ public class ApiVerificationControllerApi {
      * @return ApiResponse&lt;ConsistencyProof&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ConsistencyProof> getConsistencyProofUsingGETWithHttpInfo(String firstTreeHash, String applicationId, String secondTreeHash) throws ApiException {
-        com.squareup.okhttp.Call call = getConsistencyProofUsingGETValidateBeforeCall(firstTreeHash, applicationId, secondTreeHash, null, null);
+    public ApiResponse<ConsistencyProof> getConsistencyProofWithHttpInfo(String firstTreeHash, String applicationId, String secondTreeHash) throws ApiException {
+        com.squareup.okhttp.Call call = getConsistencyProofValidateBeforeCall(firstTreeHash, applicationId, secondTreeHash, null, null);
         Type localVarReturnType = new TypeToken<ConsistencyProof>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -158,7 +158,7 @@ public class ApiVerificationControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getConsistencyProofUsingGETAsync(String firstTreeHash, String applicationId, String secondTreeHash, final ApiCallback<ConsistencyProof> callback) throws ApiException {
+    public com.squareup.okhttp.Call getConsistencyProofAsync(String firstTreeHash, String applicationId, String secondTreeHash, final ApiCallback<ConsistencyProof> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -179,13 +179,13 @@ public class ApiVerificationControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getConsistencyProofUsingGETValidateBeforeCall(firstTreeHash, applicationId, secondTreeHash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getConsistencyProofValidateBeforeCall(firstTreeHash, applicationId, secondTreeHash, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<ConsistencyProof>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getEntriesBetweenHashesUsingGET
+     * Build call for getEntriesBetweenHashes
      * @param startHash startHash (required)
      * @param endHash endHash (required)
      * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
@@ -194,7 +194,7 @@ public class ApiVerificationControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getEntriesBetweenHashesUsingGETCall(String startHash, String endHash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getEntriesBetweenHashes(String startHash, String endHash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -242,25 +242,25 @@ public class ApiVerificationControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getEntriesBetweenHashesUsingGETValidateBeforeCall(String startHash, String endHash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getEntriesBetweenHashesValidateBeforeCall(String startHash, String endHash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'startHash' is set
         if (startHash == null) {
-            throw new ApiException("Missing the required parameter 'startHash' when calling getEntriesBetweenHashesUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'startHash' when calling getEntriesBetweenHashes(Async)");
         }
 
         // verify the required parameter 'endHash' is set
         if (endHash == null) {
-            throw new ApiException("Missing the required parameter 'endHash' when calling getEntriesBetweenHashesUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'endHash' when calling getEntriesBetweenHashes(Async)");
         }
 
         // verify the required parameter 'applicationId' is set
         if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getEntriesBetweenHashesUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getEntriesBetweenHashes(Async)");
         }
 
 
-        com.squareup.okhttp.Call call = getEntriesBetweenHashesUsingGETCall(startHash, endHash, applicationId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getEntriesBetweenHashes(startHash, endHash, applicationId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -274,8 +274,8 @@ public class ApiVerificationControllerApi {
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<AuditLogEntry> getEntriesBetweenHashesUsingGET(String startHash, String endHash, String applicationId) throws ApiException {
-        ApiResponse<List<AuditLogEntry>> resp = getEntriesBetweenHashesUsingGETWithHttpInfo(startHash, endHash, applicationId);
+    public List<AuditLogEntry> getEntriesBetweenHashes(String startHash, String endHash, String applicationId) throws ApiException {
+        ApiResponse<List<AuditLogEntry>> resp = getEntriesBetweenHashesWithHttpInfo(startHash, endHash, applicationId);
         return resp.getData();
     }
 
@@ -288,8 +288,8 @@ public class ApiVerificationControllerApi {
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<AuditLogEntry>> getEntriesBetweenHashesUsingGETWithHttpInfo(String startHash, String endHash, String applicationId) throws ApiException {
-        com.squareup.okhttp.Call call = getEntriesBetweenHashesUsingGETValidateBeforeCall(startHash, endHash, applicationId, null, null);
+    public ApiResponse<List<AuditLogEntry>> getEntriesBetweenHashesWithHttpInfo(String startHash, String endHash, String applicationId) throws ApiException {
+        com.squareup.okhttp.Call call = getEntriesBetweenHashesValidateBeforeCall(startHash, endHash, applicationId, null, null);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -304,7 +304,7 @@ public class ApiVerificationControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getEntriesBetweenHashesUsingGETAsync(String startHash, String endHash, String applicationId, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+    public com.squareup.okhttp.Call getEntriesBetweenHashesAsync(String startHash, String endHash, String applicationId, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -325,13 +325,13 @@ public class ApiVerificationControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getEntriesBetweenHashesUsingGETValidateBeforeCall(startHash, endHash, applicationId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getEntriesBetweenHashesValidateBeforeCall(startHash, endHash, applicationId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getInclusionProofUsingGET
+     * Build call for getInclusionProof
      * @param hash Hash of the entry to verify (required)
      * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param progressListener Progress listener
@@ -339,7 +339,7 @@ public class ApiVerificationControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getInclusionProofUsingGETCall(String hash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getInclusionProof(String hash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -385,20 +385,20 @@ public class ApiVerificationControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getInclusionProofUsingGETValidateBeforeCall(String hash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getInclusionProofValidateBeforeCall(String hash, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'hash' is set
         if (hash == null) {
-            throw new ApiException("Missing the required parameter 'hash' when calling getInclusionProofUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'hash' when calling getInclusionProof(Async)");
         }
 
         // verify the required parameter 'applicationId' is set
         if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getInclusionProofUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getInclusionProof(Async)");
         }
 
 
-        com.squareup.okhttp.Call call = getInclusionProofUsingGETCall(hash, applicationId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getInclusionProof(hash, applicationId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -411,8 +411,8 @@ public class ApiVerificationControllerApi {
      * @return InclusionProof
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public InclusionProof getInclusionProofUsingGET(String hash, String applicationId) throws ApiException {
-        ApiResponse<InclusionProof> resp = getInclusionProofUsingGETWithHttpInfo(hash, applicationId);
+    public InclusionProof getInclusionProof(String hash, String applicationId) throws ApiException {
+        ApiResponse<InclusionProof> resp = getInclusionProofWithHttpInfo(hash, applicationId);
         return resp.getData();
     }
 
@@ -424,8 +424,8 @@ public class ApiVerificationControllerApi {
      * @return ApiResponse&lt;InclusionProof&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<InclusionProof> getInclusionProofUsingGETWithHttpInfo(String hash, String applicationId) throws ApiException {
-        com.squareup.okhttp.Call call = getInclusionProofUsingGETValidateBeforeCall(hash, applicationId, null, null);
+    public ApiResponse<InclusionProof> getInclusionProofWithHttpInfo(String hash, String applicationId) throws ApiException {
+        com.squareup.okhttp.Call call = getInclusionProofValidateBeforeCall(hash, applicationId, null, null);
         Type localVarReturnType = new TypeToken<InclusionProof>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -439,7 +439,7 @@ public class ApiVerificationControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getInclusionProofUsingGETAsync(String hash, String applicationId, final ApiCallback<InclusionProof> callback) throws ApiException {
+    public com.squareup.okhttp.Call getInclusionProofAsync(String hash, String applicationId, final ApiCallback<InclusionProof> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -460,20 +460,20 @@ public class ApiVerificationControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getInclusionProofUsingGETValidateBeforeCall(hash, applicationId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getInclusionProofValidateBeforeCall(hash, applicationId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<InclusionProof>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getLatestTreeHeadUsingGET
+     * Build call for getLatestTreeHead
      * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getLatestTreeHeadUsingGETCall(String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getLatestTreeHead(String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -517,15 +517,15 @@ public class ApiVerificationControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getLatestTreeHeadUsingGETValidateBeforeCall(String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getLatestTreeHeadValidateBeforeCall(String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'applicationId' is set
         if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getLatestTreeHeadUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getLatestTreeHead(Async)");
         }
 
 
-        com.squareup.okhttp.Call call = getLatestTreeHeadUsingGETCall(applicationId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getLatestTreeHead(applicationId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -537,8 +537,8 @@ public class ApiVerificationControllerApi {
      * @return TreeHead
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public TreeHead getLatestTreeHeadUsingGET(String applicationId) throws ApiException {
-        ApiResponse<TreeHead> resp = getLatestTreeHeadUsingGETWithHttpInfo(applicationId);
+    public TreeHead getLatestTreeHead(String applicationId) throws ApiException {
+        ApiResponse<TreeHead> resp = getLatestTreeHeadWithHttpInfo(applicationId);
         return resp.getData();
     }
 
@@ -549,8 +549,8 @@ public class ApiVerificationControllerApi {
      * @return ApiResponse&lt;TreeHead&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<TreeHead> getLatestTreeHeadUsingGETWithHttpInfo(String applicationId) throws ApiException {
-        com.squareup.okhttp.Call call = getLatestTreeHeadUsingGETValidateBeforeCall(applicationId, null, null);
+    public ApiResponse<TreeHead> getLatestTreeHeadWithHttpInfo(String applicationId) throws ApiException {
+        com.squareup.okhttp.Call call = getLatestTreeHeadValidateBeforeCall(applicationId, null, null);
         Type localVarReturnType = new TypeToken<TreeHead>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -563,7 +563,7 @@ public class ApiVerificationControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getLatestTreeHeadUsingGETAsync(String applicationId, final ApiCallback<TreeHead> callback) throws ApiException {
+    public com.squareup.okhttp.Call getLatestTreeHeadAsync(String applicationId, final ApiCallback<TreeHead> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -584,19 +584,19 @@ public class ApiVerificationControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getLatestTreeHeadUsingGETValidateBeforeCall(applicationId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getLatestTreeHeadValidateBeforeCall(applicationId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<TreeHead>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getMerkleTreeInfoUsingGET
+     * Build call for getMerkleTreeInfo
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getMerkleTreeInfoUsingGETCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getMerkleTreeInfo(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -638,10 +638,10 @@ public class ApiVerificationControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getMerkleTreeInfoUsingGETValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getMerkleTreeInfoValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
 
-        com.squareup.okhttp.Call call = getMerkleTreeInfoUsingGETCall(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getMerkleTreeInfo(progressListener, progressRequestListener);
         return call;
 
     }
@@ -652,8 +652,8 @@ public class ApiVerificationControllerApi {
      * @return TreeHead
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogInfo getMerkleTreeInfoUsingGET() throws ApiException {
-        ApiResponse<LogInfo> resp = getMerkleTreeInfoUsingGETWithHttpInfo();
+    public LogInfo getMerkleTreeInfo() throws ApiException {
+        ApiResponse<LogInfo> resp = getMerkleTreeInfoWithHttpInfo();
         return resp.getData();
     }
 
@@ -663,8 +663,8 @@ public class ApiVerificationControllerApi {
      * @return ApiResponse&lt;TreeHead&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogInfo> getMerkleTreeInfoUsingGETWithHttpInfo() throws ApiException {
-        com.squareup.okhttp.Call call = getMerkleTreeInfoUsingGETValidateBeforeCall(null, null);
+    public ApiResponse<LogInfo> getMerkleTreeInfoWithHttpInfo() throws ApiException {
+        com.squareup.okhttp.Call call = getMerkleTreeInfoValidateBeforeCall(null, null);
         Type localVarReturnType = new TypeToken<LogInfo>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -676,7 +676,7 @@ public class ApiVerificationControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getMerkleTreeInfoUsingGETAsync(final ApiCallback<TreeHead> callback) throws ApiException {
+    public com.squareup.okhttp.Call getMerkleTreeInfoAsync(final ApiCallback<TreeHead> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -697,132 +697,8 @@ public class ApiVerificationControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getMerkleTreeInfoUsingGETValidateBeforeCall(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getMerkleTreeInfoValidateBeforeCall(progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<TreeHead>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
-     * Build call for getResolvedVerificationFailuresUsingGET
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call getResolvedVerificationFailuresUsingGETCall(String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/api/verification/resolved-failures";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (applicationId != null)
-        localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/xml", "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json", "*/*"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "basicAuth" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getResolvedVerificationFailuresUsingGETValidateBeforeCall(String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getResolvedVerificationFailuresUsingGET(Async)");
-        }
-        
-
-        com.squareup.okhttp.Call call = getResolvedVerificationFailuresUsingGETCall(applicationId, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Get all resolved verification failures
-     * 
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
-     * @return CollectionOfResolvedVerificationFailureResponse
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public CollectionOfResolvedVerificationFailureResponse getResolvedVerificationFailuresUsingGET(String applicationId) throws ApiException {
-        ApiResponse<CollectionOfResolvedVerificationFailureResponse> resp = getResolvedVerificationFailuresUsingGETWithHttpInfo(applicationId);
-        return resp.getData();
-    }
-
-    /**
-     * Get all resolved verification failures
-     * 
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
-     * @return ApiResponse&lt;CollectionOfResolvedVerificationFailureResponse&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<CollectionOfResolvedVerificationFailureResponse> getResolvedVerificationFailuresUsingGETWithHttpInfo(String applicationId) throws ApiException {
-        com.squareup.okhttp.Call call = getResolvedVerificationFailuresUsingGETValidateBeforeCall(applicationId, null, null);
-        Type localVarReturnType = new TypeToken<CollectionOfResolvedVerificationFailureResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Get all resolved verification failures (asynchronously)
-     * 
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call getResolvedVerificationFailuresUsingGETAsync(String applicationId, final ApiCallback<CollectionOfResolvedVerificationFailureResponse> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = getResolvedVerificationFailuresUsingGETValidateBeforeCall(applicationId, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<CollectionOfResolvedVerificationFailureResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
