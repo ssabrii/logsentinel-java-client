@@ -652,8 +652,8 @@ public class ApiVerificationControllerApi {
      * @return TreeHead
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public LogInfo getMerkleTreeInfo() throws ApiException {
-        ApiResponse<LogInfo> resp = getMerkleTreeInfoWithHttpInfo();
+    public MerkleTreeInfo getMerkleTreeInfo() throws ApiException {
+        ApiResponse<MerkleTreeInfo> resp = getMerkleTreeInfoWithHttpInfo();
         return resp.getData();
     }
 
@@ -663,9 +663,9 @@ public class ApiVerificationControllerApi {
      * @return ApiResponse&lt;TreeHead&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<LogInfo> getMerkleTreeInfoWithHttpInfo() throws ApiException {
+    public ApiResponse<MerkleTreeInfo> getMerkleTreeInfoWithHttpInfo() throws ApiException {
         com.squareup.okhttp.Call call = getMerkleTreeInfoValidateBeforeCall(null, null);
-        Type localVarReturnType = new TypeToken<LogInfo>(){}.getType();
+        Type localVarReturnType = new TypeToken<MerkleTreeInfo>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 

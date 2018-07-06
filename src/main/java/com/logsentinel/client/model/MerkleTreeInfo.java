@@ -29,7 +29,7 @@ public class MerkleTreeInfo {
   @SerializedName("leafHashAlgorithmOid")
   private String leafHashAlgorithmOid = null;
 
-  @SerializedName("publicKey")
+  @SerializedName("timestampPublicKey")
   private String publicKey = null;
 
   @SerializedName("timestampAlgorithmOid")

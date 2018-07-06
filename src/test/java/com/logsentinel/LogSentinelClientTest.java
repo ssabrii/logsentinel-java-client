@@ -44,7 +44,7 @@ public class LogSentinelClientTest {
 
         try {
             // Retrieve basic log information
-            LogInfo logInfo = client.getVerificationActions().getMerkleTreeInfo();
+            MerkleTreeInfo logInfo = client.getVerificationActions().getMerkleTreeInfo();
 
             Assert.assertNotNull(logInfo);
             Assert.assertEquals("2.16.840.1.101.3.4.2.3", logInfo.getLeafHashAlgorithmOid());
