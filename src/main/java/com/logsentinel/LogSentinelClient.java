@@ -42,5 +42,7 @@ public class LogSentinelClient {
         return searchActions;
     }
 
-    public ApiVerificationControllerApi getVerificationActions() { return verificationActions; }
+    public ApiVerificationControllerApi getVerificationActions() {
+        return verificationActions;
+    }
 }
