@@ -64,7 +64,7 @@ public class AuditLogControllerApi {
 
 
     /**
-     * Build call for getEntryByIdUsingGET
+     * Build call for getEntryById
      * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param entryId ID of the audit log entry to verify (required)
      * @param progressListener Progress listener
@@ -72,7 +72,7 @@ public class AuditLogControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getEntryByIdUsingGETCall(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getEntryById(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -118,20 +118,20 @@ public class AuditLogControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getEntryByIdUsingGETValidateBeforeCall(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getEntryByIdValidateBeforeCall(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'applicationId' is set
         if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getEntryByIdUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getEntryById(Async)");
         }
 
         // verify the required parameter 'entryId' is set
         if (entryId == null) {
-            throw new ApiException("Missing the required parameter 'entryId' when calling getEntryByIdUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'entryId' when calling getEntryById(Async)");
         }
 
 
-        com.squareup.okhttp.Call call = getEntryByIdUsingGETCall(applicationId, entryId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getEntryById(applicationId, entryId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -144,8 +144,8 @@ public class AuditLogControllerApi {
      * @return AuditLogEntry
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public AuditLogEntry getEntryByIdUsingGET(String applicationId, String entryId) throws ApiException {
-        ApiResponse<AuditLogEntry> resp = getEntryByIdUsingGETWithHttpInfo(applicationId, entryId);
+    public AuditLogEntry getEntryById(String applicationId, String entryId) throws ApiException {
+        ApiResponse<AuditLogEntry> resp = getEntryByIdWithHttpInfo(applicationId, entryId);
         return resp.getData();
     }
 
@@ -157,8 +157,8 @@ public class AuditLogControllerApi {
      * @return ApiResponse&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<AuditLogEntry> getEntryByIdUsingGETWithHttpInfo(String applicationId, String entryId) throws ApiException {
-        com.squareup.okhttp.Call call = getEntryByIdUsingGETValidateBeforeCall(applicationId, entryId, null, null);
+    public ApiResponse<AuditLogEntry> getEntryByIdWithHttpInfo(String applicationId, String entryId) throws ApiException {
+        com.squareup.okhttp.Call call = getEntryByIdValidateBeforeCall(applicationId, entryId, null, null);
         Type localVarReturnType = new TypeToken<AuditLogEntry>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -172,7 +172,7 @@ public class AuditLogControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getEntryByIdUsingGETAsync(String applicationId, String entryId, final ApiCallback<AuditLogEntry> callback) throws ApiException {
+    public com.squareup.okhttp.Call getEntryByIdAsync(String applicationId, String entryId, final ApiCallback<AuditLogEntry> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -193,7 +193,7 @@ public class AuditLogControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getEntryByIdUsingGETValidateBeforeCall(applicationId, entryId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getEntryByIdValidateBeforeCall(applicationId, entryId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<AuditLogEntry>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

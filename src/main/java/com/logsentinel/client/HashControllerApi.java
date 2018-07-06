@@ -61,7 +61,7 @@ public class HashControllerApi {
     }
 
     /**
-     * Build call for getHashUsingPOST
+     * Build call for getHash
      * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param entryId ID of the audit log entry to verify (required)
      * @param progressListener Progress listener
@@ -69,7 +69,7 @@ public class HashControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getHashUsingPOSTCall(String applicationId, UUID entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getHash(String applicationId, UUID entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -115,20 +115,20 @@ public class HashControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getHashUsingPOSTValidateBeforeCall(String applicationId, UUID entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashValidateBeforeCall(String applicationId, UUID entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'applicationId' is set
         if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getHashUsingPOST(Async)");
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getHash(Async)");
         }
 
         // verify the required parameter 'entryId' is set
         if (entryId == null) {
-            throw new ApiException("Missing the required parameter 'entryId' when calling getHashUsingPOST(Async)");
+            throw new ApiException("Missing the required parameter 'entryId' when calling getHash(Async)");
         }
 
 
-        com.squareup.okhttp.Call call = getHashUsingPOSTCall(applicationId, entryId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHash(applicationId, entryId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -141,8 +141,8 @@ public class HashControllerApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public String getHashUsingPOST(String applicationId, UUID entryId) throws ApiException {
-        ApiResponse<String> resp = getHashUsingPOSTWithHttpInfo(applicationId, entryId);
+    public String getHash(String applicationId, UUID entryId) throws ApiException {
+        ApiResponse<String> resp = getHashWithHttpInfo(applicationId, entryId);
         return resp.getData();
     }
 
@@ -154,8 +154,8 @@ public class HashControllerApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<String> getHashUsingPOSTWithHttpInfo(String applicationId, UUID entryId) throws ApiException {
-        com.squareup.okhttp.Call call = getHashUsingPOSTValidateBeforeCall(applicationId, entryId, null, null);
+    public ApiResponse<String> getHashWithHttpInfo(String applicationId, UUID entryId) throws ApiException {
+        com.squareup.okhttp.Call call = getHashValidateBeforeCall(applicationId, entryId, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -169,7 +169,7 @@ public class HashControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getHashUsingPOSTAsync(String applicationId, UUID entryId, final ApiCallback<String> callback) throws ApiException {
+    public com.squareup.okhttp.Call getHashAsync(String applicationId, UUID entryId, final ApiCallback<String> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -190,7 +190,7 @@ public class HashControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getHashUsingPOSTValidateBeforeCall(applicationId, entryId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashValidateBeforeCall(applicationId, entryId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

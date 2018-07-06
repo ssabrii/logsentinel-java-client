@@ -97,7 +97,7 @@ public class LogSentinelClientTest {
                         expectedEntryStandaloneData + prevEntryHash));
 
                 // Retrieve the standalone hash of the given audit log entry from the server
-                String entryStandaloneHash = client.getHashActions().getHashUsingPOST(applicationId,
+                String entryStandaloneHash = client.getHashActions().getHash(applicationId,
                         UUID.fromString(logEntries.get(i).getId()));
 
                 // The calculated expected standalone hash of the given audit log entry should match the one on the
