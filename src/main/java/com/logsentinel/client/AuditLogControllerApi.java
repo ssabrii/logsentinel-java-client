@@ -62,6 +62,143 @@ public class AuditLogControllerApi {
         this.apiClient = apiClient;
     }
 
+
+    /**
+     * Build call for getEntryById
+     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
+     * @param entryId ID of the audit log entry to verify (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call getEntryById(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/getEntryById";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (entryId != null)
+            localVarQueryParams.addAll(apiClient.parameterToPair("entryId", entryId));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (applicationId != null)
+            localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+                "application/xml", "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+                "*/*"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "basicAuth" };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call getEntryByIdValidateBeforeCall(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+
+        // verify the required parameter 'applicationId' is set
+        if (applicationId == null) {
+            throw new ApiException("Missing the required parameter 'applicationId' when calling getEntryById(Async)");
+        }
+
+        // verify the required parameter 'entryId' is set
+        if (entryId == null) {
+            throw new ApiException("Missing the required parameter 'entryId' when calling getEntryById(Async)");
+        }
+
+
+        com.squareup.okhttp.Call call = getEntryById(applicationId, entryId, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * Get entry by id
+     *
+     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
+     * @param entryId ID of the audit log entry to verify (required)
+     * @return AuditLogEntry
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public AuditLogEntry getEntryById(String applicationId, String entryId) throws ApiException {
+        ApiResponse<AuditLogEntry> resp = getEntryByIdWithHttpInfo(applicationId, entryId);
+        return resp.getData();
+    }
+
+    /**
+     * Get entry by id
+     *
+     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
+     * @param entryId ID of the audit log entry to verify (required)
+     * @return ApiResponse&lt;AuditLogEntry&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<AuditLogEntry> getEntryByIdWithHttpInfo(String applicationId, String entryId) throws ApiException {
+        com.squareup.okhttp.Call call = getEntryByIdValidateBeforeCall(applicationId, entryId, null, null);
+        Type localVarReturnType = new TypeToken<AuditLogEntry>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Get entry by id (asynchronously)
+     *
+     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
+     * @param entryId ID of the audit log entry to verify (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call getEntryByIdAsync(String applicationId, String entryId, final ApiCallback<AuditLogEntry> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = getEntryByIdValidateBeforeCall(applicationId, entryId, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<AuditLogEntry>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+
     /* Build call for logAuthAction */
     private <T> Call logAuthActionCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         BodyAndKeywords bodyAndKeywords = preProcessBody(actionData);

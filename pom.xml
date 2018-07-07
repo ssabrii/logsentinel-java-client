@@ -287,6 +287,18 @@
             <version>1.11</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.53</version>
+        </dependency>
+
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>

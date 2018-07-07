@@ -59,9 +59,10 @@ public class LogSentinelClientBuilder {
         OrganizationUsersControllerApi userActions = new OrganizationUsersControllerApi(apiClient);
         ManageApplicationControllerApi applicationActions = new ManageApplicationControllerApi(apiClient);
         AuditLogSearchControllerApi searchActions = new AuditLogSearchControllerApi(apiClient);
+        ApiVerificationControllerApi verificationActions = new ApiVerificationControllerApi(apiClient);
 
         LogSentinelClient client = new LogSentinelClient(auditLogActions, hashActions, userActions,
-                applicationActions, searchActions);
+                applicationActions, searchActions, verificationActions);
         return client;
     }
 
