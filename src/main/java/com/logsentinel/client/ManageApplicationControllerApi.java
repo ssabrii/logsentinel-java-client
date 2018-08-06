@@ -184,7 +184,9 @@ public class ManageApplicationControllerApi {
      */
     public com.squareup.okhttp.Call getApplications(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
-        if(progressListener != null) Object localVarPostBody = null;
+        if(progressListener != null) {
+            Object localVarPostBody = null;
+        }
 
         // create path and map variables
         String localVarPath = "/api/application";
