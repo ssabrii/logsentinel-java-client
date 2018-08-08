@@ -52,4 +52,23 @@ public class StringUtil {
         }
         return out.toString();
     }
+
+    /**
+     * Add the missing padding of a Base-64 string.
+     *
+     * @param base64 Base64-encoded string
+     * @return padded Base-64 string
+     */
+    public static String base64StringAddPadding(String base64) {
+        int rem = Math.floorMod(base64.length(), 4);
+
+        if (rem == 2) {
+            base64 = base64 + "==";
+        }
+        else if (rem == 3) {
+            base64 = base64 + "=";
+        }
+
+        return base64;
+    }
 }

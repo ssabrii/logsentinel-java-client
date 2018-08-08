@@ -9,15 +9,17 @@ public class LogSentinelClient {
     private OrganizationUsersControllerApi userActions;
     private ManageApplicationControllerApi applicationActions;
     private AuditLogSearchControllerApi searchActions;
+    private ApiVerificationControllerApi verificationActions;
 
     public LogSentinelClient(AuditLogControllerApi auditLogActions, HashControllerApi hashActions,
                              OrganizationUsersControllerApi userActions, ManageApplicationControllerApi applicationActions,
-                             AuditLogSearchControllerApi searchActions) {
+                             AuditLogSearchControllerApi searchActions, ApiVerificationControllerApi verificationActions) {
         this.auditLogActions = auditLogActions;
         this.hashActions = hashActions;
         this.userActions = userActions;
         this.applicationActions = applicationActions;
         this.searchActions = searchActions;
+        this.verificationActions = verificationActions;
     }
 
     public AuditLogControllerApi getAuditLogActions() {
@@ -38,5 +40,9 @@ public class LogSentinelClient {
 
     public AuditLogSearchControllerApi getSearchActions() {
         return searchActions;
+    }
+
+    public ApiVerificationControllerApi getVerificationActions() {
+        return verificationActions;
     }
 }

@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.joda.time.DateTime;
 
+import static com.logsentinel.enums.HashableContent.fromVersion;
+
 /**
  * AuditLogEntry
  */
@@ -79,12 +81,31 @@ public class AuditLogEntry {
   @SerializedName("timestampTokenId")
   private String timestampTokenId = null;
 
+  @SerializedName("entryType")
+  private String entryType = null;
+
   public AuditLogEntry action(String action) {
     this.action = action;
     return this;
   }
 
-   /**
+  public String getId() {
+    return id;
+  }
+
+  public String getEntryType() {
+    return entryType;
+  }
+
+  public void setEntryType(String entryType) {
+    this.entryType = entryType;
+  }
+
+  public Long getTimestamp() {
+    return timestamp;
+  }
+
+  /**
    * Get action
    * @return action
   **/
@@ -179,17 +200,12 @@ public class AuditLogEntry {
     return this;
   }
 
-   /**
-   * Get applicationId
-   * @return applicationId
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getApplicationId() {
-    return applicationId;
-  }
-
   public void setApplicationId(String applicationId) {
     this.applicationId = applicationId;
+  }
+
+  public String getApplicationId() {
+    return applicationId;
   }
 
   public AuditLogEntry details(String details) {
@@ -269,15 +285,6 @@ public class AuditLogEntry {
     return this;
   }
 
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getId() {
-    return id;
-  }
-
   public void setId(String id) {
     this.id = id;
   }
@@ -321,15 +328,6 @@ public class AuditLogEntry {
   public AuditLogEntry timestamp(Long timestamp) {
     this.timestamp = timestamp;
     return this;
-  }
-
-   /**
-   * Get timestamp
-   * @return timestamp
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public Long getTimestamp() {
-    return timestamp;
   }
 
   public void setTimestamp(Long timestamp) {
@@ -481,6 +479,19 @@ public class AuditLogEntry {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
+  private int hashVersion;
+
+  public int getHashVersion() {
+    return hashVersion;
+  }
+
+  public void setHashVersion(int hashVersion) {
+    this.hashVersion = hashVersion;
+  }
+
+  public String getHashableContent() {
+    return fromVersion(hashVersion).getContentExtractor().apply(this);
+  }
 }
 
