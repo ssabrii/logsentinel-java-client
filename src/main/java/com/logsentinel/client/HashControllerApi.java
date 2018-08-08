@@ -226,10 +226,15 @@ public class HashControllerApi {
     }
 
     private void setDefaultParams(ActorData actorData, List<Pair> localVarQueryParams) {
-        if (actorData.getActorDisplayName() != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDisplayName", actorData.getActorDisplayName()));
-        if (actorData.getActorRoles() != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorData.getActorRoles()));
+        if (actorData.getActorDisplayName() != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDisplayName", actorData.getActorDisplayName()));
+        }
+        if (actorData.getActorRoles() != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorData.getActorRoles()));
+        }
+        if (actorData.getDepartment() != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDepartment", actorData.getDepartment()));
+        }
     }
     
     private <T> Call getHashableContentForAuthActionValidateBeforeCall(ActorData actorData, ActionData<T> actionData, Optional<String> signedLoginChallenge, Optional<String> userPublicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {

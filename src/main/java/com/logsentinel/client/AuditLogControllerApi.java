@@ -251,6 +251,8 @@ public class AuditLogControllerApi {
             localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDisplayName", actorData.getActorDisplayName()));
         if (actorData.getActorRoles() != null)
             localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorRoles", actorData.getActorRoles()));
+        if (actorData.getDepartment() != null)
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "actorDepartment", actorData.getDepartment()));
         return localVarQueryParams;
     }
 

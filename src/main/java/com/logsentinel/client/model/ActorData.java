@@ -11,6 +11,7 @@ public class ActorData {
     private String actorId;
     private List<String> actorRoles;
     private String actorDisplayName;
+    private String department;
 
     public ActorData(String actorId) {
         this.actorId = actorId;
@@ -57,6 +58,21 @@ public class ActorData {
      */
     public ActorData setActorDisplayName(String actorDisplayName) {
         this.actorDisplayName = actorDisplayName;
+        return this;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    /**
+     * Sets actor's department
+     *
+     * @param department
+     * @return the current ActorData
+     */
+    public ActorData setDepartment(String department) {
+        this.department = department;
         return this;
     }
 }
