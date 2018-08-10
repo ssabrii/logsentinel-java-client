@@ -72,3 +72,37 @@ byte[] key = Base64.getDecoder().decode(keyBase64);
 builder.setEncryptionKey(key);
 
 ```
+
+### Logback
+
+You can configure logback to sent (some of) the logs to logsentinel.
+Example logback.xml:
+```xml
+
+<configuration>
+    <appender name="logsentinel" class="com.logsentinel.logging.MyAppender">
+
+        <basePath>https://app.logsentinel.com</basePath>
+        <applicationId>ba2f0680-5424-11e8-b88d-6f2c1b6625e8</applicationId>
+        <organizationId>ba2cbc90-5424-11e8-b88d-6f2c1b6625e8</organizationId>
+        <secret>d8b63c3d82a6deb56b005a3b8617bf376b6aa6c181021abd0d37e5c5ac9911a1</secret>
+
+        <async>true</async>
+
+        <maskIP>true</maskIP>
+        <maskCreditCard>true</maskCreditCard>
+        <maskEmail>true</maskEmail>
+
+        <actorIdRegex>\b(?:actorId=)([^,]+)\b</actorIdRegex>
+        <actorNameRegex>\b(?:actorName=)([^,]+)\b</actorNameRegex>
+        <actionRegex>\b(?:action=)([^,]+)\b</actionRegex>
+        <entityRegex>\b(?:entity=)([^,]+)\b</entityRegex>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="logsentinel" />
+    </root>
+</configuration>
+```
+
+You can find more info about logback functions here: https://logback.qos.ch/manual/
