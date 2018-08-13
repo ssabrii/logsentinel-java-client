@@ -73,6 +73,8 @@ builder.setEncryptionKey(key);
 
 ```
 
+## Logging
+
 ### Logback
 
 You can configure logback to sent (some of) the logs to logsentinel.
