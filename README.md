@@ -72,3 +72,92 @@ byte[] key = Base64.getDecoder().decode(keyBase64);
 builder.setEncryptionKey(key);
 
 ```
+
+### Logback
+
+You can configure logback to sent (some of) the logs to logsentinel.
+To use filtering janino library is needed
+Example logback.xml:
+```xml
+
+<configuration>
+    <appender name="logsentinel" class="com.logsentinel.logging.LogSentinelLogbackAppender">
+
+        <basePath>https://app.logsentinel.com</basePath>
+        <applicationId>ba2f0680-5424-11e8-b88d-6f2c1b6625e8</applicationId>
+        <organizationId>ba2cbc90-5424-11e8-b88d-6f2c1b6625e8</organizationId>
+        <secret>d8b63c3d82a6deb56b005a3b8617bf376b6aa6c181021abd0d37e5c5ac9911a1</secret>
+
+        <async>true</async>
+
+        <maskIP>true</maskIP>
+        <maskCreditCard>true</maskCreditCard>
+        <maskEmail>true</maskEmail>
+
+        <actorIdRegex>\b(?:actorId=)([^,]+)\b</actorIdRegex>
+        <actorNameRegex>\b(?:actorName=)([^,]+)\b</actorNameRegex>
+        <actionRegex>\b(?:action=)([^,]+)\b</actionRegex>
+        <entityRegex>\b(?:entity=)([^,]+)\b</entityRegex>
+
+        <!-- defines regex filter which discards all messages not containing 'logsentinel'-->
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <matcher>
+                    <Name>custom</Name>
+                    <regex>.*logsentinel.*</regex>
+                </matcher>
+
+                <expression>custom.matches(formattedMessage)</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>NEUTRAL</OnMatch>
+        </filter>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="logsentinel" />
+    </root>
+</configuration>
+```
+
+You can find more info about logback functions here: https://logback.qos.ch/manual/
+
+### Log4j
+
+You can configure log4j to sent (some of) the logs to logsentinel.
+To use filtering apache-log4j-extras library is needed
+Example log4j.xml:
+```xml
+
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="logsentinel" class="com.logsentinel.logging.LogSentinelLog4jAppender">
+        <param name="basePath" value="https://api.logsentinel.com"/>
+        <param name="applicationId" value="ba2f0680-5424-11e8-b88d-6f2c1b6625e8"/>
+        <param name="organizationId" value="ba2cbc90-5424-11e8-b88d-6f2c1b6625e8"/>
+        <param name="secret" value="d8b63c3d82a6deb56b005a3b8617bf376b6aa6c181021abd0d37e5c5ac9911a1"/>
+        <param name="async" value="true"/>
+        <param name="maskIP" value="true"/>
+        <param name="maskCreditCard" value="true"/>
+        <param name="maskEmail" value="true"/>
+        <param name="actorIdRegex" value="\\b(?:actorId=)([^,]+)\\b"/>
+        <param name="actorNameRegex" value="\\b(?:actorName=)([^,]+)\\b"/>
+        <param name="actionRegex" value="\\b(?:action=)([^,]+)\\b"/>
+        <param name="entityRegex" value="\\b(?:entity=)([^,]+)\\b"/>
+
+        <!-- defines regex filter which discards all messages containing 'ignoreMe'-->
+        <filter class="org.apache.log4j.filter.ExpressionFilter">
+            <filter class="org.apache.log4j.filter.ExpressionFilter">
+                <param name="expression" value="MSG LIKE .*ignoreMe.*" />
+                <param name="acceptOnMatch" value="false"/>
+            </filter>
+        </filter>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="logsentinel"/>
+    </root>
+
+</log4j:configuration>
+```
