@@ -1,25 +1,18 @@
 package com.logsentinel.logging;
 
-import ch.qos.logback.classic.spi.LoggingEvent;
-import ch.qos.logback.core.AppenderBase;
 import com.logsentinel.ApiCallbackAdapter;
 import com.logsentinel.ApiException;
 import com.logsentinel.LogSentinelClient;
 import com.logsentinel.LogSentinelClientBuilder;
 import com.logsentinel.client.model.ActionData;
 import com.logsentinel.client.model.ActorData;
+import com.logsentinel.client.model.LogResponse;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Logback appender which sends logs to logsentinel API.
- * Extends AppenderBase, so all logback functionalities can be attached (Filters, Matchers, etc.)
- * Additionally, supports masking IP addresses, e-mails, credit card numbers
- * and extraction by regex of some basic fields needed for logsentinel API
- */
-public class MyAppender extends AppenderBase {
+public class LogSentinelAppender {
 
     private static final String CREDIT_CARD_REGEX = "\\b(?:\\d[ -]*?){16}\\b";
     private static final Pattern CREDIT_CARD_PATTERN = Pattern.compile(CREDIT_CARD_REGEX);
@@ -31,7 +24,7 @@ public class MyAppender extends AppenderBase {
             "([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\b";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEX);
 
-    // configurable properties from logback.xml
+    // configurable properties
     private String basePath;
     private String applicationId;
     private String organizationId;
@@ -55,9 +48,22 @@ public class MyAppender extends AppenderBase {
 
     LogSentinelClient client;
 
-    @Override
-    public void start() {
-        super.start();
+    private LogSentinelAppender(String basePath, String applicationId, String organizationId, String secret,
+                                boolean maskCreditCard, boolean maskIP, boolean maskEmail, boolean async, String actorIdRegex,
+                                String actorNameRegex, String actionRegex, String entityRegex) {
+
+        this.basePath = basePath;
+        this.applicationId = applicationId;
+        this.organizationId = organizationId;
+        this.secret = secret;
+        this.maskCreditCard = maskCreditCard;
+        this.maskIP = maskIP;
+        this.maskEmail = maskEmail;
+        this.async = async;
+        this.actorIdRegex = actorIdRegex;
+        this.actorNameRegex = actorNameRegex;
+        this.actionRegex = actionRegex;
+        this.entityRegex = entityRegex;
 
         LogSentinelClientBuilder builder;
         builder = LogSentinelClientBuilder.create(applicationId, organizationId, secret);
@@ -79,11 +85,7 @@ public class MyAppender extends AppenderBase {
         }
     }
 
-
-    @Override
-    protected void append(Object o) {
-        LoggingEvent event = (ch.qos.logback.classic.spi.LoggingEvent) o;
-        String msg = event.getMessage();
+    public void append(String msg) {
 
         if (maskCreditCard) {
             msg = hideCreditCard(msg);
@@ -108,7 +110,7 @@ public class MyAppender extends AppenderBase {
             if (async) {
                 client.getAuditLogActions().logAsync(actorData, actionData, new ApiCallbackAdapter());
             } else {
-                client.getAuditLogActions().log(actorData, actionData);
+                LogResponse r = client.getAuditLogActions().log(actorData, actionData);
             }
         } catch (ApiException e) {
             e.printStackTrace();
@@ -183,99 +185,88 @@ public class MyAppender extends AppenderBase {
         return "";
     }
 
-    public boolean isMaskCreditCard() {
-        return maskCreditCard;
-    }
+    public static class LogSentinelAppenderBuilder {
 
-    public void setMaskCreditCard(boolean maskCreditCard) {
-        this.maskCreditCard = maskCreditCard;
-    }
+        private String basePath;
+        private String applicationId;
+        private String organizationId;
+        private String secret;
 
-    public boolean isMaskIP() {
-        return maskIP;
-    }
+        private boolean maskCreditCard;
+        private boolean maskIP;
+        private boolean maskEmail;
+        private boolean async = true;
 
-    public void setMaskIP(boolean maskIP) {
-        this.maskIP = maskIP;
-    }
+        private String actorIdRegex;
+        private String actorNameRegex;
+        private String actionRegex;
+        private String entityRegex;
 
-    public boolean isMaskEmail() {
-        return maskEmail;
-    }
 
-    public void setMaskEmail(boolean maskEmail) {
-        this.maskEmail = maskEmail;
-    }
+        public LogSentinelAppender build() {
+            return new LogSentinelAppender(this.basePath, this.applicationId, this.organizationId, this.secret,
+                    this.maskCreditCard, this.maskIP, this.maskEmail, this.async, this.actorIdRegex, this.actorNameRegex,
+                    this.actionRegex, this.entityRegex);
+        }
 
-    public String getBasePath() {
-        return basePath;
-    }
+        public LogSentinelAppenderBuilder setBasePath(String arg) {
+            basePath = arg;
+            return this;
+        }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
+        public LogSentinelAppenderBuilder setApplicationId(String arg) {
+            applicationId = arg;
+            return this;
+        }
 
-    public String getApplicationId() {
-        return applicationId;
-    }
+        public LogSentinelAppenderBuilder setOrganizationId(String arg) {
+            organizationId = arg;
+            return this;
+        }
 
-    public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
-    }
+        public LogSentinelAppenderBuilder setSecret(String arg) {
+            secret = arg;
+            return this;
+        }
 
-    public String getOrganizationId() {
-        return organizationId;
-    }
+        public LogSentinelAppenderBuilder setMaskCreditCard(boolean arg) {
+            maskCreditCard = arg;
+            return this;
+        }
 
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
+        public LogSentinelAppenderBuilder setMaskIp(boolean arg) {
+            maskIP = arg;
+            return this;
+        }
 
-    public String getSecret() {
-        return secret;
-    }
+        public LogSentinelAppenderBuilder setMaskEmail(boolean arg) {
+            maskEmail = arg;
+            return this;
+        }
 
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
+        public LogSentinelAppenderBuilder setAsync(boolean arg) {
+            async = arg;
+            return this;
+        }
 
-    public boolean isAsync() {
-        return async;
-    }
+        public LogSentinelAppenderBuilder setActorIdRegex(String arg) {
+            actorIdRegex = arg;
+            return this;
+        }
 
-    public void setAsync(boolean async) {
-        this.async = async;
-    }
+        public LogSentinelAppenderBuilder setActorNameRegex(String arg) {
+            actorNameRegex = arg;
+            return this;
+        }
 
-    public String getActorIdRegex() {
-        return actorIdRegex;
-    }
+        public LogSentinelAppenderBuilder setActionRegex(String arg) {
+            actionRegex = arg;
+            return this;
+        }
 
-    public void setActorIdRegex(String actorIdRegex) {
-        this.actorIdRegex = actorIdRegex;
-    }
-
-    public String getActionRegex() {
-        return actionRegex;
-    }
-
-    public void setActionRegex(String actionRegex) {
-        this.actionRegex = actionRegex;
-    }
-
-    public String getEntityRegex() {
-        return entityRegex;
-    }
-
-    public void setEntityRegex(String entityRegex) {
-        this.entityRegex = entityRegex;
-    }
-
-    public String getActorNameRegex() {
-        return actorNameRegex;
-    }
-
-    public void setActorNameRegex(String actorNameRegex) {
-        this.actorNameRegex = actorNameRegex;
+        public LogSentinelAppenderBuilder setEntityRegex(String arg) {
+            entityRegex = arg;
+            return this;
+        }
     }
 }

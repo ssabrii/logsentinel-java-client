@@ -106,3 +106,34 @@ Example logback.xml:
 ```
 
 You can find more info about logback functions here: https://logback.qos.ch/manual/
+
+### Log4j
+
+You can configure log4j to sent (some of) the logs to logsentinel.
+Example log4j.xml:
+```xml
+
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="logsentinel" class="com.logsentinel.logging.LogSentinelLog4jAppender">
+        <param name="basePath" value="https://api.logsentinel.com"/>
+        <param name="applicationId" value="ba2f0680-5424-11e8-b88d-6f2c1b6625e8"/>
+        <param name="organizationId" value="ba2cbc90-5424-11e8-b88d-6f2c1b6625e8"/>
+        <param name="secret" value="d8b63c3d82a6deb56b005a3b8617bf376b6aa6c181021abd0d37e5c5ac9911a1"/>
+        <param name="async" value="true"/>
+        <param name="maskIP" value="true"/>
+        <param name="maskCreditCard" value="true"/>
+        <param name="maskEmail" value="true"/>
+        <param name="actorIdRegex" value="\\b(?:actorId=)([^,]+)\\b"/>
+        <param name="actorNameRegex" value="\\b(?:actorName=)([^,]+)\\b"/>
+        <param name="actionRegex" value="\\b(?:action=)([^,]+)\\b"/>
+        <param name="entityRegex" value="\\b(?:entity=)([^,]+)\\b"/>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="logsentinel"/>
+    </root>
+
+</log4j:configuration>
+```
