@@ -145,10 +145,12 @@ Example log4j.xml:
         <param name="actionRegex" value="\\b(?:action=)([^,]+)\\b"/>
         <param name="entityRegex" value="\\b(?:entity=)([^,]+)\\b"/>
 
-        <!-- defines regex filter which discards all messages not containing 'logsentinel'-->
+        <!-- defines regex filter which discards all messages containing 'ignoreMe'-->
         <filter class="org.apache.log4j.filter.ExpressionFilter">
-            <param name="expression" value="MSG LIKE .*logsentinel.*" />
-            <param name="acceptOnMatch" value="false"/>
+            <filter class="org.apache.log4j.filter.ExpressionFilter">
+                <param name="expression" value="MSG LIKE .*ignoreMe.*" />
+                <param name="acceptOnMatch" value="false"/>
+            </filter>
         </filter>
     </appender>
 
