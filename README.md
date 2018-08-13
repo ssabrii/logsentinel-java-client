@@ -101,17 +101,17 @@ Example logback.xml:
 
         <!-- defines regex filter which discards all messages not containing 'logsentinel'-->
         <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-                    <evaluator>
-                        <matcher>
-                            <Name>custom</Name>
-                            <regex>.*logsentinel.*</regex>
-                        </matcher>
+            <evaluator>
+                <matcher>
+                    <Name>custom</Name>
+                    <regex>.*logsentinel.*</regex>
+                </matcher>
 
-                        <expression>custom.matches(formattedMessage)</expression>
-                    </evaluator>
-                    <OnMismatch>DENY</OnMismatch>
-                    <OnMatch>NEUTRAL</OnMatch>
-                </filter>
+                <expression>custom.matches(formattedMessage)</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>NEUTRAL</OnMatch>
+        </filter>
     </appender>
 
     <root level="info">
