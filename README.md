@@ -80,7 +80,7 @@ Example logback.xml:
 ```xml
 
 <configuration>
-    <appender name="logsentinel" class="com.logsentinel.logging.MyAppender">
+    <appender name="logsentinel" class="com.logsentinel.logging.LogSentinelLogbackAppender">
 
         <basePath>https://app.logsentinel.com</basePath>
         <applicationId>ba2f0680-5424-11e8-b88d-6f2c1b6625e8</applicationId>
