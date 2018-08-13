@@ -76,6 +76,7 @@ builder.setEncryptionKey(key);
 ### Logback
 
 You can configure logback to sent (some of) the logs to logsentinel.
+To use filtering janino library is needed
 Example logback.xml:
 ```xml
 
@@ -97,6 +98,20 @@ Example logback.xml:
         <actorNameRegex>\b(?:actorName=)([^,]+)\b</actorNameRegex>
         <actionRegex>\b(?:action=)([^,]+)\b</actionRegex>
         <entityRegex>\b(?:entity=)([^,]+)\b</entityRegex>
+
+        <!-- defines regex filter which discards all messages not containing 'logsentinel'-->
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+                    <evaluator>
+                        <matcher>
+                            <Name>custom</Name>
+                            <regex>.*logsentinel.*</regex>
+                        </matcher>
+
+                        <expression>custom.matches(formattedMessage)</expression>
+                    </evaluator>
+                    <OnMismatch>DENY</OnMismatch>
+                    <OnMatch>NEUTRAL</OnMatch>
+                </filter>
     </appender>
 
     <root level="info">
@@ -110,6 +125,7 @@ You can find more info about logback functions here: https://logback.qos.ch/manu
 ### Log4j
 
 You can configure log4j to sent (some of) the logs to logsentinel.
+To use filtering apache-log4j-extras library is needed
 Example log4j.xml:
 ```xml
 
@@ -128,6 +144,12 @@ Example log4j.xml:
         <param name="actorNameRegex" value="\\b(?:actorName=)([^,]+)\\b"/>
         <param name="actionRegex" value="\\b(?:action=)([^,]+)\\b"/>
         <param name="entityRegex" value="\\b(?:entity=)([^,]+)\\b"/>
+
+        <!-- defines regex filter which discards all messages not containing 'logsentinel'-->
+        <filter class="org.apache.log4j.filter.ExpressionFilter">
+            <param name="expression" value="MSG LIKE .*logsentinel.*" />
+            <param name="acceptOnMatch" value="false"/>
+        </filter>
     </appender>
 
     <root>
