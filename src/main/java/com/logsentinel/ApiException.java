@@ -89,4 +89,9 @@ public class ApiException extends Exception {
     public String getResponseBody() {
         return responseBody;
     }
+    
+    @Override
+    public String getMessage() {
+        return super.getMessage() + " : " + getResponseBody();
+    }
 }

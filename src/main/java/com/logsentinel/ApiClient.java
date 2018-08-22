@@ -78,6 +78,7 @@ import com.logsentinel.auth.Authentication;
 import com.logsentinel.auth.HttpBasicAuth;
 import com.logsentinel.auth.ApiKeyAuth;
 import com.logsentinel.auth.OAuth;
+import com.logsentinel.client.model.ErrorResponse;
 
 public class ApiClient {
     public static final double JAVA_VERSION;
@@ -837,7 +838,15 @@ public class ApiClient {
             contentType = "application/json";
         }
         if (isJsonMime(contentType)) {
-            return json.deserialize(respBody, returnType);
+            try {
+                return json.deserialize(respBody, returnType);
+            } catch (Exception ex) {
+                if (respBody.contains("error")) {
+                    throw new ApiException(ex.getMessage(), ex, 200, Collections.emptyMap(), respBody);
+                } else {
+                    throw ex;
+                }
+            }
         } else if (returnType.equals(String.class)) {
             // Expecting string, return the raw response body.
             return (T) respBody;
