@@ -18,7 +18,7 @@ import java.util.Random;
 /**
  * Utility class for encrypting with AES. Uses CBC mode with static IV and random block appended
  * at the beginning of the encrypted data. This way there is no need to know IV when decrypting,
- * but first block must be removed in case to recreate original data.
+ * but first block must be removed in order to recreate original data.
  */
 public class EncryptUtil {
 
