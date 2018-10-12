@@ -5,7 +5,7 @@
     <artifactId>logsentinel-java-client</artifactId>
     <packaging>jar</packaging>
     <name>logsentinel-java-client</name>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.8-SNAPSHOT</version>
     <url>https://logsentinel.com/</url>
     <description>Java Client for LogSentinel</description>
     <prerequisites>
