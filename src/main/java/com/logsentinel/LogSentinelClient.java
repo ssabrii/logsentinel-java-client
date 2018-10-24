@@ -2,6 +2,9 @@ package com.logsentinel;
 
 import com.logsentinel.client.*;
 
+/**
+ * Main entry point for interacting with LogSentinel APIs
+ */
 public class LogSentinelClient {
 
     private AuditLogControllerApi auditLogActions;
