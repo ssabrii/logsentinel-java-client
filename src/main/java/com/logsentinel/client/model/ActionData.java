@@ -1,5 +1,8 @@
 package com.logsentinel.client.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.javers.core.diff.Diff;
 
 /**
@@ -16,6 +19,7 @@ public class ActionData<T> {
     private Diff diffDetails;
     private byte[] encryptionKey;
     private boolean binaryContent;
+    private Map<String, String> additionalParams = new HashMap<>();
 
     private AuditLogEntryType entryType;
 
@@ -147,5 +151,24 @@ public class ActionData<T> {
     public ActionData<T> setBinaryContent(boolean binaryContent) {
         this.binaryContent = binaryContent;
         return this;
+    }
+
+
+    /**
+     * Gets the additional params
+     * @return map of params
+     */
+    public Map<String, String> getAdditionalParams() {
+        return additionalParams;
+    }
+    
+    /**
+     * Adds an additional param
+     * @param name the param name
+     * @param value the param value
+     */
+    public ActionData<?> addAdditionalParam(String name, String value) {
+       additionalParams.put(name, value);
+       return this;
     }
 }

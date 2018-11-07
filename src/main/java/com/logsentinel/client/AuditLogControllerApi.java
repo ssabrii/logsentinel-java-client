@@ -23,6 +23,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.Map.Entry;
 
 import static com.logsentinel.util.EncryptUtil.base64Encode;
 import static com.logsentinel.util.EncryptUtil.encrypt;
@@ -73,8 +74,6 @@ public class AuditLogControllerApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call getEntryById(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
         // create path and map variables
         String localVarPath = "/api/getEntryById";
 
@@ -117,7 +116,6 @@ public class AuditLogControllerApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
-    @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getEntryByIdValidateBeforeCall(String applicationId, String entryId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'applicationId' is set
@@ -217,6 +215,12 @@ public class AuditLogControllerApi {
         if (actionData.isBinaryContent()) {
             localVarQueryParams.add(new Pair("binaryContent", "true"));
         }
+        
+        for (Entry<String, String> entry : actionData.getAdditionalParams().entrySet()) {
+            Pair pair = new Pair(entry.getKey(), entry.getValue());
+            localVarQueryParams.add(pair);
+        }
+        
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         signedLoginChallenge.ifPresent(param -> localVarHeaderParams.put("Signed-Login-Challenge", apiClient.parameterToString(signedLoginChallenge)));
         userPublicKey.ifPresent(param -> localVarHeaderParams.put("User-Public-Key", apiClient.parameterToString(param)));
@@ -373,6 +377,12 @@ public class AuditLogControllerApi {
         if (actionData.isBinaryContent()) {
             localVarQueryParams.add(new Pair("binaryContent", "true"));
         }
+        
+        for (Entry<String, String> entry : actionData.getAdditionalParams().entrySet()) {
+            Pair pair = new Pair(entry.getKey(), entry.getValue());
+            localVarQueryParams.add(pair);
+        }
+        
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
@@ -421,12 +431,12 @@ public class AuditLogControllerApi {
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      *
      * @param <T>     the type of the action data details
-     * @param details the action details (required)
+     * @param actionData the action details (required)
      * @return LogResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public <T> LogResponse logSimple(T details) throws ApiException {
-        ApiResponse<LogResponse> resp = logSimpleWithHttpInfo(new ActionData<T>(details));
+    public <T> LogResponse logSimple(ActionData<T> actionData) throws ApiException {
+        ApiResponse<LogResponse> resp = logSimpleWithHttpInfo(actionData);
         return resp.getData();
     }
 
@@ -434,12 +444,12 @@ public class AuditLogControllerApi {
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted
      *
      * @param <T>     the type of the action data details
-     * @param details the action details (required)
+     * @param actionData the action details (required)
      * @return ApiResponse&lt;LogResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public <T> ApiResponse<LogResponse> logSimpleWithHttpInfo(T details) throws ApiException {
-        Call call = logSimpleValidateBeforeCall(new ActionData<T>(details), null, null);
+    public <T> ApiResponse<LogResponse> logSimpleWithHttpInfo(ActionData<T> actionData) throws ApiException {
+        Call call = logSimpleValidateBeforeCall(actionData, null, null);
         Type localVarReturnType = new TypeToken<LogResponse>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -449,12 +459,12 @@ public class AuditLogControllerApi {
      * Log an event by providing just the body without any additional metadata. The body can be fully encrypted (asynchronously)
      *
      * @param <T>      the type of the action data details
-     * @param details  the action details (required)
+     * @param actionData the action details (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public <T> Call logSimpleAsync(T details, final ApiCallback<LogResponse> callback) throws ApiException {
+    public <T> Call logSimpleAsync(ActionData<T> actionData, final ApiCallback<LogResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -475,7 +485,7 @@ public class AuditLogControllerApi {
             };
         }
 
-        Call call = logSimpleValidateBeforeCall(new ActionData<T>(details), progressListener, progressRequestListener);
+        Call call = logSimpleValidateBeforeCall(actionData, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<LogResponse>() {
         }.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
@@ -507,6 +517,10 @@ public class AuditLogControllerApi {
         }
         if (actionData.isBinaryContent()) {
             localVarQueryParams.add(new Pair("binaryContent", "true"));
+        }
+        for (Entry<String, String> entry : actionData.getAdditionalParams().entrySet()) {
+            Pair pair = new Pair(entry.getKey(), entry.getValue());
+            localVarQueryParams.add(pair);
         }
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
