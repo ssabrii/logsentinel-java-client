@@ -21,7 +21,10 @@ import java.lang.reflect.Type;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -51,6 +54,10 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.logsentinel.auth.ApiKeyAuth;
 import com.logsentinel.auth.Authentication;
 import com.logsentinel.auth.HttpBasicAuth;
@@ -74,6 +81,9 @@ import okio.BufferedSink;
 import okio.Okio;
 
 public class ApiClient {
+    
+    private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
+    
     public static final double JAVA_VERSION;
     public static final boolean IS_ANDROID;
     public static final int ANDROID_SDK_VERSION;
@@ -131,8 +141,11 @@ public class ApiClient {
      * Constructor for ApiClient
      */
     public ApiClient() {
+        
         httpClient = new OkHttpClient();
-
+        
+        trustAwsRootCertificates();
+        
         verifyingSsl = true;
 
         json = new JSON(this);
@@ -158,6 +171,50 @@ public class ApiClient {
         authentications.put("basicAuth", new HttpBasicAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
+    }
+
+    private void trustAwsRootCertificates() {
+        final X509Certificate[] awsCerts = loadAwsCaCertificates();
+        
+        try {
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init((KeyStore) null);
+            TrustManager[] existing = tmf.getTrustManagers();
+            ArrayUtils.add(existing, new X509TrustManager() {
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return awsCerts;
+                }
+                
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+                
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+            });
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, existing, new SecureRandom());
+            httpClient.setSslSocketFactory(sslContext.getSocketFactory());
+        } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException ex) {
+            logger.error("Fafiled to load certs", ex);
+        }
+    }
+
+    private X509Certificate[] loadAwsCaCertificates() {
+        List<X509Certificate> certs = new ArrayList<>();
+        try {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            certs.add((X509Certificate) cf.generateCertificate(ApiClient.class.getResourceAsStream("/cacerts/Amazon.crt")));
+            certs.add((X509Certificate) cf.generateCertificate(ApiClient.class.getResourceAsStream("/cacerts/AmazonRootCA1.crt")));
+            certs.add((X509Certificate) cf.generateCertificate(ApiClient.class.getResourceAsStream("/cacerts/AmazonRootCA1.crt")));
+            certs.add((X509Certificate) cf.generateCertificate(ApiClient.class.getResourceAsStream("/cacerts/AmazonRootCA1.crt")));
+            certs.add((X509Certificate) cf.generateCertificate(ApiClient.class.getResourceAsStream("/cacerts/AmazonRootCA1.crt")));
+        } catch (Exception ex) {
+            logger.error("Fafiled to load certs", ex);
+        }
+        return certs.toArray(new X509Certificate[0]);
     }
 
     /**
