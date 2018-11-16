@@ -180,7 +180,7 @@ public class ApiClient {
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmf.init((KeyStore) null);
             TrustManager[] existing = tmf.getTrustManagers();
-            ArrayUtils.add(existing, new X509TrustManager() {
+            existing = ArrayUtils.add(existing, new X509TrustManager() {
                 @Override
                 public X509Certificate[] getAcceptedIssuers() {
                     return awsCerts;
