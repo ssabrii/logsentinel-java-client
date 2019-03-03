@@ -13,20 +13,26 @@
 
 package com.logsentinel.client;
 
-import com.google.gson.reflect.TypeToken;
-import com.logsentinel.*;
-import com.logsentinel.client.model.AuditLogEntry;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
+import com.google.gson.reflect.TypeToken;
+import com.logsentinel.ApiCallback;
+import com.logsentinel.ApiClient;
+import com.logsentinel.ApiException;
+import com.logsentinel.ApiResponse;
+import com.logsentinel.Configuration;
+import com.logsentinel.Pair;
+import com.logsentinel.ProgressRequestBody;
+import com.logsentinel.ProgressResponseBody;
+import com.logsentinel.client.model.AuditLogEntry;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.Response;
 
 /**
  * Code generated client for LogSentinel RESTful API
@@ -64,7 +70,7 @@ public class AuditLogSearchControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    private Call getBatchCall(List<String> values, String field, String applicationId, String entityType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call getBatchCall(List<String> values, String field, String entityType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -80,8 +86,6 @@ public class AuditLogSearchControllerApi {
             localVarQueryParams.addAll(apiClient.parameterToPair("entityType", entityType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (applicationId != null)
-            localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -114,7 +118,7 @@ public class AuditLogSearchControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private Call getBatchValidateBeforeCall(List<String> values, String field, String applicationId, String entityType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call getBatchValidateBeforeCall(List<String> values, String field, String entityType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'values' is set
         if (values == null) {
@@ -126,13 +130,8 @@ public class AuditLogSearchControllerApi {
             throw new ApiException("Missing the required parameter 'field' when calling getBatch(Async)");
         }
 
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getBatch(Async)");
-        }
 
-
-        Call call = getBatchCall(values, field, applicationId, entityType, progressListener, progressRequestListener);
+        Call call = getBatchCall(values, field, entityType, progressListener, progressRequestListener);
         return call;
 
     }
@@ -147,8 +146,8 @@ public class AuditLogSearchControllerApi {
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<AuditLogEntry> getBatch(List<String> values, String field, String applicationId, String entityType) throws ApiException {
-        ApiResponse<List<AuditLogEntry>> resp = getBatchWithHttpInfo(values, field, applicationId, entityType);
+    public List<AuditLogEntry> getBatch(List<String> values, String field, String entityType) throws ApiException {
+        ApiResponse<List<AuditLogEntry>> resp = getBatchWithHttpInfo(values, field, entityType);
         return resp.getData();
     }
 
@@ -162,8 +161,8 @@ public class AuditLogSearchControllerApi {
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<AuditLogEntry>> getBatchWithHttpInfo(List<String> values, String field, String applicationId, String entityType) throws ApiException {
-        Call call = getBatchValidateBeforeCall(values, field, applicationId, entityType, null, null);
+    public ApiResponse<List<AuditLogEntry>> getBatchWithHttpInfo(List<String> values, String field, String entityType) throws ApiException {
+        Call call = getBatchValidateBeforeCall(values, field, entityType, null, null);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -180,7 +179,7 @@ public class AuditLogSearchControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call getBatchAsync(List<String> values, String field, String applicationId, String entityType, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+    public Call getBatchAsync(List<String> values, String field, String entityType, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -201,7 +200,7 @@ public class AuditLogSearchControllerApi {
             };
         }
 
-        Call call = getBatchValidateBeforeCall(values, field, applicationId, entityType, progressListener, progressRequestListener);
+        Call call = getBatchValidateBeforeCall(values, field, entityType, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
@@ -219,7 +218,7 @@ public class AuditLogSearchControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    private Call getEntityHistoryCall(String entityId, String entityType, UUID applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call getEntityHistoryCall(String entityId, String entityType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -233,8 +232,6 @@ public class AuditLogSearchControllerApi {
             localVarQueryParams.addAll(apiClient.parameterToPair("entityType", entityType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (applicationId != null)
-            localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -267,7 +264,7 @@ public class AuditLogSearchControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private Call getEntityHistoryValidateBeforeCall(String entityId, String entityType, UUID applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call getEntityHistoryValidateBeforeCall(String entityId, String entityType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'entityId' is set
         if (entityId == null) {
@@ -279,13 +276,8 @@ public class AuditLogSearchControllerApi {
             throw new ApiException("Missing the required parameter 'entityType' when calling getEntityHistory(Async)");
         }
 
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling getEntityHistory(Async)");
-        }
 
-
-        Call call = getEntityHistoryCall(entityId, entityType, applicationId, progressListener, progressRequestListener);
+        Call call = getEntityHistoryCall(entityId, entityType, progressListener, progressRequestListener);
         return call;
 
     }
@@ -299,8 +291,8 @@ public class AuditLogSearchControllerApi {
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<AuditLogEntry> getEntityHistory(String entityId, String entityType, UUID applicationId) throws ApiException {
-        ApiResponse<List<AuditLogEntry>> resp = getEntityHistoryWithHttpInfo(entityId, entityType, applicationId);
+    public List<AuditLogEntry> getEntityHistory(String entityId, String entityType) throws ApiException {
+        ApiResponse<List<AuditLogEntry>> resp = getEntityHistoryWithHttpInfo(entityId, entityType);
         return resp.getData();
     }
 
@@ -313,8 +305,8 @@ public class AuditLogSearchControllerApi {
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<AuditLogEntry>> getEntityHistoryWithHttpInfo(String entityId, String entityType, UUID applicationId) throws ApiException {
-        Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, applicationId, null, null);
+    public ApiResponse<List<AuditLogEntry>> getEntityHistoryWithHttpInfo(String entityId, String entityType) throws ApiException {
+        Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, null, null);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -330,7 +322,7 @@ public class AuditLogSearchControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call getEntityHistoryAsync(String entityId, String entityType, UUID applicationId, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+    public Call getEntityHistoryAsync(String entityId, String entityType, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -351,7 +343,7 @@ public class AuditLogSearchControllerApi {
             };
         }
 
-        Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, applicationId, progressListener, progressRequestListener);
+        Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
@@ -372,7 +364,7 @@ public class AuditLogSearchControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    private Call searchCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call searchCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -392,8 +384,6 @@ public class AuditLogSearchControllerApi {
             localVarQueryParams.addAll(apiClient.parameterToPair("pageSize", pageSize));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (applicationId != null)
-            localVarHeaderParams.put("Application-Id", apiClient.parameterToString(applicationId));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -426,7 +416,7 @@ public class AuditLogSearchControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private Call searchValidateBeforeCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call searchValidateBeforeCall(String query, Long startTime, Long endTime, Integer page, Integer pageSize, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'query' is set
         if (query == null) {
@@ -453,13 +443,7 @@ public class AuditLogSearchControllerApi {
             throw new ApiException("Missing the required parameter 'pageSize' when calling search(Async)");
         }
 
-        // verify the required parameter 'applicationId' is set
-        if (applicationId == null) {
-            throw new ApiException("Missing the required parameter 'applicationId' when calling search(Async)");
-        }
-
-
-        Call call = searchCall(query, startTime, endTime, page, pageSize, applicationId, progressListener, progressRequestListener);
+        Call call = searchCall(query, startTime, endTime, page, pageSize, progressListener, progressRequestListener);
         return call;
 
     }
@@ -476,8 +460,8 @@ public class AuditLogSearchControllerApi {
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<AuditLogEntry> search(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId) throws ApiException {
-        ApiResponse<List<AuditLogEntry>> resp = searchWithHttpInfo(query, startTime, endTime, page, pageSize, applicationId);
+    public List<AuditLogEntry> search(String query, Long startTime, Long endTime, Integer page, Integer pageSize) throws ApiException {
+        ApiResponse<List<AuditLogEntry>> resp = searchWithHttpInfo(query, startTime, endTime, page, pageSize);
         return resp.getData();
     }
 
@@ -493,8 +477,8 @@ public class AuditLogSearchControllerApi {
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<AuditLogEntry>> searchWithHttpInfo(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId) throws ApiException {
-        Call call = searchValidateBeforeCall(query, startTime, endTime, page, pageSize, applicationId, null, null);
+    public ApiResponse<List<AuditLogEntry>> searchWithHttpInfo(String query, Long startTime, Long endTime, Integer page, Integer pageSize) throws ApiException {
+        Call call = searchValidateBeforeCall(query, startTime, endTime, page, pageSize, null, null);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -513,7 +497,7 @@ public class AuditLogSearchControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call searchAsync(String query, Long startTime, Long endTime, Integer page, Integer pageSize, String applicationId, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+    public Call searchAsync(String query, Long startTime, Long endTime, Integer page, Integer pageSize, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -534,7 +518,7 @@ public class AuditLogSearchControllerApi {
             };
         }
 
-        Call call = searchValidateBeforeCall(query, startTime, endTime, page, pageSize, applicationId, progressListener, progressRequestListener);
+        Call call = searchValidateBeforeCall(query, startTime, endTime, page, pageSize, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
