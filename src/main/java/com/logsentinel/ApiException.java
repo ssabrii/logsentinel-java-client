@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-24T18:34:16.973Z")
-public class ApiException extends Exception {
+public class ApiException extends RuntimeException {
     private static final long serialVersionUID = -3765046749508783243L;
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
