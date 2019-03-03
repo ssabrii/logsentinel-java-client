@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Code generated client for LogSentinel RESTful API
@@ -218,7 +219,7 @@ public class AuditLogSearchControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    private Call getEntityHistoryCall(String entityId, String entityType, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call getEntityHistoryCall(String entityId, String entityType, UUID applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -266,7 +267,7 @@ public class AuditLogSearchControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private Call getEntityHistoryValidateBeforeCall(String entityId, String entityType, String applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private Call getEntityHistoryValidateBeforeCall(String entityId, String entityType, UUID applicationId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'entityId' is set
         if (entityId == null) {
@@ -298,7 +299,7 @@ public class AuditLogSearchControllerApi {
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<AuditLogEntry> getEntityHistory(String entityId, String entityType, String applicationId) throws ApiException {
+    public List<AuditLogEntry> getEntityHistory(String entityId, String entityType, UUID applicationId) throws ApiException {
         ApiResponse<List<AuditLogEntry>> resp = getEntityHistoryWithHttpInfo(entityId, entityType, applicationId);
         return resp.getData();
     }
@@ -312,7 +313,7 @@ public class AuditLogSearchControllerApi {
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<AuditLogEntry>> getEntityHistoryWithHttpInfo(String entityId, String entityType, String applicationId) throws ApiException {
+    public ApiResponse<List<AuditLogEntry>> getEntityHistoryWithHttpInfo(String entityId, String entityType, UUID applicationId) throws ApiException {
         Call call = getEntityHistoryValidateBeforeCall(entityId, entityType, applicationId, null, null);
         Type localVarReturnType = new TypeToken<List<AuditLogEntry>>() {
         }.getType();
@@ -329,7 +330,7 @@ public class AuditLogSearchControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call getEntityHistoryAsync(String entityId, String entityType, String applicationId, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
+    public Call getEntityHistoryAsync(String entityId, String entityType, UUID applicationId, final ApiCallback<List<AuditLogEntry>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
