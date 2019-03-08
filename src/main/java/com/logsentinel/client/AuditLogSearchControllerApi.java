@@ -141,7 +141,6 @@ public class AuditLogSearchControllerApi {
      *
      * @param values        Values that match the specified field (required)
      * @param field         Field to search in for the supplied values (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param entityType    When the event is about a particular model entity, you can set its type here (optional)
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -156,7 +155,6 @@ public class AuditLogSearchControllerApi {
      *
      * @param values        Values that match the specified field (required)
      * @param field         Field to search in for the supplied values (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param entityType    When the event is about a particular model entity, you can set its type here (optional)
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -173,7 +171,6 @@ public class AuditLogSearchControllerApi {
      *
      * @param values        Values that match the specified field (required)
      * @param field         Field to search in for the supplied values (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param entityType    When the event is about a particular model entity, you can set its type here (optional)
      * @param callback      The callback to be executed when the API call finishes
      * @return The request call
@@ -287,7 +284,6 @@ public class AuditLogSearchControllerApi {
      *
      * @param entityId      When the event is about a particular model entity, you can set its ID here (required)
      * @param entityType    When the event is about a particular model entity, you can set its type here (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -301,7 +297,6 @@ public class AuditLogSearchControllerApi {
      *
      * @param entityId      When the event is about a particular model entity, you can set its ID here (required)
      * @param entityType    When the event is about a particular model entity, you can set its type here (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -317,7 +312,6 @@ public class AuditLogSearchControllerApi {
      *
      * @param entityId      When the event is about a particular model entity, you can set its ID here (required)
      * @param entityType    When the event is about a particular model entity, you can set its type here (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param callback      The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -456,7 +450,6 @@ public class AuditLogSearchControllerApi {
      * @param endTime       endTime (required)
      * @param page          page (required)
      * @param pageSize      pageSize (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @return List&lt;AuditLogEntry&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -473,7 +466,6 @@ public class AuditLogSearchControllerApi {
      * @param endTime       endTime (required)
      * @param page          page (required)
      * @param pageSize      pageSize (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @return ApiResponse&lt;List&lt;AuditLogEntry&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -492,7 +484,6 @@ public class AuditLogSearchControllerApi {
      * @param endTime       endTime (required)
      * @param page          page (required)
      * @param pageSize      pageSize (required)
-     * @param applicationId Application ID, identifying a target application (obtained from the API credentials page) (required)
      * @param callback      The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object

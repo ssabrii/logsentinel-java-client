@@ -47,6 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
@@ -198,7 +199,7 @@ public class ApiClient {
             sslContext.init(null, existing, new SecureRandom());
             httpClient.setSslSocketFactory(sslContext.getSocketFactory());
         } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException ex) {
-            logger.error("Fafiled to load certs", ex);
+            logger.error("Failed to load certs", ex);
         }
     }
 
