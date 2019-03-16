@@ -25,6 +25,8 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringUtils;
+
 import static com.logsentinel.util.EncryptUtil.base64Encode;
 import static com.logsentinel.util.EncryptUtil.encrypt;
 import static java.util.stream.Collectors.joining;
@@ -500,7 +502,7 @@ public class AuditLogControllerApi {
 
         String localVarPath;
         // create path and map variables
-        if (actionData.getEntityType() == null) {
+        if (StringUtils.isBlank(actionData.getEntityType())) {
             localVarPath = "/api/log/{actorId}/{action}".replaceAll("\\{format\\}", "json");
         } else {
             localVarPath = "/api/log/{actorId}/{action}/{entityType}/{entityId}".replaceAll("\\{format\\}", "json")
