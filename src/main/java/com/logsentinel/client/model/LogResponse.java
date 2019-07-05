@@ -67,6 +67,14 @@ public class LogResponse {
     this.logEntryId = logEntryId;
   }
 
+  @ApiModelProperty(example = "null", value = "")
+  public String getStandaloneHash() {
+    return standaloneHash;
+  }
+
+  public void setStandaloneHash(String standaloneHash) {
+    this.standaloneHash = standaloneHash;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -94,6 +102,7 @@ public class LogResponse {
     
     sb.append("    lastKnownHash: ").append(toIndentedString(lastKnownHash)).append("\n");
     sb.append("    logEntryId: ").append(toIndentedString(logEntryId)).append("\n");
+    sb.append("    standaloneHash: ").append(toIndentedString(standaloneHash)).append("\n");
     sb.append("}");
     return sb.toString();
   }
