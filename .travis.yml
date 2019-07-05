@@ -1,6 +1,8 @@
 language: java
 jdk: oraclejdk9
 install: mvn clean
-script: mvn package
+script:
+  - jdk_switcher use oraclejdk9 
+  - mvn package
 cache:
   directories: $HOME/.m2
