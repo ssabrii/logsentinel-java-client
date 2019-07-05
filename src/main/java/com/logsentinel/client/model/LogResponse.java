@@ -27,7 +27,10 @@ public class LogResponse {
 
   @SerializedName("logEntryId")
   private String logEntryId = null;
-
+  
+  @SerializedName("standaloneHash")
+  private String standaloneHash = null;
+  
   public LogResponse lastKnownHash(String lastKnownHash) {
     this.lastKnownHash = lastKnownHash;
     return this;
